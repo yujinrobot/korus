@@ -11,5 +11,5 @@
 <!--     <remap from="joint_states" to="robot_core/mechanism_model/joint_states"/> -->
 <!--     <remap from="robot_description" to="robot_state_publisher/robot_description"/> -->
 <!--   </node> -->
-  <node name="rviz" pkg="rviz" type="rviz" args="-d $(find korus_meta)/resources/rviz/view_robot.vcg" />
+  <node name="rviz" pkg="rviz" type="rviz" args="-d $(find korus_meta)/resources/rviz/view_robot.rviz" />
 </launch>
