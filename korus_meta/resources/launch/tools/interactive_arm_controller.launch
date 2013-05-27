@@ -1,0 +1,9 @@
+<!--
+  Launches the interactive arm controller
+ -->
+<launch>
+  <group ns="korus">
+    <node pkg="ycs_controllers" type="interactive_arm_controller" name="interactive_arm_controller">
+    </node>
+  </group>
+</launch>

@@ -1,0 +1,10 @@
+<!--
+  Launches the interactive gripper controller
+ -->
+<launch>
+  <group ns="korus">
+    <node name="interactive_gripper_controller" pkg="ycs_interactive_gripper_controller" type="interactive_gripper_controller">
+      <remap from="interactive_gripper_controller/gripper_controller" to="gripper_controller"/>
+    </node>
+  </group>
+</launch>

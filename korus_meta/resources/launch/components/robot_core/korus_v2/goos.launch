@@ -1,0 +1,76 @@
+<!--
+  All Goos united
+  - Goo base (wheel left & right)
+  - Goo arm upper (torso turn & lift, shoulder, elbow)
+  - Goo arm lower (wrist pitch & roll & yaw, gripper)
+  - Goo head (3D sensor, monitor, telecam pan & tilt)
+  
+  This can be used for both simulation and the robot by making sure the simulation arg is set
+  true or false respectively.
+-->
+
+<launch>
+  <arg name="simulation"/>
+  <arg name="cfg_env" value="simulation" if="$(arg simulation)"/>
+  <arg name="cfg_env" value="runtime" unless="$(arg simulation)"/>
+  
+  <!-- Base (wheel left & right) -->
+    <node pkg="nodelet" type="nodelet" name="goo_base" args="load goo/GooNodelet robot_core">
+  <rosparam file="$(find korus_meta)/resources/yaml/goo/runtime.yaml" command="load"/>
+  <rosparam file="$(find korus_meta)/resources/yaml/goo/korus_v2_base.yaml" command="load"/>
+  <remap from="goo_base/actuator_command/wheel_left" to="actuator_command/wheel_left"/>
+  <remap from="goo_base/actuator_state/wheel_left" to="actuator_state/wheel_left"/>
+  <remap from="goo_base/actuator_command/wheel_right" to="actuator_command/wheel_right"/>
+  <remap from="goo_base/actuator_state/wheel_right" to="actuator_state/wheel_right"/>
+  <remap from="goo_base/enable" to="enable"/>
+  <remap from="goo_base/disable" to="disable"/>
+  </node>
+  
+   <!-- Arm upper (Torso turn & lift, shoulder, elbow) -->
+   <node pkg="nodelet" type="nodelet" name="goo_arm_upper" args="load goo/GooNodelet robot_core">
+     <rosparam file="$(find korus_meta)/resources/yaml/goo/$(arg cfg_env).yaml" command="load" />
+     <rosparam file="$(find korus_meta)/resources/yaml/goo/korus_v2_arm_upper.yaml" command="load" />
+   	<remap from="goo_arm_upper/actuator_command/torso_turn" to="actuator_command/torso_turn"/>
+   	<remap from="goo_arm_upper/actuator_state/torso_turn" to="actuator_state/torso_turn"/>
+   	<remap from="goo_arm_upper/actuator_command/torso_lift" to="actuator_command/torso_lift"/>
+   	<remap from="goo_arm_upper/actuator_state/torso_lift" to="actuator_state/torso_lift"/>
+   	<remap from="goo_arm_upper/actuator_command/shoulder_pitch" to="actuator_command/shoulder_pitch"/>
+   	<remap from="goo_arm_upper/actuator_state/shoulder_pitch" to="actuator_state/shoulder_pitch"/>
+   	<remap from="goo_arm_upper/actuator_command/elbow_pitch" to="actuator_command/elbow_pitch"/>
+   	<remap from="goo_arm_upper/actuator_state/elbow_pitch" to="actuator_state/elbow_pitch"/>
+   	<remap from="goo_arm_upper/enable" to="enable"/>
+   	<remap from="goo_arm_upper/disable" to="disable"/>
+   </node>
+   
+   <!-- Arm lower (wrist pitch & roll & yaw, gripper) -->
+   <node pkg="nodelet" type="nodelet" name="goo_arm_lower" args="load goo/GooNodelet robot_core">
+     <rosparam file="$(find korus_meta)/resources/yaml/goo/$(arg cfg_env).yaml" command="load" />
+     <rosparam file="$(find korus_meta)/resources/yaml/goo/korus_v2_arm_lower.yaml" command="load" />
+ 		<remap from="goo_arm_lower/actuator_command/wrist_pitch" to="actuator_command/wrist_pitch"/>
+ 		<remap from="goo_arm_lower/actuator_state/wrist_pitch" to="actuator_state/wrist_pitch"/>
+ 		<remap from="goo_arm_lower/actuator_command/wrist_roll" to="actuator_command/wrist_roll"/>
+ 		<remap from="goo_arm_lower/actuator_state/wrist_roll" to="actuator_state/wrist_roll"/>
+ 		<remap from="goo_arm_lower/actuator_command/wrist_yaw" to="actuator_command/wrist_yaw"/>
+ 		<remap from="goo_arm_lower/actuator_state/wrist_yaw" to="actuator_state/wrist_yaw"/>
+ 		<remap from="goo_arm_lower/actuator_command/gripper" to="actuator_command/gripper"/>
+ 		<remap from="goo_arm_lower/actuator_state/gripper" to="actuator_state/gripper"/>
+ 		<remap from="goo_arm_lower/enable" to="enable"/>
+ 		<remap from="goo_arm_lower/disable" to="disable"/>
+   </node>
+   
+  <!-- Head (3d sensor, monitor,  tele cam pan & tilt) -->
+  <node pkg="nodelet" type="nodelet" name="goo_head" args="load goo/GooNodelet robot_core">
+		<rosparam file="$(find korus_meta)/resources/yaml/goo/$(arg cfg_env).yaml" command="load" />
+		<rosparam file="$(find korus_meta)/resources/yaml/goo/korus_v2_head.yaml" command="load" />
+		<remap from="goo_head/actuator_command/3d_sensor" to="actuator_command/3d_sensor"/>
+		<remap from="goo_head/actuator_state/3d_sensor" to="actuator_state/3d_sensor"/>
+		<remap from="goo_head/actuator_command/monitor" to="actuator_command/monitor"/>
+		<remap from="goo_head/actuator_state/monitor" to="actuator_state/monitor"/>
+		<remap from="goo_head/actuator_command/tele_cam_pan" to="actuator_command/tele_cam_pan"/>
+		<remap from="goo_head/actuator_state/tele_cam_pan" to="actuator_state/tele_cam_pan"/>
+		<remap from="goo_head/actuator_command/tele_cam_tilt" to="actuator_command/tele_cam_tilt"/>
+		<remap from="goo_head/actuator_state/tele_cam_tilt" to="actuator_state/tele_cam_tilt"/>
+		<remap from="goo_head/enable" to="enable"/>
+		<remap from="goo_head/disable" to="disable"/>
+  </node>
+</launch>

@@ -1,0 +1,576 @@
+# Lower arm
+#
+# Description: 
+#     The wrist and gripper joints
+#
+# Called by:
+#     resources/launch/arm_control.launch
+#
+# Reference:
+#     http://yujin.dnsdojo.com:3000/wiki/goo/Goo_parameters
+
+port: /dev/ttyUSB0
+#port: /dev/ttyS0
+# configured in runtime.yaml/simulation.yaml
+# simulation_mode: false
+scan_frequency: 20
+motor:
+  'wheel_left': {
+    id: 2.0, 
+    feedback_mode: position,
+    control_mode: velocity, 
+    measurement_device: encoder,
+    encoder_direction: -1, 
+    output_direction: -1,
+     
+    p_gain: 0.0025, 
+    i_gain: 0.0002, 
+    d_gain: 0.000, 
+    
+    maximum_velocity: 1000.0,
+    maximum_acceleration: 1000.0,
+    
+    # this is calculated by 300 * 4 * reduction (i.e. 24 for reduction of 1/24) * magic factor 
+    ticks_per_revolution: 64440,
+    
+    # Velocity control parameters   
+    # (unused if not velocity control)
+    # Smooth velocity commands via a firmware averaging process
+    velocity_control_sample_number: 8,
+    velocity_control_feedforward_gain: 0,
+    velocity_control_pwm_offset: 30,
+    
+    # Potentiometer initialisation
+    potentiometer_init: false,
+    potentiometer_initial_value: 0,
+    pots_per_revolution: 0,
+    
+    # Gpio initialisation
+    gpio_init: false,
+    gpio_init_gain: 0,
+    gpio_init_signal: 0,
+    gpio_init_speed: 0,
+
+    # Limits 
+    pwm_output_limit: 1344,
+    current_limit: 1.0,
+
+    position_integral_error_limit: 400,
+    velocity_integral_error_limit: 400,
+    
+    # State limits (-1 unused, otherwise in encoder ticks)
+    position_error_limit: 1200000,
+    velocity_error_limit: 80000000,#3932160,
+    
+    # Detection times (ms)
+    current_limit_detection_time: 500,
+    position_error_detection_time: 500,
+    velocity_error_detection_time: 500,
+    encoder_error_detection_time: 500    
+  }
+  'wheel_right': {
+    id: 3.0,
+    feedback_mode: position,
+    control_mode: velocity, 
+    measurement_device: encoder,
+    encoder_direction: 1, 
+    output_direction: 1, 
+      
+    p_gain: 0.0026, 
+    i_gain: 0.0002, 
+    d_gain: 0.000, 
+    
+    maximum_velocity: 1000.0,
+    maximum_acceleration: 1000.0,
+    
+    # this is calculated by 300 * 4 * reduction (i.e. 24 for reduction of 1/24) * magic factor 
+    ticks_per_revolution: 64440,
+    
+    # Velocity control parameters   
+    # (unused if not velocity control)
+    # Smooth velocity commands via a firmware averaging process
+    velocity_control_sample_number: 8,
+    velocity_control_feedforward_gain: 0,
+    velocity_control_pwm_offset: 30,
+        
+    # Potentiometer initialisation
+    potentiometer_init: false,
+    potentiometer_initial_value: 0,
+    pots_per_revolution: 0,
+    
+    # Gpio initialisation
+    gpio_init: false,
+    gpio_init_gain: 0,
+    gpio_init_signal: 0,
+    gpio_init_speed: 0,
+
+    # Limits 
+    pwm_output_limit: 1344,
+    current_limit: 1.0,
+    position_integral_error_limit: 400,
+    velocity_integral_error_limit: 400,
+
+    # State limits (-1 unused, otherwise in encoder ticks)
+    position_error_limit: 1200000,
+    velocity_error_limit: 80000000,#3932160,
+    
+    # Detection times (ms)
+    current_limit_detection_time: 500,
+    position_error_detection_time: 500,
+    velocity_error_detection_time: 500,
+    encoder_error_detection_time: 500    
+  }
+  'torso_turn': {
+    id: 4.0, 
+    feedback_mode: position,
+    control_mode: position, 
+    measurement_device: encoder,
+    encoder_direction: -1, #1
+    output_direction: -1, #1
+    
+    p_gain: 0.1, 
+    i_gain: 0.0000, 
+    d_gain: 0.0,
+    
+    maximum_velocity: 1.0,
+    maximum_acceleration: 1.0,
+    
+    # this is calculated by 300 * 4 * reduction (i.e. 24 for reduction of 1/24) * magic factor  
+    ticks_per_revolution: 276000,
+
+    # Velocity control parameters   
+    # (unused if not velocity control)
+    # Smooth velocity commands via a firmware averaging process
+    velocity_control_sample_number: 0,
+    velocity_control_feedforward_gain: 0,
+    velocity_control_pwm_offset: 0,
+    
+    # Potentiometer initialisation
+    potentiometer_init: true,
+    potentiometer_initial_value: 1802,
+    pots_per_revolution: -3658,
+    
+    # Gpio initialisation
+    # gpio signals for korus: 3, 5, 6 (low, mid, high)
+    # gpio init gain: is the p_gain for the velocity control used
+    # gpio_init_speed: is the velocity it will travel up and down (take care with +- signs)
+    # gpio_init_offset is the offset used for the encoder to set the 0.0 angle position.
+    gpio_init: false,
+    gpio_init_gain: 0,
+    gpio_init_signal: 0,
+    gpio_init_speed: 0,
+
+    # Limits
+    pwm_output_limit: 1344, # true for 20W goo version?
+    current_limit: 1.0,
+
+    slip_error_limit: 3.14,
+
+    position_integral_error_limit: 400,
+    velocity_integral_error_limit: 400,
+    
+    # State limits (if commented, they default to large values, otherwise in encoder ticks)
+    # these are huge - need to refine later on.e
+    position_error_limit: 1200000,
+    velocity_error_limit: 3932160,
+    
+    # Detection times (ms) # switch to 500?
+    current_limit_detection_time: 1000,
+    position_error_detection_time: 1000,
+    velocity_error_detection_time: 1000,
+    encoder_error_detection_time: 1000
+  }
+
+#      The torso lift is actually a prismatic joint, but we're still really
+#      an actuator at this level. Nevertheless, the ticks/revolution ratio 
+#      doesn't really matter - we can set anything here and fix it at the
+#      transmission level. The motor actually turns around about six times,
+#      so lets use that.
+#
+#          total ticks across the linear span = 324000
+#
+#      let's assume 6 revolutions:
+#
+#          ticks per revolution = 28800
+#
+#      for the transmission part, we need to convert the actuator angle from
+#      radians to metres.
+#
+#          x radians * (1rev/2*pi) * (28800 ticks/1 rev) * (0.18m/324000ticks)
+#
+#      thus to forward propogate the actuator angle to a joint measurement
+#
+#          rad_to_m = 0.00254648
+
+  'torso_lift': {
+    id: 6.0,
+    feedback_mode: position,
+    control_mode: position, 
+    measurement_device: encoder,
+    encoder_direction: -1, 
+    output_direction: -1,
+    
+    p_gain: 0.1, #0.01,
+    i_gain: 0.0,
+    d_gain: 0.0,
+    
+    maximum_velocity: 1.0,
+    maximum_acceleration: 1.0,
+    
+    # this is calculated by 300 * 4 * reduction (i.e. 24 for reduction of 1/24) * magic factor   
+    ticks_per_revolution: 28800,
+    
+    # Potentiometer initialisation
+    potentiometer_init: false, # there is no potentiometer, but analog value is read, which is used to set the 0 position
+    potentiometer_initial_value: 2300,
+    pots_per_revolution: 20000,
+    
+    # Gpio initialisation
+    # gpio signals for korus: 3, 5, 6 (low, mid, high)
+    # gpio init gain: is the p_gain for the velocity control used
+    # gpio_init_speed: is the velocity it will travel up and down (take care with +- signs)
+    # gpio_init_offset is the offset used for the encoder to set the 0.0 angle position.
+    gpio_init: true,
+    gpio_init_gain: 0.05,
+    gpio_init_signal: 3, #6
+    gpio_init_speed: -4.0, #4.0
+    gpio_init_offset: 0, #30600
+
+    # Limits
+    pwm_output_limit: 1344, # TODO: check!
+    current_limit: 1.0,
+
+    slip_error_limit: 3.14,
+
+    position_integral_error_limit: 400,
+    velocity_integral_error_limit: 400,
+   
+    # State limits (if commented, they default to large values, otherwise in encoder ticks)
+    # these are huge - need to refine later on.
+    position_error_limit: 1200000,
+    velocity_error_limit: 3932160,
+    
+    # Detection times (ms)
+    current_limit_detection_time: 1000,
+    position_error_detection_time: 1000,
+    velocity_error_detection_time: 1000,
+    encoder_error_detection_time: 1000
+  }
+  'shoulder': {
+    id: 10.0,
+    feedback_mode: position,
+    control_mode: position, 
+    measurement_device: encoder,
+    encoder_direction: -1, 
+    output_direction: -1,
+    
+    p_gain: 0.1,
+    i_gain: 0.0000,
+    d_gain: 0.00,
+    
+    maximum_velocity: 1.0,
+    maximum_acceleration: 1.0,
+    
+    # this is calculated by 300 * 4 * reduction (i.e. 24 for reduction of 1/24) * magic factor   
+    ticks_per_revolution: 336000,
+    
+    # Potentiometer initialisation
+    potentiometer_init: true,
+    potentiometer_initial_value: 2200,
+    pots_per_revolution:  -4856,
+    
+    # Gpio initialisation
+    # gpio signals for korus: 3, 5, 6 (low, mid, high)
+    # gpio init gain: is the p_gain for the velocity control used
+    # gpio_init_speed: is the velocity it will travel up and down (take care with +- signs)
+    # gpio_init_offset is the offset used for the encoder to set the 0.0 angle position.
+    gpio_init: false,
+    gpio_init_gain: 0,
+    gpio_init_signal: 0,
+    gpio_init_speed: 0,
+
+    # Limits
+    pwm_output_limit: 1344, # true for 20W goo version?
+    current_limit: 1.0,
+
+    slip_error_limit: 3.14,
+
+    position_integral_error_limit: 40000,
+    velocity_integral_error_limit: 40000,
+    
+    # State limits (if commented, they default to large values, otherwise in encoder ticks)
+    # these are huge - need to refine later on.
+    position_error_limit: 1200000,
+    velocity_error_limit: 3932160,
+    
+    # Detection times (ms)
+    current_limit_detection_time: 1000,
+    position_error_detection_time: 1000,
+    velocity_error_detection_time: 1000,
+    encoder_error_detection_time: 1000
+  }
+  'elbow': {
+    id: 11.0,
+    feedback_mode: position,
+    control_mode: position, 
+    measurement_device: encoder,
+    encoder_direction: -1, #1,
+    output_direction: -1, #1,
+    
+    p_gain: 0.1,
+    i_gain: 0.0000,
+    d_gain: 0.0,
+    
+    maximum_velocity: 1.0,
+    maximum_acceleration: 1.0,
+    
+    # this is calculated by 300 * 4 * reduction (i.e. 24 for reduction of 1/24) * magic factor    
+    ticks_per_revolution: 268800,
+    
+    # Potentiometer initialisation
+    potentiometer_init: true,
+    potentiometer_initial_value: 2100,
+    pots_per_revolution: 4556,
+    
+    # Gpio initialisation
+    # gpio signals for korus: 3, 5, 6 (low, mid, high)
+    # gpio init gain: is the p_gain for the velocity control used
+    # gpio_init_speed: is the velocity it will travel up and down (take care with +- signs)
+    # gpio_init_offset is the offset used for the encoder to set the 0.0 angle position.
+    gpio_init: false,
+    gpio_init_gain: 0,
+    gpio_init_signal: 0,
+    gpio_init_speed: 0,
+
+    # Limits
+    pwm_output_limit: 1344, # true for 20W goo version?
+    current_limit: 1.0,
+
+    slip_error_limit: 3.14,
+
+    position_integral_error_limit: 40000,
+    velocity_integral_error_limit: 400,
+    
+    # State limits (if commented, they default to large values, otherwise in encoder ticks)
+    # these are huge - need to refine later on.e
+    position_error_limit: 1200000,
+    velocity_error_limit: 3932160,
+    
+    # Detection times (ms)
+    current_limit_detection_time: 1000,
+    position_error_detection_time: 1000,
+    velocity_error_detection_time: 1000,
+    encoder_error_detection_time: 1000    
+  }
+  'wrist': {
+    id: 12.0,
+    feedback_mode: position,
+    control_mode: position, 
+    measurement_device: encoder,
+    encoder_direction: 1, #1,
+    output_direction: 1, #1,
+    
+    p_gain: 0.1,
+    i_gain: 0.0000,
+    d_gain: 0.0,
+    
+    maximum_velocity: 1.0,
+    maximum_acceleration: 1.0,
+    
+    # this is calculated by 300 * 4 * reduction (i.e. 24 for reduction of 1/24) * magic factor    
+    ticks_per_revolution: 417000,
+    
+    # Potentiometer initialisation
+    potentiometer_init: true,
+    potentiometer_initial_value: 1940,
+    pots_per_revolution: -6544,
+    
+    # Gpio initialisation
+    # gpio signals for korus: 3, 5, 6 (low, mid, high)
+    # gpio init gain: is the p_gain for the velocity control used
+    # gpio_init_speed: is the velocity it will travel up and down (take care with +- signs)
+    # gpio_init_offset is the offset used for the encoder to set the 0.0 angle position.
+    gpio_init: false,
+    gpio_init_gain: 0,
+    gpio_init_signal: 0,
+    gpio_init_speed: 0,
+
+    # Limits
+    pwm_output_limit: 1344, # true for 20W goo version?
+    current_limit: 1.0,
+
+    slip_error_limit: 3.14,
+
+    position_integral_error_limit: 400,
+    velocity_integral_error_limit: 400,
+    
+    # State limits (if commented, they default to large values, otherwise in encoder ticks)
+    # these are huge - need to refine later on.e
+    position_error_limit: 1200000,
+    velocity_error_limit: 3932160,
+    
+    # Detection times (ms)
+    current_limit_detection_time: 1000,
+    position_error_detection_time: 1000,
+    velocity_error_detection_time: 1000,
+    encoder_error_detection_time: 1000    
+  }
+  'gripper': {
+    id: 13.0,
+    feedback_mode: position,
+    control_mode: position, 
+    measurement_device: encoder,
+    encoder_direction: -1, #1,
+    output_direction: -1, #1,
+    
+    p_gain: 0.05,
+    i_gain: 0.0000,
+    d_gain: 0.0,
+    
+    maximum_velocity: 1.0,
+    maximum_acceleration: 1.0,
+    
+    # this is calculated by 300 * 4 * reduction (i.e. 24 for reduction of 1/24) * magic factor    
+    ticks_per_revolution: 873600,
+    
+    # Potentiometer initialisation
+    potentiometer_init: true,
+    potentiometer_initial_value: -71000, #3750
+    pots_per_revolution: 17136,
+    
+    # Gpio initialisation
+    # gpio signals for korus: 3, 5, 6 (low, mid, high)
+    # gpio init gain: is the p_gain for the velocity control used
+    # gpio_init_speed: is the velocity it will travel up and down (take care with +- signs)
+    # gpio_init_offset is the offset used for the encoder to set the 0.0 angle position.
+    gpio_init: false,
+    gpio_init_gain: 0,
+    gpio_init_signal: 0,
+    gpio_init_speed: 0,
+
+    # Limits
+    pwm_output_limit: 300, # true for 20W goo version?
+    current_limit: 1.0,
+
+    slip_error_limit: 3.14,
+
+    position_integral_error_limit: 400,
+    velocity_integral_error_limit: 400,
+    
+    # State limits (if commented, they default to large values, otherwise in encoder ticks)
+    # these are huge - need to refine later on.e
+    position_error_limit: 1200000,
+    velocity_error_limit: 3932160,
+    
+    # Detection times (ms)
+    current_limit_detection_time: 1000,
+    position_error_detection_time: 1000,
+    velocity_error_detection_time: 1000,
+    encoder_error_detection_time: 1000   
+  }
+  'head_pan': {
+    id: 9.0,
+    feedback_mode: position,
+    control_mode: position, 
+    measurement_device: encoder,
+    encoder_direction: -1, 
+    output_direction: -1, 
+    
+    p_gain: 0.1,
+    i_gain: 0.0000,
+    d_gain: 0.0,
+    
+    maximum_velocity: 1.0,
+    maximum_acceleration: 1.0,
+    
+    # this is calculated by 300 * 4 * reduction (i.e. 24 for reduction of 1/24) * magic factor    
+    ticks_per_revolution: 231600,
+    
+    # Potentiometer initialisation
+    potentiometer_init: true,
+    potentiometer_initial_value: 2051,
+    pots_per_revolution: -4384,
+    
+    # Gpio initialisation
+    # gpio signals for korus: 3, 5, 6 (low, mid, high)
+    # gpio init gain: is the p_gain for the velocity control used
+    # gpio_init_speed: is the velocity it will travel up and down (take care with +- signs)
+    # gpio_init_offset is the offset used for the encoder to set the 0.0 angle position.
+    gpio_init: false,
+    gpio_init_gain: 0,
+    gpio_init_signal: 0,
+    gpio_init_speed: 0,
+
+    # Limits
+    pwm_output_limit: 1344, # true for 20W goo version?
+    current_limit: 1.0,
+
+    slip_error_limit: 3.14,
+
+    position_integral_error_limit: 400,
+    velocity_integral_error_limit: 400,
+    
+    # State limits (if commented, they default to large values, otherwise in encoder ticks)
+    # these are huge - need to refine later on.e
+    position_error_limit: 1200000,
+    velocity_error_limit: 3932160,
+    
+    # Detection times (ms)
+    current_limit_detection_time: 1000,
+    position_error_detection_time: 1000,
+    velocity_error_detection_time: 1000,
+    encoder_error_detection_time: 1000    
+  }
+  'head_tilt': {
+    id: 8.0,
+    feedback_mode: position,
+    control_mode: position, 
+    measurement_device: encoder,
+    encoder_direction: -1, #1,
+    output_direction: 1, #1,
+    
+    p_gain: 0.1,
+    i_gain: 0.0000,
+    d_gain: 0.0,
+    
+    maximum_velocity: 1.0,
+    maximum_acceleration: 1.0,
+    
+    # this is calculated by 300 * 4 * reduction (i.e. 24 for reduction of 1/24) * magic factor    
+    ticks_per_revolution: 231600,
+    
+    # Potentiometer initialisation
+    potentiometer_init: true,
+    potentiometer_initial_value: 1926,
+    pots_per_revolution: 4140,
+    
+    # Gpio initialisation
+    # gpio signals for korus: 3, 5, 6 (low, mid, high)
+    # gpio init gain: is the p_gain for the velocity control used
+    # gpio_init_speed: is the velocity it will travel up and down (take care with +- signs)
+    # gpio_init_offset is the offset used for the encoder to set the 0.0 angle position.
+    gpio_init: false,
+    gpio_init_gain: 0,
+    gpio_init_signal: 0,
+    gpio_init_speed: 0,
+
+    # Limits
+    pwm_output_limit: 1344, # true for 20W goo version?
+    current_limit: 1.0,
+
+    slip_error_limit: 3.14,
+
+    position_integral_error_limit: 400,
+    velocity_integral_error_limit: 400,
+    
+    # State limits (if commented, they default to large values, otherwise in encoder ticks)
+    # these are huge - need to refine later on.e
+    position_error_limit: 1200000,
+    velocity_error_limit: 3932160,
+    
+    # Detection times (ms)
+    current_limit_detection_time: 1000,
+    position_error_detection_time: 1000,
+    velocity_error_detection_time: 1000,
+    encoder_error_detection_time: 1000    
+  }

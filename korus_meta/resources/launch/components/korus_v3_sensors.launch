@@ -1,0 +1,61 @@
+<!--
+  Korus sensors; do not launch on simulation
+ -->
+
+<launch>
+  <arg name="launch_hokuyo"/>
+  <arg name="launch_sonars"/>
+  <arg name="launch_sensor_3d"/>
+  <arg name="launch_stargazer"/>
+  <arg name="launch_gripper_camera"/>
+  <arg name="launch_gyro"/>
+  <arg name="launch_sensor_integration_board"/>
+  <arg name="launch_remocon"/>
+  
+
+  <!--  ******** Sensor integration board **********  -->
+  <node if="$(arg launch_sensor_integration_board)" pkg="nodelet" type="nodelet" name="sensor_integration_board_manager" args="manager"/>
+  <node if="$(arg launch_sensor_integration_board)" pkg="nodelet" type="nodelet" name="sensors" args="load sensor_integration_board/SensorNodelet sensor_integration_board_manager"> 
+<!--    Nodelete debugging macros aren't working with standalones -->
+<!--    <node unless="$(arg simulation)" pkg="nodelet" type="nodelet" name="sensors" args="standalone sensor_integration_board/SensorNodelet ">  -->
+    <!-- Becareful!!!!!!!!!!!! The parameters of sensor board will be loaded from skelly pakage. -->
+    <rosparam file="$(find korus_meta)/resources/yaml/sensors/korus_v3_sensors.yaml" command="load"/>
+    <!--
+    <remap from="sensors/DeviceStatus"           to=""/>
+    <remap from="sensors/OnOffDevice"            to=""/>
+    <remap from="sensors/PSD"                    to=""/>
+    <remap from="sensors/PowerSystem"            to=""/>
+-->
+    <remap from="sensors/Sonar"                  to="sensors/sonar"/>     
+<!--
+    <remap from="sensors/raw_data_received"      to=""/>         
+    -->
+    <remap from="sensors/enable"                 to="enable"/>
+    <remap from="sensors/disable"                to="disable"/>  
+    <remap from="sensors/Status" to="Status"/>
+  </node>
+
+  <!--  ************ Hokuyo laser ******************  -->
+  <node if="$(arg launch_hokuyo)" name="laser" pkg="hokuyo_node" type="hokuyo_node" respawn="false">
+    <rosparam file="$(find korus_meta)/resources/yaml/sensors/korus_v3_hokuyo.yaml" command="load"/>
+    <remap from="/korus/scan" to="/korus/base_scan"/>
+  </node>
+  
+  <!--  *********** 3D sensor (Asus) ***************  -->
+  <include if="$(arg launch_sensor_3d)" file="$(find korus_meta)/resources/launch/components/sensors/3d_sensor.launch"/>
+
+  <!--  *********** Ultrasound rangers *************  -->
+  <include if="$(arg launch_sonars)" file="$(find korus_meta)/resources/launch/components/sensors/sonars.launch"/>
+  
+  <!--  **************** Stargazer *****************  -->
+  <include if="$(arg launch_stargazer)" file="$(find korus_meta)/resources/launch/components/sensors/stargazer.launch"/>
+  
+  <!--  ************** Wrist camera ****************  -->
+  <include if="$(arg launch_gripper_camera)" file="$(find korus_meta)/resources/launch/components/sensors/gripper_camera.launch"/>
+  
+  <!--  ************* Cruizcore gyro ***************  -->
+  <include if="$(arg launch_gyro)" file="$(find korus_meta)/resources/launch/components/sensors/gyro.launch"/>
+  
+  <!--  ************** Remocon ****************  -->
+  <include if="$(arg launch_remocon)" file="$(find korus_meta)/resources/launch/components/sensors/remocon.launch"/>
+</launch>

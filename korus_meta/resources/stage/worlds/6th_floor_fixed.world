@@ -1,0 +1,58 @@
+include "korus.inc"
+
+# Definition for an obstacle placed on the map.
+define block model
+(
+  size [0.5 0.5 0.5]
+  gui_nose 0
+)
+
+define floorplan model
+(
+  # sombre, sensible, artistic
+  color "gray30"
+
+  # most maps will need a bounding box
+  boundary 1
+
+  gui_nose 0
+  gui_grid 0
+
+  gui_outline 0
+  gripper_return 0
+  fiducial_return 0
+  laser_return 1
+)
+
+# set the resolution of the underlying raytrace model in meters
+resolution 0.01
+
+interval_sim 100  # simulation timestep in milliseconds
+
+window
+(
+  size [ 1050 350 ] 
+  rotate [ 0.000 0.000 ]
+)
+
+# load an environment bitmap
+floorplan
+( 
+  name "Namsung Plaza 6th floor"
+  bitmap "../maps/6th_floor_fixed.pgm"
+  size [100.0 100.0 0.5]
+  pose [ 0.0 0.0 0.0 0.0 ]
+  origin [11.2 9.6 0.0 0]
+)
+
+# throw in a robot
+korus
+(
+  pose [ 1.0 1.0 0.0 0.0 ]
+  name "korus"
+  color "gray"
+  gui_nose 1
+)
+
+# throw in an obstacle
+block( pose [ 7.0 1.0 0 0.0 ] color "red")

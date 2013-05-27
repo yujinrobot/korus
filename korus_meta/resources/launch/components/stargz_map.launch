@@ -1,0 +1,43 @@
+<!--
+  Stargazer map nodelet. It can operate in three modes:
+   1 - Localize
+   2 - Mapping
+   3 - SLAM mode
+  The file path to read/write must also be provided.
+  On simulation, we fake the stargazer based on ground truth.
+ -->
+ <launch>
+  <arg name="simulation" default="false"/>
+  <arg name="tf_broadcast" default="false"/>
+
+  <arg name="operation_mode"/>
+  <arg name="landmarks_file_path"/>
+  
+  <arg name="initial_pose_x" default="0.0"/>
+  <arg name="initial_pose_y" default="0.0"/>
+  <arg name="initial_pose_a" default="0.0"/>
+
+  <node pkg="nodelet" type="nodelet" name="stargazer_map" args="load ycs_stargazer_map/StargazerMapNodelet stargazer_manager">
+    <!--    Parameters   -->
+    <rosparam file="$(find ycs_stargazer_map)/resources/yaml/parameters.yaml" command="load"/>
+    <param name="operation_mode"      value="$(arg operation_mode)"/>
+    <param name="tf_broadcast"        value="$(arg tf_broadcast)"/>
+    <param name="emulate_stargazer"   value="$(arg simulation)"/>
+    <param name="landmarks_file_path" value="$(arg landmarks_file_path)"/>
+
+    <param name="initial_pose_x" value="$(arg initial_pose_x)"/>
+    <param name="initial_pose_y" value="$(arg initial_pose_y)"/>
+    <param name="initial_pose_a" value="$(arg initial_pose_a)"/>
+
+    <!-- Incoming remaps -->
+    <remap from="stargazer_map/slam_entropy"  to="gmapping/entropy"/>
+    <remap from="stargazer_map/relative_pose" to="stargazer/LocationData"/>
+    <remap from="stargazer_map/ground_truth"  to="base_pose_ground_truth"/>
+
+    <!-- Outgoing remaps -->
+    <remap from="stargazer_map/fake_stgz_data" to="stargazer/LocationData"/>
+    <remap from="stargazer_map/absolute_pose"  to="stargazer/pose"/>
+    <remap from="stargazer_map/observations"   to="stargazer/observations"/>
+    <remap from="stargazer_map/landmarks"      to="stargazer/landmarks"/>
+  </node>
+</launch>

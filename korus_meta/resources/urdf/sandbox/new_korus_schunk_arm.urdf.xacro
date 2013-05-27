@@ -1,0 +1,38 @@
+<?xml version="1.0" ?>
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro" name="korus_schunk">
+  <include filename="$(find korus_meta)/resources/urdf/korus_robosem_base_back_mount_ava.xacro"/>
+  <include filename="$(find korus_meta)/resources/urdf/schunk_pwa_arm.xacro"/>
+  <include filename="$(find korus_meta)/resources/urdf/table.xacro"/>  
+
+  <!-- ************************ omni drive simulation ************************* -->
+  <link name="world">
+  </link> 
+  <joint name="omni_drive_x" type="prismatic">
+    <parent link="world"/>
+    <child link="omni_drive_x_link"/>
+    <origin xyz="-1.0 0 0" rpy="0 0 0"/>
+    <axis xyz="1 0 0"/>
+    <limit effort="10" lower="0.0" upper="2.0" velocity="1.0"/>
+  </joint>
+  <link name="omni_drive_x_link">
+  </link>
+  <joint name="omni_drive_y" type="prismatic">
+    <parent link="omni_drive_x_link"/>
+    <child link="base_footprint"/>
+    <origin xyz="0.0 0 0" rpy="0 0 0"/>
+    <axis xyz="0 1 0"/>
+    <limit effort="10" lower="-1.0" upper="1.0" velocity="1.0"/>
+  </joint> 
+  
+  <!-- ************************ Robot model ************************* -->
+  <xacro:korus_robosem_base_back_mount_ava>
+  </xacro:korus_robosem_base_back_mount_ava>
+  
+  <!-- ************************ Arm model ************************* -->
+	<xacro:schunk_pwa_arm parent="torso_lift_link">
+	</xacro:schunk_pwa_arm>
+
+	<!-- ************************ Table model ************************* -->
+  <xacro:table parent="world">
+  </xacro:table>  
+</robot>

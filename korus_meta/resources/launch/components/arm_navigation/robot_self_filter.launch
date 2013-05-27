@@ -1,0 +1,13 @@
+<launch>
+ <node pkg="nodelet" type="nodelet" name="robot_self_filter_nodelet" args="load robot_self_filter/SelfFilterNodelet /sensor_3d_nodelet_manager" respawn="false">
+    <remap from="robot_self_filter_nodelet/robot_description" to="/korus/robot_description" />
+    <!-- data source to integrate (PointCloud2) -->
+    <remap from="robot_self_filter_nodelet/cloud_in" to="/sensor_3d/depth/points" />
+    <!-- filtered point cloud (PointCloud2) -->
+    <remap from="robot_self_filter_nodelet/cloud_out" to="selffiltered_pointcloud" />
+    <!-- The names of the links the sensor can see -->
+    <rosparam command="load" file="$(find korus_meta)/resources/yaml/collision_map/self_filter_whole_body.yaml" />
+    <param name="sensor_frame" type="string" value="" />
+<!--     <param name="subsample_value" type="double" value=".05"/> -->
+  </node>
+</launch>

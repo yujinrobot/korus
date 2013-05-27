@@ -1,0 +1,17 @@
+<!--
+  Used for visualising the korus robot in action.  
+  
+  Note the robot description should already be published, but if not (i.e. maybe just running
+  the base) it reloads it here for convenience.
+  
+ -->
+<launch>
+  <group ns="korus">
+    <node name="qgoo" pkg="qgoo" type="qgoo">
+      <remap from="qgoo/joint_states" to="joint_states"/>
+<!--       <remap from="qgoo/enable" to="enable"/> -->
+<!--       <remap from="qgoo/disable" to="disable"/> -->
+      <remap from="qgoo/mechanism_model/joint_configuration" to="mechanism_model/joint_configuration"/>
+    </node>
+  </group>
+</launch>

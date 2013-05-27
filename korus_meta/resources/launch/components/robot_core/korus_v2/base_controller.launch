@@ -1,0 +1,22 @@
+<!--
+  Diff drive module + Cruizcore
+-->
+
+<launch>
+  <node pkg="nodelet" type="nodelet" name="mobile_base" args="load diff_drive_gyro_base/DiffDriveGyroBase robot_core">
+    <rosparam file="$(find korus_meta)/resources/yaml/mobile_base/korus_v2_diff_drive_base.yaml" command="load"/>
+    <remap from="mobile_base/joint_command/wheel_left" to="joint_command/wheel_left"/>
+    <remap from="mobile_base/joint_state/wheel_left" to="joint_state/wheel_left"/>
+    <remap from="mobile_base/joint_command/wheel_right" to="joint_command/wheel_right"/>
+    <remap from="mobile_base/joint_state/wheel_right" to="joint_state/wheel_right"/>
+    <remap from="mobile_base/cmd_vel" to="cmd_vel"/>
+    <remap from="mobile_base/odom" to="odom"/>
+    <remap from="mobile_base/enable" to="enable"/>
+    <remap from="mobile_base/disable" to="disable"/>
+  </node>
+  
+  <node pkg="nodelet" type="nodelet" name="cruizcore" args="load cruizcore/CruizCoreNodelet robot_core">
+    <remap from="cruizcore/gyro_data" to="mobile_base/gyro_data"/>
+    <rosparam file="$(find korus_meta)/resources/yaml/sensors/korus_v3_cruizcore.yaml" command="load"/>
+  </node>
+</launch>

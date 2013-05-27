@@ -1,0 +1,38 @@
+# MECHANISM MODEL
+#
+# Description: 
+#     Configuration of the mechanism model. Actually, most of this is scattered
+#     around the place, controllers, joints. Here is just the core node params.
+#
+# Note, if you change parameters here, make sure you change parameters in:
+#
+#  - urdf/korus.xacro (names, limits)
+#  - yaml/mobile_base/diff_drive_base.yaml (wheel name strings)
+#  - goo/*.yaml (names)
+
+# frequency is in Hz. If < 0 the mechanism model will cowardly refuse to 
+# publish at all. 
+joint_state_publishing_frequency: 20
+
+# Ordering for these groups is important as it is expected to match the inputs for the controllers/action servers.
+# Only active ones are listed in the separate groupes (which are used among others by the controllers).
+joint_groups:
+  'all' : [ 'wheel_left', 'wheel_right' ]
+  'base': [ 'wheel_left', 'wheel_right' ]
+
+
+joints:
+  'wheel_left': {
+      transmission: direct,
+      limit_min: -9999999.0,
+      limit_max:  9999999.0,
+      nominal_rate: 0.5,
+      max_acceleration: 0.25,
+  }
+  'wheel_right': {
+      transmission: direct,
+      limit_min: -9999999.0,
+      limit_max:  9999999.0,
+      nominal_rate: 0.5,
+      max_acceleration: 0.25,
+  }

@@ -1,0 +1,10 @@
+<!--
+  Used for visualising the korus robot in action. Local, map-less navigation.
+  
+  Note the robot description should already be published, but if not (i.e. maybe just running
+  the base) it reloads it here for convenience.
+  
+ -->
+<launch>
+  <node name="rviz" pkg="rviz" type="rviz" args="-d $(find korus_meta)/resources/rviz/view_local_navi.vcg"/>
+</launch>

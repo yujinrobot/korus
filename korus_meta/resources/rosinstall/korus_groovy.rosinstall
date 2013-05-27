@@ -1,0 +1,40 @@
+# Before using this rosinstaller, make sure you have the following installed:
+# 
+# ROS basics:
+#   sudo apt-get install ros-groovy-desktop
+
+# Yujin Stacks
+
+# Robosem
+- git:
+    local-name: robosem
+    uri: git@bitbucket.org:yujinrobot/robosem.git
+    version: groovy-devel
+    
+# YCS
+- git:
+    local-name: ycs_desktop
+    uri: git@bitbucket.org:yujinrobot/ycs_desktop.git
+    version: groovy-devel
+- git:
+    local-name: ycs_devices
+    uri: git@bitbucket.org:yujinrobot/ycs_devices.git
+    version: groovy-devel
+- git:
+    local-name: ycs_manipulation
+    uri: git@bitbucket.org:yujinrobot/ycs_manipulation.git
+    version: groovy-devel
+- git:
+    local-name: ycs_mechanisms
+    uri: git@bitbucket.org:yujinrobot/ycs_mechanisms.git
+    version: groovy-devel
+- git:
+    local-name: ycs_msgs
+    uri: git@bitbucket.org:yujinrobot/ycs_msgs.git
+    version: groovy-devel
+    
+# ECL (just overlay a few more recent versions)
+- git: 
+    local-name: ecl_manipulation
+    uri: 'https://github.com/bit-pirate/ecl_manipulation.git'
+    version: groovy-devel

@@ -1,0 +1,60 @@
+<launch>
+  <arg name="simulation" value="true"/>
+  <include file="$(find korus_meta)/resources/launch/components/robot_core.launch">
+    <arg name="simulation" value="$(arg simulation)"/>
+  </include>
+  <group ns="korus">
+    <param name="/use_sim_time" value="false" />
+    <include file="$(find korus_arm_navigation)/launch/korus_planning_environment.launch" />
+    <include file="$(find planning_environment)/launch/environment_server.launch">
+        <arg name="use_monitor" value="true" />
+        <arg name="use_collision_map" value="false" />
+    </include>
+    <include file="$(find korus_arm_navigation)/launch/constraint_aware_kinematics.launch" />
+    <include file="$(find korus_arm_navigation)/launch/ompl_planning.launch" />
+    <include file="$(find korus_arm_navigation)/launch/trajectory_filter_server.launch" />
+    <include file="$(find korus_arm_navigation)/launch/move_groups.launch" />      
+    
+<!--     <node pkg="nodelet" type="nodelet" name="move_arm_node" args="manager" output="screen"/>
+    <node pkg="nodelet" type="nodelet" name="move_arm" args="load ycs_move_arm/MoveArm move_arm_node" output="screen">
+      param remaps
+      <remap from="move_arm/joint_names" to = "mechanism_model/joint_groups/arm"/>
+      topic remaps
+      <remap from="move_arm/joint_states" to="joint_states"/>
+      <remap from="move_arm/joint_trajectory_action/command" to="arm_controller/command"/>
+      <remap from="move_arm/joint_trajectory_action/goal" to="arm_controller/goal"/>
+      <remap from="move_arm/joint_trajectory_action/feedback" to="arm_controller/feedback"/>
+      <remap from="move_arm/joint_trajectory_action/status" to="arm_controller/status"/>
+      <remap from="move_arm/joint_trajectory_action/result" to="arm_controller/result"/>
+      <remap from="move_arm/joint_trajectory_action/cancel" to="arm_controller/cancel"/>
+      <remap from="move_arm/arm_fk" to="korus_arm_kinematics/get_fk"/>
+      <remap from="move_arm/arm_ik" to="korus_arm_kinematics/get_ik"/>
+      <remap from="move_arm/arm_fk_solver_info" to="korus_arm_kinematics/get_fk_solver_info"/>
+      <remap from="move_arm/arm_ik_solver_info" to="korus_arm_kinematics/get_ik_solver_info"/>      
+    </node> -->
+    
+    <node pkg="rviz" type="rviz" name="rviz_planning_components" args="-d $(find korus_arm_navigation)/config/planning_components_visualizer.vcg" />
+    
+<!--     <node pkg="arm_kinematics_constraint_aware" type="arm_kinematics_constraint_aware" name="korus_arm_kinematics" output="screen">     -->
+<!--       <rosparam command="load" file="$(find korus_meta)/resources/yaml/test/arm_kinematics_constraint_aware.yaml" /> -->
+<!--       <remap from="robot_description" to="robot_description" /> -->
+    
+<!-- THE PARAMETERS BELOW ARE SPECIFIED IN THE YAML FILE! -->   
+  <!--    Collision environment parameters -->
+<!--    <remap from="collision_map" to="collision_map_occ" /> -->
+<!--    <remap from="collision_map_update" to="collision_map_occ_update" /> -->
+<!--    <param name="pointcloud_padd" type="double" value="0.00" /> -->
+<!--    <param name="group" type="string" value="right_arm" /> -->
+<!--    <param name="allow_valid_collisions" type="bool" value="false" /> -->
+<!--    <param name="use_collision_map" type="bool" value="false" /> -->
+<!--    <param name="collision_map_safety_timeout" type="double" value="0.0" /> -->
+<!--    <param name="joint_states_safety_timeout" type="double" value="1.0" /> -->
+<!--    <param name="tf_safety_timeout" type="double" value="1.0" /> -->
+<!--    <param name="bounding_planes" type="string" value="0 0 1 -0.01" /> -->
+<!--    <rosparam command="load" file="$(find pr2_arm_navigation_config)/config/robot_padding.yaml" /> -->
+<!--    <rosparam command="load" file="$(find arm_kinematics_constraint_aware)/config/kdl_pr2_arm_kinematics.yaml" /> -->
+<!--     </node> -->
+<!--     <rosparam command="load" ns="robot_description_planning" file="$(find korus_meta)/resources/yaml/test/planning_groups.yaml" /> -->
+  </group>
+  
+</launch>

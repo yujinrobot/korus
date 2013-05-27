@@ -1,0 +1,136 @@
+<?xml version="1.0" ?>
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro" name="diff_drive_base">
+  <xacro:include filename="$(find korus_meta)/resources/urdf/materials.urdf.xacro"/>
+  <xacro:include filename="$(find korus_meta)/resources/urdf/hokuyo_lx30_laser.urdf.xacro"/>
+  
+  <!-- ************************** Properties ************************** -->
+  <xacro:property name="wheel_bias" value="0.450"/>
+  <xacro:property name="wheel_radius" value="0.075"/>
+  <xacro:property name="caster_wheel_bias" value="0.294"/>
+  <xacro:property name="caster_wheel_radius" value="0.0375"/>
+	  
+  <!-- ************************** Wheel macros ************************** -->
+	<xacro:macro name="drive_wheel" params="name parent length radius off_x off_y off_z">
+    <joint name="${name}" type="continuous">
+      <parent link="${parent}"/>
+      <child link="${name}_link"/>
+      <origin rpy="0 0 ${pi/2}" xyz="${off_x} ${off_y} ${off_z}"/>
+      <limit effort="48.0" velocity="0.5"/> 
+    </joint>
+	  <link name="${name}_link">
+	    <visual>
+	      <geometry>
+	        <cylinder length="${length}" radius="${radius}"/>
+	      </geometry>
+	      <origin rpy="0 ${pi/2} 0" xyz="0 0 0"/>
+	      <material name="black">
+	        <color rgba="0.1 0.1 0.1 1"/>
+	      </material>
+	    </visual>
+	  </link>
+	</xacro:macro>
+	<xacro:macro name="caster_wheel" params="name parent length radius off_x off_y off_z">
+    <joint name="${name}_joint" type="fixed">
+      <parent link="${parent}"/>
+      <child link="${name}_link"/>
+      <origin rpy="0 0 ${pi/2}" xyz="${off_x} ${off_y} ${off_z}"/>
+    </joint>
+    <link name="${name}_link">
+      <visual>
+        <geometry>
+          <cylinder length="${length}" radius="${radius}"/>
+        </geometry>
+        <origin rpy="0 ${pi/2} 0" xyz="0 0 0"/>
+        <material name="black">
+          <color rgba="0.1 0.1 0.1 1"/>
+        </material>
+      </visual>
+    </link>
+  </xacro:macro>
+	  
+  <!-- ************************** Differential drive base macro ************************** -->
+  <xacro:macro name="diff_drive_base" params="parent body_mount_link">
+    <link name="${parent}"/>
+		<joint name="base_joint" type="fixed">
+		  <parent link="${parent}"/>
+		  <child link="${body_mount_link}"/>
+		  <origin rpy="0 0 0" xyz="0.0 0.0 0.075"/>
+		</joint>
+		<link name="${body_mount_link}">
+		  <visual>
+		    <geometry>
+		      <cylinder length="0.299" radius="0.278"/>
+		    </geometry>
+		    <origin xyz="0.0 0.0 0.1045" rpy="0 0 0"/>
+		    <xacro:insert_block name="material_white"/>
+		  </visual>
+		  <collision>
+	      <geometry>
+	        <cylinder length="0.299" radius="0.278"/>
+	      </geometry>
+	      <origin xyz="0.0 0.0 0.1045" rpy="0 0 0"/>
+		  </collision>
+		</link>
+		<xacro:drive_wheel name="wheel_left" parent="${body_mount_link}" length="0.03" radius="${wheel_radius}" off_x="0.0" off_y="${wheel_bias/2}" off_z="0.0"/>
+		<xacro:drive_wheel name="wheel_right" parent="${body_mount_link}" length="0.03" radius="${wheel_radius}" off_x="0.0" off_y="-${wheel_bias/2}" off_z="0.0"/>
+		<xacro:caster_wheel name="caster_front" parent="${body_mount_link}" length="0.025" radius="${caster_wheel_radius}" off_x="0.160" off_y="0.0" off_z="-0.0375"/>
+		<xacro:caster_wheel name="caster_back_left" parent="${body_mount_link}" length="0.025" radius="${caster_wheel_radius}" off_x="-0.160" off_y="${caster_wheel_bias/2}" off_z="-0.0375"/>
+		<xacro:caster_wheel name="caster_back_right" parent="${body_mount_link}" length="0.025" radius="${caster_wheel_radius}" off_x="-0.160" off_y="-${caster_wheel_bias/2}" off_z="-0.0375"/>
+	
+	  <!-- ************************** Sensors ************************** -->
+	  <xacro:hokuyo_lx30_laser name="laser" parent="base" ros_topic="laser_scan"
+	                           update_rate="20" min_angle="${-100.94*pi/180}" max_angle="${100.94*pi/180}">
+		  <origin xyz="0.210 0.0 0.21785" rpy="0 0 0"/>
+	  </xacro:hokuyo_lx30_laser>
+	  
+	  <joint name="sonar_front_left" type="fixed">
+	    <parent link="${body_mount_link}"/>
+	    <child link="sonar_front_left_link"/>
+	    <origin xyz="0.12411 0.21496 0.09881" rpy="0 ${-20*pi/180} ${60*pi/180}"/>
+	  </joint>
+	  <link name="sonar_front_left_link"/>
+	  
+	  <joint name="sonar_front_middle" type="fixed">
+	    <parent link="${body_mount_link}"/>
+	    <child link="sonar_front_middle_link"/>
+	    <origin xyz="0.24822 0.0 0.09881" rpy="0 ${-20*pi/180} 0"/>
+	  </joint>
+	  <link name="sonar_front_middle_link"/>
+	  
+	  <joint name="sonar_front_right" type="fixed">
+	    <parent link="${body_mount_link}"/>
+	    <child link="sonar_front_right_link"/>
+	    <origin xyz="0.12411 -0.21496 0.09881" rpy="0 ${-20*pi/180} ${-60*pi/180}"/>
+	  </joint>
+	  <link name="sonar_front_right_link"/>
+	  
+	     <joint name="sonar_back_left" type="fixed">
+      <parent link="${body_mount_link}"/>
+      <child link="sonar_back_left_link"/>
+      <origin xyz="-0.12411 0.21496 0.09881" rpy="0 ${-20*pi/180} ${120*pi/180}"/>
+    </joint>
+    <link name="sonar_back_left_link"/>
+    
+    <joint name="sonar_back_middle" type="fixed">
+      <parent link="${body_mount_link}"/>
+      <child link="sonar_back_middle_link"/>
+      <origin xyz="-0.24822 0.0 0.09881" rpy="0 ${-20*pi/180} ${-180*pi/180}"/>
+    </joint>
+    <link name="sonar_back_middle_link"/>
+    
+    <joint name="sonar_back_right" type="fixed">
+      <parent link="${body_mount_link}"/>
+      <child link="sonar_back_right_link"/>
+      <origin xyz="-0.12411 -0.21496 0.09881" rpy="0 ${-20*pi/180} ${-120*pi/180}"/>
+    </joint>
+    <link name="sonar_back_right_link"/>
+
+    <joint name="gyro" type="fixed">
+      <parent link="${body_mount_link}"/>
+      <child link="gyro_link"/>
+      <origin xyz="0.080 0.165 0.040" rpy="0 0 0"/>
+    </joint>
+    <link name="gyro_link"/>
+
+  </xacro:macro>
+</robot>

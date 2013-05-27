@@ -1,0 +1,39 @@
+# Created on: Jun 13, 2012
+#     Author: jorge
+
+sonar_buffer_size: 3    # Internal buffers size; use an odd number
+sonar_max_reading: 255  # Because sonar readings are unsigned bytes
+no_contact_range:  6.0  # Report this distance if no contact; recommended
+                        # to use a value similar to the hokuyo max range
+
+# Individual sonar configuration:
+#   name:                 Sonar's name (normally its place in the robot)
+#   frame_id:             Reference frame id; needed to lookup transform
+#   index_fired:          Index that identifies when this sonar is fired
+#   index_value:          Index of this sonar in the msg first echo data
+
+sonars:
+  - name:        "Front left"
+    frame_id:    "/sonar_front_left_link"
+    index_fired: 1
+    index_value: 2
+  - name:        "Front middle"
+    frame_id:    "/sonar_front_middle_link"
+    index_fired: 1
+    index_value: 0
+  - name:        "Front right"
+    frame_id:    "/sonar_front_right_link"
+    index_fired: 1
+    index_value: 0
+  - name:        "Back left"
+    frame_id:    "/sonar_back_left_link"
+    index_fired: 1
+    index_value: 2
+  - name:        "Back middle"
+    frame_id:    "/sonar_back_middle_link"
+    index_fired: 1
+    index_value: 0
+  - name:        "Back right"
+    frame_id:    "/sonar_back_right_link"
+    index_fired: 1
+    index_value: 0

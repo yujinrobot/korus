@@ -1,0 +1,173 @@
+# Navigation base
+#
+# Description: 
+#     Used for parameterising the diff drive base motors.
+#
+# Called by:
+#     resources/launch/base.launch
+#
+# Reference:
+#     http://yujin.dnsdojo.com:3000/wiki/goo/Goo_parameters
+
+port: /dev/ttyUSB0
+scan_frequency: 30 #50
+# configured in runtime.yaml/simulation.yaml
+simulation_mode: true
+
+motor:
+  'revolute_1': {
+    id: 1.0, 
+    feedback_mode: position,
+    control_mode: position, 
+    measurement_device: encoder,
+    encoder_direction: -1, 
+    output_direction: -1,
+     
+    p_gain: 0.150, 
+    i_gain: 0.015, 
+    d_gain: 0.000, 
+    
+    maximum_velocity: 2.0,
+    maximum_acceleration: 1.0, 
+    
+    # this is calculated by 300 * 4 * reduction (i.e. 24 for reduction of 1/24) * magic factor 
+    ticks_per_revolution: 30960,
+    
+    # Velocity control parameters   
+    # (unused if not velocity control)
+    # Smooth velocity commands via a firmware averaging process
+    velocity_control_sample_number: 8,
+    velocity_control_feedforward_gain: 10,
+    velocity_control_pwm_offset: 40,
+    
+    # Potentiometer initialisation
+    potentiometer_init: false,
+    potentiometer_initial_value: 0,
+    pots_per_revolution: 0,
+    
+    # Gpio initialisation
+    gpio_init: false,
+    gpio_init_gain: 0,
+    gpio_init_signal: 0,
+    gpio_init_speed: 0,
+
+    # Limits 
+    pwm_output_limit: 1344,
+    current_limit: 1.0,
+    position_integral_error_limit: 400,
+    velocity_integral_error_limit: 400,
+    
+    # State limits (-1 unused, otherwise in encoder ticks)
+    position_error_limit: 1200000,
+    velocity_error_limit: 3932160,
+    
+    # Detection times (ms)
+    current_limit_detection_time: 500,
+    position_error_detection_time: 500,
+    velocity_error_detection_time: 500,
+    encoder_error_detection_time: 500    
+  }
+  'prismatic': {
+    id: 2.0,
+    feedback_mode: position,
+    control_mode: position, 
+    measurement_device: encoder,
+    encoder_direction: 1, 
+    output_direction: 1, 
+      
+    p_gain: 0.150, 
+    i_gain: 0.015,  
+    d_gain: 0.000, 
+    
+    maximum_velocity: 2.0,
+    maximum_acceleration: 1.0, 
+    
+    # this is calculated by 300 * 4 * reduction (i.e. 24 for reduction of 1/24) * magic factor 
+    ticks_per_revolution: 30960,
+    
+    # Velocity control parameters   
+    # (unused if not velocity control)
+    # Smooth velocity commands via a firmware averaging process
+    velocity_control_sample_number: 8,
+    velocity_control_feedforward_gain: 10,
+    velocity_control_pwm_offset: 40,
+        
+    # Potentiometer initialisation
+    potentiometer_init: false,
+    potentiometer_initial_value: 0,
+    pots_per_revolution: 0,
+    
+    # Gpio initialisation
+    gpio_init: false,
+    gpio_init_gain: 0,
+    gpio_init_signal: 0,
+    gpio_init_speed: 0,
+
+    # Limits 
+    pwm_output_limit: 1344,
+    current_limit: 1.0,
+    position_integral_error_limit: 400,
+    velocity_integral_error_limit: 400,
+
+    # State limits (-1 unused, otherwise in encoder ticks)
+    position_error_limit: 1200000,
+    velocity_error_limit: 3932160,
+    
+    # Detection times (ms)
+    current_limit_detection_time: 500,
+    position_error_detection_time: 500,
+    velocity_error_detection_time: 500,
+    encoder_error_detection_time: 500    
+  }
+  'revolute_2': {
+    id: 3.0,
+    feedback_mode: position,
+    control_mode: position, 
+    measurement_device: encoder,
+    encoder_direction: 1, 
+    output_direction: 1, 
+      
+    p_gain: 0.150, 
+    i_gain: 0.015,  
+    d_gain: 0.000, 
+    
+    maximum_velocity: 2.0,
+    maximum_acceleration: 1.0, 
+    
+    # this is calculated by 300 * 4 * reduction (i.e. 24 for reduction of 1/24) * magic factor 
+    ticks_per_revolution: 30960,
+    
+    # Velocity control parameters   
+    # (unused if not velocity control)
+    # Smooth velocity commands via a firmware averaging process
+    velocity_control_sample_number: 8,
+    velocity_control_feedforward_gain: 10,
+    velocity_control_pwm_offset: 40,
+        
+    # Potentiometer initialisation
+    potentiometer_init: false,
+    potentiometer_initial_value: 0,
+    pots_per_revolution: 0,
+    
+    # Gpio initialisation
+    gpio_init: false,
+    gpio_init_gain: 0,
+    gpio_init_signal: 0,
+    gpio_init_speed: 0,
+
+    # Limits 
+    pwm_output_limit: 1344,
+    current_limit: 1.0,
+    position_integral_error_limit: 400,
+    velocity_integral_error_limit: 400,
+
+    # State limits (-1 unused, otherwise in encoder ticks)
+    position_error_limit: 1200000,
+    velocity_error_limit: 3932160,
+    
+    # Detection times (ms)
+    current_limit_detection_time: 500,
+    position_error_detection_time: 500,
+    velocity_error_detection_time: 500,
+    encoder_error_detection_time: 500    
+  }

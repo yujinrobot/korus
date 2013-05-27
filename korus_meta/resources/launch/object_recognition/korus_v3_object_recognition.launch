@@ -1,0 +1,121 @@
+<launch>
+  <group ns="korus">
+	  <arg name="camera" default="sensor_3d"/>
+	  <arg name="flatten_table" default="true"/>
+	  <arg name="model_set" default="REDUCED_MODEL_SET"/>
+	  <arg name="cvfh" default="false"/>
+	  <arg name="tod" default="false"/>
+	  <arg name="tabletop_segmentation_points_in" default="/sensor_3d/depth_registered/points" />
+	  <arg name="tabletop_segmentation_convert_to_base_link" default="true" />
+	  <arg name="tabletop_segmentation_clustering_voxel_size" default="0.001" />
+	  <arg name="table_padding" default="0.02"/>
+	  
+	  <!-- ################ segmentation left ################ -->
+	  <node pkg="tabletop_object_detector" name="tabletop_segmentation_left" type="tabletop_segmentation">
+	    <remap from="cloud_in" to="$(arg tabletop_segmentation_points_in)" />
+	    <remap from="segmentation_srv" to="/korus/tabletop_segmentation_left" />
+	    <remap from="markers_out" to="tabletop_segmentation_markers" />
+		  <param name="clustering_voxel_size" value="$(arg tabletop_segmentation_clustering_voxel_size)" />
+		  <param name="inlier_threshold" value="50" /> <!--  300 -->
+		  <param name="plane_detection_voxel_size" value="0.01" />
+		  <param name="cluster_distance" value="0.02" />
+		  <param name="min_cluster_size" value="50" /> <!--  300 -->
+		  <param name="flatten_table" value="$(arg flatten_table)" />
+		  <param name="table_padding" value="$(arg table_padding)" />
+		  <param name="processing_frame" value="/base_footprint" />
+		  <param name="up_direction" value="1.0" />
+		  <param name="z_filter_min" value="0.20" /> <!-- one block: 0.20, two blocks: 0.45 -->
+		  <param name="z_filter_max" value="0.30" /> <!-- one block: 0.30, two blocks: 0.55 -->
+		  <param name="y_filter_min" value="0.20" />
+		  <param name="y_filter_max" value="0.8" />
+		  <param name="x_filter_min" value="0.0" />
+		  <param name="x_filter_max" value="0.7" />
+		  <param name="table_z_filter_min" value="-0.30" />
+		  <param name="table_z_filter_max" value="-0.01" />
+	  </node>
+    <!-- ################ segmentation right ################ -->
+    <node pkg="tabletop_object_detector" name="tabletop_segmentation_right" type="tabletop_segmentation">
+      <remap from="cloud_in" to="$(arg tabletop_segmentation_points_in)" />
+      <remap from="segmentation_srv" to="tabletop_segmentation_right" />
+      <remap from="markers_out" to="tabletop_segmentation_markers" />
+      <param name="clustering_voxel_size" value="$(arg tabletop_segmentation_clustering_voxel_size)" />
+      <param name="inlier_threshold" value="50" /> <!-- 300 -->
+      <param name="plane_detection_voxel_size" value="0.01" />
+      <param name="cluster_distance" value="0.02" />
+      <param name="min_cluster_size" value="50" /> <!-- 300 -->
+      <param name="flatten_table" value="$(arg flatten_table)" />
+      <param name="table_padding" value="$(arg table_padding)" />
+      <!--  processing and filtering frame -->
+      <!--  all clouds converted to and processed in base link frame -->
+      <param name="processing_frame" value="/base_footprint" />
+      <param name="up_direction" value="1.0" />
+      <param name="z_filter_min" value="0.35" /> <!-- one block: 0.20, two blocks: 0.45 -->
+      <param name="z_filter_max" value="0.45" /> <!-- one block: 0.30, two blocks: 0.55 -->
+      <param name="y_filter_min" value="-0.8" />
+      <param name="y_filter_max" value="-0.2" />
+      <param name="x_filter_min" value="0.0" />
+      <param name="x_filter_max" value="0.7" />
+      <param name="table_z_filter_min" value="-0.30" />
+      <param name="table_z_filter_max" value="-0.01" />
+    </node>
+	  <!-- object recognition -->
+	  <node pkg="tabletop_object_detector" name="tabletop_object_recognition" type="tabletop_object_recognition">
+	    <param name="fit_merge_threshold" value="0.05" />
+	    <param name="min_marker_quality" value="0.003" />
+	    <remap from="object_recognition_srv" to="tabletop_object_recognition" />
+	    <remap from="markers_out" to="tabletop_object_recognition_markers" />
+	    <param name="model_set" value="$(arg model_set)" />
+	    <param name="get_model_list_srv" value="/objects_database_node/get_model_list" />
+	    <param name="get_model_mesh_srv" value="/objects_database_node/get_model_mesh" />
+<!--       <param name="get_model_list_srv" value="objects_database_node/get_model_list" /> -->
+<!--       <param name="get_model_mesh_srv" value="objects_database_node/get_model_mesh" /> -->
+	  </node>
+	  <!--complete node left-->
+	  <node pkg="tabletop_object_detector" name="tabletop_complete_node_left" type="tabletop_complete_node">
+	    <param name="perform_fit_merge" value="true" />
+	    <remap from="/tabletop_segmentation" to="tabletop_segmentation_left" />
+	    <remap from="/tabletop_object_recognition" to="tabletop_object_recognition" />
+	    <remap from="object_detection" to="object_detection_left" />
+	  </node>
+	  <!-- Simple action server interface -->
+	  <node pkg="korus_smach" type="find_object_as.py" name="find_object_left">
+	    <remap from="object_detection" to="object_detection_left" />
+	    <remap from="find_object" to="find_object_left" />
+	  </node>
+	  <!-- object recognition -->
+	<!--   <node pkg="tabletop_object_detector" name="tabletop_object_recognition_right" type="tabletop_object_recognition"> -->
+	<!--     operational parameters -->
+	<!--     <param name="fit_merge_threshold" value="0.05" /> -->
+	<!--     <param name="min_marker_quality" value="0.003" /> -->
+	<!--     topic remapping -->
+	<!--     <remap from="object_recognition_srv" to="tabletop_object_recognition_right" /> -->
+	<!--     <remap from="markers_out" to="tabletop_object_recognition_markers" /> -->
+	<!--     database parameters -->
+	<!--     <param name="model_set" value="$(arg model_set)" /> -->
+	<!--     <param name="get_model_list_srv" value="/objects_database_node/get_model_list" /> -->
+	<!--     <param name="get_model_mesh_srv" value="/objects_database_node/get_model_mesh" /> -->
+	<!--   </node> -->
+	  <!--complete node right-->
+	  <node pkg="tabletop_object_detector" name="tabletop_complete_node_right" type="tabletop_complete_node">
+	    <param name="perform_fit_merge" value="true" />
+	    <remap from="/tabletop_segmentation" to="tabletop_segmentation_right" />
+      <remap from="/tabletop_object_recognition" to="tabletop_object_recognition" />
+	    <remap from="object_detection" to="object_detection_right" />
+	  </node>
+	  <!-- Simple action server interface right-->
+	  <node pkg="korus_smach" type="find_object_as.py" name="find_object_right">
+	    <remap from="object_detection" to="object_detection_right" />
+      <remap from="find_object" to="find_object_right" />
+	  </node>
+  </group>
+	  <!-- ################ object database ################ -->
+	  <!-- load the database parameters -->
+	  <rosparam command="load" file="$(find korus_meta)/resources/yaml/object_recognition/yujin_household_objects_database.yaml"/>
+	  <!-- start the database wrapper node -->
+	  <node pkg="household_objects_database" name="objects_database_node" type="objects_database_node">
+<!--       <remap from="/household_objects_database/database_host" to="household_objects_database/database_host"/> -->
+<!--       <remap from="/household_objects_database/database_port" to="household_objects_database/database_port"/> -->
+<!--       <remap from="/household_objects_database/database_user" to="household_objects_database/database_user"/> -->
+<!--       <remap from="/household_objects_database/database_pass" to="household_objects_database/database_pass"/> -->
+	  </node>
+</launch>

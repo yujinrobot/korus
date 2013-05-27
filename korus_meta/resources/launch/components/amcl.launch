@@ -1,0 +1,40 @@
+<!-- 
+  Montecarlo localisation. Descriptions of parameters, as well as a full 
+  list of all amcl parameters, can be found at http://www.ros.org/wiki/amcl.
+-->
+<launch>
+  <arg name="tf_broadcast" default="false"/>
+  
+  <arg name="initial_pose_x" default="0.0"/>
+  <arg name="initial_pose_y" default="0.0"/>
+  <arg name="initial_pose_a" default="0.0"/>
+  
+  <arg name="initial_cov_xx" default="0.25"/>         <!-- 0.5*0.5 meters   -->
+  <arg name="initial_cov_yy" default="0.25"/>         <!-- 0.5*0.5 meters   -->
+  <arg name="initial_cov_aa" default="0.068538919"/>  <!-- π/12*π/12 radian -->
+
+  <node pkg="amcl" type="amcl" name="amcl" respawn="false">
+    <!--  Params -->
+    <rosparam file="$(find korus_meta)/resources/yaml/amcl/filter.yaml" command="load"/>
+    <rosparam file="$(find korus_meta)/resources/yaml/amcl/laser.yaml" command="load"/>
+    <rosparam file="$(find korus_meta)/resources/yaml/amcl/odometry.yaml" command="load"/>
+    
+    <param name="use_map_topic"  value="true"/>
+    
+    <param name="tf_broadcast"   value="$(arg tf_broadcast)"/>
+
+    <param name="initial_pose_x" value="$(arg initial_pose_x)"/>
+    <param name="initial_pose_y" value="$(arg initial_pose_y)"/>
+    <param name="initial_pose_a" value="$(arg initial_pose_a)"/>
+
+    <param name="initial_cov_xx" value="$(arg initial_cov_xx)"/>
+    <param name="initial_cov_yy" value="$(arg initial_cov_yy)"/>
+    <param name="initial_cov_aa" value="$(arg initial_cov_aa)"/>
+    
+    <!--  Remaps -->
+    <remap from="particlecloud" to="amcl/particlecloud"/>
+    <remap from="amcl_pose" to="amcl/pose"/>
+    <remap from="scan" to="/korus/base_scan"/>
+  </node>
+</launch>
+

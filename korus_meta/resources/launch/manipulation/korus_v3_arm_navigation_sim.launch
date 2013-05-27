@@ -1,0 +1,30 @@
+<!--
+  Launches the Korus' robot core (simulation mode) and the arm navigation tools (except UI)
+ -->
+<launch>
+  <group ns="korus">
+    <!--  ************* Robot core components **********  -->
+    <include file="$(find korus_meta)/resources/launch/components/korus_v3_robot_core.launch">
+      <arg name="simulation" value="true"/>
+      <arg name="whole_body_control" value="false"/>
+      <arg name="kinematics_base" value="false"/>
+      <arg name="korus_v3_1" value="true"/>
+      <arg name="korus_v3_2" value="false"/>
+    </include>
+    
+    <!--  ***************** Robot sensors **************  -->
+    <include file="$(find korus_meta)/resources/launch/components/korus_v3_sensors.launch">
+      <arg name="launch_hokuyo" value="false"/>
+      <arg name="launch_sonars" value="false"/>
+      <arg name="launch_sensor_3d" value="true"/>
+      <arg name="launch_stargazer" value="false"/>
+      <arg name="launch_gripper_camera" value="false"/>
+      <arg name="launch_gyro" value="false"/>
+      <arg name="launch_sensor_integration_board" value="false"/>
+      <arg name="launch_remocon" value="false"/>
+    </include>
+    
+    <!--  ************* Arm navigation suite **********  -->
+    <include file="$(find korus_meta)/resources/launch/components/arm_navigation/planning_scene_warehouse_viewer_korus_v3_no_gui.launch"/>
+  </group>
+</launch>

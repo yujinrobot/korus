@@ -1,0 +1,40 @@
+<!--
+  Localization EKF node. Descriptions of parameters can be found at
+  http://www.ros.org/wiki/ycs_localization_ekf.
+
+  Set amcl as source 0 and stargazer as source 1. The filter must
+  update at high rate as it provides the root tf map -> odom.
+-->
+<launch>
+  <arg name="initial_pose_x"     default="0.0"/>
+  <arg name="initial_pose_y"     default="0.0"/>
+  <arg name="initial_pose_z"     default="0.0"/>
+  <arg name="initial_pose_yaw"   default="0.0"/>
+  <arg name="initial_pose_pitch" default="0.0"/>
+  <arg name="initial_pose_roll"  default="0.0"/>
+
+  <node pkg="ycs_localization_ekf" type="localization_ekf" name="localization_ekf">
+    <param name="robot_frame" value="/base_footprint"/>
+    <param name="input_frame" value="/map"/>
+    <param name="output_frame" value="/odom"/>
+    <param name="frequency" value="20.0"/>
+    <param name="tf_broadcast" value="true"/>
+    <param name="sensor_timeout" value="0.7"/>
+    <param name="sources_count" value="2"/>
+    <param name="initial_pose_x" value="$(arg initial_pose_x)"/>
+    <param name="initial_pose_y" value="$(arg initial_pose_y)"/>
+    <param name="initial_pose_z" value="$(arg initial_pose_z)"/>
+    <param name="initial_pose_yaw" value="$(arg initial_pose_yaw)"/>
+    <param name="initial_pose_pitch" value="$(arg initial_pose_pitch)"/>
+    <param name="initial_pose_roll" value="$(arg initial_pose_roll)"/>
+    <param name="debug" value="false"/>
+
+    <remap from="odometry" to="odom"/>
+    <remap from="initpose" to="initialpose"/>
+
+    <remap from="src_topic_0" to="amcl/pose"/>
+    <remap from="src_topic_1" to="stargazer/pose"/>
+
+    <remap from="localization_ekf/ekf_pose" to="localization_ekf/pose"/>
+  </node>
+</launch>

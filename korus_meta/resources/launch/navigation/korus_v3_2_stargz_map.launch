@@ -1,0 +1,74 @@
+<!--
+    Launches the korus base with ros navistack + sensors, with a laser static global map, amcl
+    localization and stargazer map in mapping mode. 
+    Argument costmap_sensors must contain the list of observation sources to use in costmaps,
+    separated by spaces. All sensors listed here must be launched by setting the corresponding
+    launch_<sensor name> argument as true.
+ -->
+<launch>
+  <arg name="launch_hokuyo" value="true"/>
+  <arg name="launch_sonars" value="false"/>
+  <arg name="launch_sensor_3d" value="false"/>
+  <arg name="costmap_sensors" value="hokuyo"/>
+  
+  <!-- Name of the map to use (without extension) and initial position -->
+  <arg name="map_name"     default="$(find yujin_maps)/maps/yujin_edu_room"/>
+  <arg name="initial_pose_x" value="0.0"/>
+  <arg name="initial_pose_y" value="0.0"/>
+  <arg name="initial_pose_a" value="0.0"/>
+
+  <group ns="korus">
+    <!--  ************* Robot core components **********  -->
+    <include file="$(find korus_meta)/resources/launch/components/korus_v3_robot_core.launch">
+      <arg name="simulation" value="false"/>
+      <arg name="whole_body_control" value="false"/>
+      <arg name="kinematics_base" value="false"/>
+      <arg name="korus_v3_1" value="false"/>
+      <arg name="korus_v3_2" value="true"/>
+    </include>
+
+    <!--  ***************** Robot sensors **************  -->
+    <include file="$(find korus_meta)/resources/launch/components/korus_v3_sensors.launch">
+      <arg name="launch_hokuyo" value="$(arg launch_hokuyo)"/>
+      <arg name="launch_sonars" value="$(arg launch_sonars)"/>
+      <arg name="launch_sensor_3d" value="$(arg launch_sensor_3d)"/>
+      <arg name="launch_stargazer" value="true"/>
+      <arg name="launch_gripper_camera" value="false"/>
+      <arg name="launch_gyro" value="true"/>
+      <arg name="launch_sensor_integration_board" value="true"/>
+      <arg name="launch_remocon" value="true"/>
+    </include>
+
+    <!--  ************** Rosnav move base **************  -->
+    <include file="$(find korus_meta)/resources/launch/components/move_base.launch">
+      <arg name="costmap_sensors" value="$(arg costmap_sensors)"/>
+    </include>
+
+    <!--  ************* Navigation manager *************  -->
+    <include file="$(find korus_nav_mng)/resources/launch/nav_mng.launch"/>
+
+    <!--  ***************** Map Server *****************  -->
+    <node name="map_server" pkg="map_server" type="map_server" args="$(arg map_name).yaml">
+      <param name="frame_id" value="/map"/>
+    </node>
+  
+    <!--  ******************** Amcl ********************  -->
+    <include file="$(find korus_meta)/resources/launch/components/amcl.launch">
+      <!-- Enable amcl tf broadcasting, to replace localization fusion node -->
+      <arg name="tf_broadcast" value="true"/>
+      
+      <arg name="initial_pose_x" value="$(arg initial_pose_x)"/>
+      <arg name="initial_pose_y" value="$(arg initial_pose_y)"/>
+      <arg name="initial_pose_a" value="$(arg initial_pose_a)"/>
+    </include>
+
+    <!--  ***** Stargazer map node in localize mode *****  -->
+    <include file="$(find korus_meta)/resources/launch/components/stargz_map.launch">
+      <arg name="landmarks_file_path" value="$(arg map_name).stgz"/>
+      <arg name="operation_mode" value="2"/>
+    </include>
+
+    <!--  *********** rapi launch: hce, navi ************  -->
+    <include file="$(find korus_meta)/resources/launch/components/rapi.launch"/>    
+  </group>
+</launch>

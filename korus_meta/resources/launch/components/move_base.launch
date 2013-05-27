@@ -1,0 +1,30 @@
+<!-- 
+  Rosnav move_base node. Descriptions of parameters can be found at
+  http://www.ros.org/wiki/move_base.
+-->
+<launch>
+  <arg name="costmap_sensors"/>
+  
+  <node pkg="move_base" type="move_base" respawn="false" name="move_base_node">
+
+    <!--  Remappings -->
+    <remap from="odom" to="/korus/odom"/>
+    <remap from="cmd_vel" to="/korus/nav_cmd_vel"/>
+    <remap from="base_scan" to="/korus/base_scan"/>
+    
+    <!--  Parameters -->
+    <rosparam file="$(find korus_meta)/resources/yaml/move_base/move_base.yaml" command="load"/>
+    <rosparam file="$(find korus_meta)/resources/yaml/move_base/costmap_common_params.yaml" command="load" ns="global_costmap"/>
+    <rosparam file="$(find korus_meta)/resources/yaml/move_base/costmap_common_params.yaml" command="load" ns="local_costmap"/>
+    <rosparam file="$(find korus_meta)/resources/yaml/move_base/local_costmap_params.yaml" command="load"/>
+    <rosparam file="$(find korus_meta)/resources/yaml/move_base/global_costmap_params.yaml" command="load"/>
+    <rosparam file="$(find korus_meta)/resources/yaml/move_base/base_local_planner_params.yaml" command="load"/>
+
+    <!--
+      Dynamically configure the sensors to use for costmap building; costmap_sensors
+      argument must contain a list of observation source names separated by spaces.
+    -->
+    <param name="local_costmap/observation_sources" value="$(arg costmap_sensors)"/>
+    <param name="global_costmap/observation_sources" value="$(arg costmap_sensors)"/>
+  </node>
+</launch>

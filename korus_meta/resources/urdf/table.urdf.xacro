@@ -1,0 +1,214 @@
+<?xml version="1.0" ?>
+  <robot xmlns:xacro="http://www.ros.org/wiki/xacro">
+  
+    <!-- ************************ Properties ************************* -->
+    <xacro:property name="pi" value="3.1415926535897931" />
+    <xacro:property name="material_white">
+      <material name="white">
+        <color rgba="1 1 1 1"/>
+      </material>
+    </xacro:property>
+    <xacro:property name="material_orange">
+      <material name="orange">
+        <color rgba="1.0 0.7 0.0 1"/>
+      </material>
+    </xacro:property>
+    <xacro:property name="material_red">
+      <material name="red">
+        <color rgba="1.0 0.0 0.0 1"/>
+      </material>
+    </xacro:property>
+    <xacro:property name="material_grey_blue">
+      <material name="grey_blue">
+        <color rgba="0.4 0.4 1.0 1"/>
+      </material>
+    </xacro:property>
+    <xacro:property name="material_blue">
+      <material name="blue">
+        <color rgba="0.0 0.0 1.0 1"/>
+      </material>
+    </xacro:property>
+    <xacro:property name="material_green">
+      <material name="green">
+        <color rgba="0 .8 0 1"/>
+      </material>
+    </xacro:property>
+    <xacro:property name="material_grey">
+      <material name="grey">
+        <color rgba="0.7 0.7 0.7 1.0"/>
+      </material>
+    </xacro:property>
+    <xacro:property name="material_black">
+      <material name="black">
+        <color rgba="0.1 0.1 0.1 1"/>
+      </material>
+    </xacro:property>
+    <xacro:property name="material_brown">
+      <material name="black">
+        <color rgba="0.7 0.1 0.1 1"/>
+      </material>
+    </xacro:property>    
+  
+  <!-- ************************ Table macro ************************* -->
+  <xacro:macro name="table" params="parent">
+	  <joint name="table_bottom_center_joint" type="fixed">
+	    <parent link="${parent}"/>
+	    <child link="table_bottom_center_link"/>
+	    <origin xyz="1.00 0.0 0" rpy="0 0 0"/>
+	  </joint>    
+	  <link name="table_bottom_center_link">
+	  </link>
+
+    <joint name="table_foot_front_right_bottom_joint" type="fixed">
+      <parent link="table_bottom_center_link"/>
+      <child link="table_foot_front_right_bottom_link"/>
+      <origin xyz="0.4 0.3 0.0" rpy="0 0 0"/>
+    </joint>    
+    <link name="table_foot_front_right_bottom_link">
+      <visual>
+        <origin rpy="0 0 0" xyz="0.0 0 0.20"/>
+        <geometry>
+          <cylinder length="0.40" radius="0.02"/>
+        </geometry>
+        <xacro:insert_block name="material_brown" />
+      </visual>
+	    <collision>
+        <origin rpy="0 0 0" xyz="0.0 0 0.20"/>
+        <geometry>
+          <cylinder length="0.40" radius="0.02"/>
+        </geometry>
+	    </collision>           
+    </link>	
+	  <joint name="table_foot_front_right_top_joint" type="prismatic">
+	    <parent link="table_foot_front_right_bottom_link"/>
+	    <child link="table_foot_front_right_link"/>
+	    <origin xyz="0 0 0.4" rpy="0 0 0"/>
+      <axis xyz="0 0 1"/>
+      <limit effort="10" lower="-0.4" upper="0.0" velocity="0.4"/>	    
+	  </joint>    
+	  <link name="table_foot_front_right_link">
+		  <visual>
+		    <origin rpy="0 0 0" xyz="0.0 0 0.20"/>
+		    <geometry>
+		      <cylinder length="0.40" radius="0.02"/>
+		    </geometry>
+		    <xacro:insert_block name="material_brown" />
+		  </visual>
+      <collision>
+        <origin rpy="0 0 0" xyz="0.0 0 0.20"/>
+        <geometry>
+          <cylinder length="0.40" radius="0.02"/>
+        </geometry>
+      </collision>    		  
+	  </link>
+	  
+		<joint name="table_foot_front_left_joint" type="fixed">
+		<parent link="table_bottom_center_link"/>
+		<child link="table_foot_front_left_link"/>
+		<origin xyz="0.4 -0.3 0" rpy="0 0 0"/>
+	  </joint>    
+	  <link name="table_foot_front_left_link">
+	    <visual>
+	      <origin rpy="0 0 0" xyz="0.0 0 0.375"/>
+	      <geometry>
+	        <cylinder length="0.75" radius="0.02"/>
+	      </geometry>
+	      <xacro:insert_block name="material_brown" />
+	    </visual>
+      <collision>
+        <origin rpy="0 0 0" xyz="0.0 0 0.375"/>
+        <geometry>
+          <cylinder length="0.75" radius="0.02"/>
+        </geometry>
+      </collision>    	    
+	  </link>
+	  
+    <joint name="table_foot_back_right_joint" type="fixed">
+	    <parent link="table_bottom_center_link"/>
+	    <child link="table_foot_back_right_link"/>
+	    <origin xyz="-0.4 0.3 0" rpy="0 0 0"/>
+    </joint>    
+    <link name="table_foot_back_right_link">
+      <visual>
+        <geometry>
+          <cylinder length="0.75" radius="0.02"/>
+        </geometry>
+        <origin rpy="0 0 0" xyz="0.0 0 0.375"/>        
+        <xacro:insert_block name="material_brown" />
+      </visual>
+      <collision>
+        <geometry>
+          <cylinder length="0.75" radius="0.02"/>
+        </geometry>
+        <origin rpy="0 0 0" xyz="0.0 0 0.375"/>
+      </collision>          
+    </link>
+    
+    <joint name="table_foot_back_left_joint" type="fixed">
+	    <parent link="table_bottom_center_link"/>
+	    <child link="table_foot_back_left_link"/>
+	    <origin xyz="-0.4 -0.3 0" rpy="0 0 0"/>
+    </joint>    
+    <link name="table_foot_back_left_link">
+      <visual>
+        <geometry>
+          <cylinder length="0.75" radius="0.02"/>
+        </geometry>
+        <origin rpy="0 0 0" xyz="0.0 0 0.375"/>        
+        <xacro:insert_block name="material_brown" />
+      </visual>
+      <collision>
+        <geometry>
+          <cylinder length="0.75" radius="0.02"/>
+        </geometry>
+        <origin rpy="0 0 0" xyz="0.0 0 0.375"/>        
+      </collision>          
+    </link>
+    
+    <joint name="table_top_center_joint" type="prismatic">
+      <parent link="table_bottom_center_link"/>
+      <child link="table_top_center_link"/>
+      <origin xyz="0.0 0.0 0.80" rpy="0 0 0"/>
+      <axis xyz="0 0 1"/>
+      <limit effort="10" lower="-0.4" upper="0.0" velocity="0.4"/>            
+    </joint>    
+    <link name="table_top_center_link">
+      <visual>
+        <geometry>
+          <box size="0.90 0.70 0.05" />
+        </geometry>
+        <origin rpy="0 0.0 0" xyz="0.0 0.0 -0.025"/>
+        <xacro:insert_block name="material_brown" />
+      </visual>
+      <collision>
+        <geometry>
+          <box size="0.90 0.70 0.05" />
+        </geometry>
+        <origin rpy="0 0.0 0" xyz="0.0 0.0 -0.025"/>
+      </collision>          
+    </link>
+    
+    <!-- Object on table -->
+	  <joint name="table_object" type="fixed">
+	    <parent link="table_top_center_link"/>
+	    <child link="table_object_link"/>
+	    <origin xyz="-0.35 0.0 0.0" rpy="0 0 0" />
+	  </joint>
+	  <link name="table_object_link">
+	    <visual>
+	      <geometry>
+	        <box size="0.08 0.08 0.15"/>
+	      </geometry>
+	      <origin xyz="0.0 0.0 0.075" rpy="0 0 0"/>
+	      <xacro:insert_block name="material_green" />
+	    </visual>
+	    <collision>
+	      <geometry>
+	        <box size="0.08 0.08 0.15"/>
+	      </geometry>
+	      <origin xyz="0.0 0.0 0.075" rpy="0 0 0"/>
+	      <xacro:insert_block name="material_green" />  
+	    </collision>
+	  </link>
+  </xacro:macro>
+</robot>

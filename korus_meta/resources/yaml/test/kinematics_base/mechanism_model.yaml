@@ -1,0 +1,44 @@
+# MECHANISM MODEL
+#
+# Description: 
+#     Configuration of the mechanism model. Actually, most of this is scattered
+#     around the place, controllers, joints. Here is just the core node params.
+#
+# Note, if you change parameters here, make sure you change parameters in:
+#
+#  - urdf/korus.xacro (names, limits)
+#  - yaml/mobile_base/diff_drive_base.yaml (wheel name strings)
+#  - goo/*.yaml (names)
+
+# frequency is in Hz. If < 0 the mechanism model will cowardly refuse to 
+# publish at all. 
+joint_state_publishing_frequency: 100
+
+# Ordering for these groups is important as it is expected to match the inputs for the controllers/action servers.
+joint_groups:
+  'all' : [ 'revolute_1', 'prismatic', 'revolute_2' ]
+  'base' : [ 'revolute_1', 'prismatic', 'revolute_2' ]
+
+joints:
+  'revolute_1': {
+      transmission: revolute,
+      limit_min: -3.14,
+      limit_max:  3.14,
+      nominal_rate: 1.0,
+      max_acceleration: 5.0,
+  }
+  'prismatic': {
+      transmission: prismatic,
+      rad_to_m: 1.0,
+      limit_min: 0.0,
+      limit_max: 20.0,
+      nominal_rate: 1.0,
+      max_acceleration: 5.0,
+  }
+  'revolute_2': {
+      transmission: revolute,
+      limit_min: -3.14,
+      limit_max: 3.14,
+      nominal_rate: 1.0,
+      max_acceleration: 5.0,
+  }

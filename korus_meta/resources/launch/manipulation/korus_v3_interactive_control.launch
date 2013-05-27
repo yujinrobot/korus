@@ -1,0 +1,12 @@
+<!--
+  Launches interactive controls for arm, gripper and head
+ -->
+<launch>
+  <include file="$(find korus_meta)/resources/launch/tools/interactive_arm_controller.launch"/>
+  <include file="$(find korus_meta)/resources/launch/tools/interactive_gripper_controller.launch"/>
+  <include file="$(find korus_meta)/resources/launch/tools/interactive_head_controller.launch"/>
+<!--   <include file="$(find korus_meta)/resources/launch/debugging/view_robot_interactive_control.launch"/> -->
+</launch>
+
+
+

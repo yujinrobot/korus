@@ -1,0 +1,13 @@
+<?xml version="1.0" ?>
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro" name="korus">
+  <include filename="$(find korus_meta)/resources/urdf/korus_robosem_base_back_mount.xacro"/>
+  <include filename="$(find korus_meta)/resources/urdf/korus_arm.xacro"/>
+  
+  <!-- ************************ Robot model ************************* -->
+  <xacro:korus_robosem_base_back_mount arm_link="torso_lift_link">
+  </xacro:korus_robosem_base_back_mount>  
+  
+  <!-- ************************ Arm model ************************* -->
+	<xacro:korus_arm parent="torso_lift_link">
+	</xacro:korus_arm>
+</robot>

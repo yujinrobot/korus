@@ -1,0 +1,14 @@
+<launch>
+  <group ns="korus">
+    <node name="interpolated_ik_node" pkg="interpolated_ik_motion_planner" type="interpolated_ik_motion_planner.py" args="" respawn="false">
+      <param name="robot_prefix" type="string" value="korus_v3"/>
+      <param name="num_steps" type="int" value="1"/>
+      <param name="pos_spacing" type="double" value="0.02"/>
+      <param name="rot_spacing" type="double" value="0.0349065850399"/>
+      <param name="collision_check_resolution" type="int" value="0"/>
+      <param name="consistent_angle" type="double" value="0.0349065850399"/>
+      <param name="collision_aware" type="int" value="1"/>
+      <param name="start_from_end" type="int" value="0"/>
+    </node>
+  </group>
+</launch>

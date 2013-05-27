@@ -1,0 +1,9 @@
+<!--
+  Launches arm navigation's UI
+ -->
+<launch>
+  <group ns="korus">
+    <!--  ************* Arm navigation controls **********  -->
+    <include file="$(find korus_meta)/resources/launch/components/arm_navigation/planning_scene_warehouse_viewer_korus_v3_only_gui.launch"/>
+  </group>
+</launch>

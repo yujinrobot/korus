@@ -1,0 +1,16 @@
+<!--
+  Sonars to pointcloud node for Korus.
+  Frequency should be 10 Hz (our sonars operation rate) multiplied by the number of
+  sonar groups we have in the robot. 
+  The parameter pcloud_frame_id must identify the frame relative to which all sonar
+  frames are referenced.
+-->
+<launch>
+  <node pkg="ycs_sonars_to_pc" type="sonars_to_pc" name="sonars_to_pc">
+    <param name="frequency" value="20.0"/>
+    <param name="pcloud_frame_id" value="/base_link"/>
+    <param name="sonars_cfg_file" value="$(find korus_meta)/resources/yaml/sensors/korus_v3_sonars.yaml"/>
+
+    <remap from="sonars" to="sensors/sonar"/>
+  </node>
+</launch>

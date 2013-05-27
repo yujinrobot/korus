@@ -1,0 +1,27 @@
+<!--
+  The core nodelets all together.
+  
+  - motor subsystem
+  - mechanism
+  - controllers
+  
+  This can be used for both simulation and the robot by making sure the robot arg is set
+  to either 'simulation' or 'korus'.
+-->
+ 
+<launch>
+  <arg name="simulation"/>
+  <group ns="korus">
+    <node pkg="nodelet" type="nodelet" name="robot_core" args="manager">
+      <param name="num_worker_threads" value="4"/>
+    </node>
+    <include file="$(find korus_meta)/resources/launch/components/robot_core/korus_v2/goos.launch">
+      <arg name="simulation" value="$(arg simulation)"/>
+    </include>
+    <include file="$(find korus_meta)/resources/launch/components/robot_core/korus_v2/mechanism.launch"/>
+    <!-- Controllers -->
+    <include file="$(find korus_meta)/resources/launch/components/robot_core/korus_v2/whole_body_controller.launch"/>
+<!--     <include file="$(find korus_meta)/resources/launch/components/robot_core/korus_v2/base_body_controller.launch"/> -->
+<!--     <include file="$(find korus_meta)/resources/launch/components/robot_core/korus_v2/upper_body_controller.launch"/> -->
+  </group>
+</launch>

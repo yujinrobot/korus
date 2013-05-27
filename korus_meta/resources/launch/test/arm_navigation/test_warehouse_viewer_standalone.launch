@@ -1,0 +1,9 @@
+<launch>
+  <arg name="simulation" value="true"/>
+  <include file="$(find korus_meta)/resources/launch/components/robot_core.launch">
+    <arg name="simulation" value="$(arg simulation)"/>
+  </include>
+  <group ns="korus">
+    <include file="$(find korus_arm_navigation)/launch/planning_scene_warehouse_viewer_korus.launch"/>    
+  </group>
+</launch>

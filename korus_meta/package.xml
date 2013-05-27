@@ -1,0 +1,57 @@
+<package>
+  <description brief="Meta-package for the korus robot.">
+
+     Organises all the dependencies/plugins for the korus robot.
+
+  </description>
+  <author>Daniel Stonier and Marcus Liebhardt</author>
+  <license>Yujin</license>
+  <review status="experimental" notes=""/>
+  <url>http://redmine.yujin.com/projects/korus</url>
+  
+  <!-- Yujin -->
+  <depend package="korus_nav_mng"/>
+  <depend package="ycs_mechanism_model"/>
+  <depend package="goo"/>
+  <depend package="cruizcore"/>
+  <depend package="stargazer"/>
+  <depend package="diff_drive_base"/>
+  <depend package="diff_drive_gyro_base"/>
+  <depend package="pointcloud_to_laserscan"/>
+  <depend package="sensor_integration_board"/>
+  <depend package="ycs_joint_trajectory_controller"/>
+  <depend package="ycs_localization_ekf"/>
+  <depend package="ycs_stargazer_map"/>
+  <depend package="yujin_maps"/>
+  <depend package="irobi_rf_remocon"/>
+
+  <depend package="hce_rapi"/> 
+  <depend package="navi_rapi"/> 
+  <depend package="korus_rapi"/> 
+  <depend package="remop_core"/> 
+  
+  <!-- Debugging -->
+  <depend package="keyop_core"/>
+  <depend package="qgoo"/>
+<!-- <depend package="qkorus"/> update, probably needs some small fixes to work with ycs_joint_trajectory_controller -->
+  <depend package="irobi_rf_remocon"/>
+  <depend package="stargazer"/>
+<!-- <depend package="led_board"/> for HCE, not yet used -->
+ 
+  <!-- ROS -->
+  <depend package="control_msgs"/>
+  <depend package="std_msgs"/>
+  <depend package="robot_state_publisher"/>
+  <depend package="joint_state_publisher"/>
+
+  <!-- manipulation -->
+  <depend package="korus_v3_arm_navigation"/>
+  
+  <!-- For testing -->
+  <depend package="ecl_core_apps"/>
+  
+  <!-- System dependencies -->
+  <rosdep name="unison"/>
+  <rosdep name="unison-gui"/>
+  <rosdep name="octomap"/>
+</package>

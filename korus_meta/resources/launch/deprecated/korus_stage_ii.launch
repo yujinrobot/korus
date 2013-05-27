@@ -1,0 +1,7 @@
+<!--
+  This is the second stage booster for the korus launch.
+ -->
+<launch>
+  <include file="$(find korus_meta)/resources/launch/components/navigation.launch"/>
+  <node pkg="korus_rapi" type="korus_rapi_node" name="korus_rapi" output="screen"/>
+</launch>

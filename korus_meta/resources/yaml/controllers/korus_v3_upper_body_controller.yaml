@@ -1,0 +1,18 @@
+# KORUS ARM CONTROLLER
+#
+# Description: 
+#     Parameters for standalone debugging of the controller
+
+# The command frequency rate (should be similar to actuator frequency)
+frequency: 20
+
+# This is the rate which state updates are sent back to the action server
+# This doesn't need to be fast.
+feedback_frequency: 20
+
+# Monitoring/debugging frequency for full controller state publications.
+# This won't impact runtime as it will only have an effect if there's
+# a subscriber tuned in to the state topic.
+state_frequency: 20
+
+estimated_interpolation_time: 0.1

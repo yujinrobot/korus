@@ -1,0 +1,13 @@
+# Irobi style remoticon
+# 
+# This can be connected either as a serial or an ftdi device.
+# - device_name : must be either serial or ftdi.
+# - device_id : either port for serial device, or serial string id for ftdi device.
+
+
+
+#device_name: ftdi
+#device_id: YUJIN0003
+
+device_name: serial
+device_id: /dev/ttyUSB0

@@ -1,0 +1,109 @@
+<!--
+  This is called from move_body.launch but kept separate just for convenience.
+  Remark: I think the above statement is not true (anymore/yet)  (Marcus)
+ -->
+<launch>
+  <arg name="disable_rapi_comms" default="false"/>
+  <arg name="mainframe" default="korus"/>
+  <!--group ns="korus"-->
+    <group ns="mainframe">
+      <rosparam file="$(find korus_meta)/resources/yaml/rapi/$(arg mainframe).yaml" command="load" />
+    </group>
+
+	<!-- *************************** Hce Rapi ************************ -->
+    <node pkg="hce_rapi" type="hce_rapi" name="hce_rapi" output="screen">
+        <param name="disable_rapi_comms" value="$(arg disable_rapi_comms)"/>
+        <remap from="hce_rapi/mainframe" to="mainframe/server"/>
+        <remap from="hce_rapi/port" to="mainframe/hce_port"/>
+        <remap from="hce_rapi/connection_timeout" to="mainframe/connection_timeout"/>
+        <remap from="hce_rapi/request_info"             to="remocon/request_info"/>
+        <remap from="hce_rapi/remocon_data"             to="remocon/remocon_data"/>
+        
+        <remap from="hce_rapi/DeviceStatus"            to="sensors/DeviceStatus"/>
+        <remap from="hce_rapi/OnOffDevice"            to="sensors/OnOffDevice"/>
+        <remap from="hce_rapi/PSD"                      to="sensors/PSD"/>
+        <remap from="hce_rapi/PowerSystem"             to="sensors/PowerSystem"/>
+        <remap from="hce_rapi/sonar"                    to="sensors/sonar"/>
+
+        <remap from="hce_rapi/state"    to="full_body_controller/state"/> 
+
+        <remap from="hce_rapi/cmd_vel"                 to="cmd_vel"/>
+        <remap from="hce_rapi/odom"                    to="odom"/>
+
+        <remap from="hce_rapi/command"                  to="led_nodelet/command"/>
+                
+        <remap from="hce_rapi/enable"                   to="enable"/>
+        <remap from="hce_rapi/disable"                  to="disable"/>  
+
+        <remap from="hce_rapi/status_sensor"                  to="Status"/>  
+        <remap from="hce_rapi/status_cc"                  to="Status"/>  
+        <remap from="hce_rapi/status_led"                  to="Status"/>  
+        <remap from="hce_rapi/status_remocon"                  to="Status"/>  
+        <remap from="hce_rapi/status_sg"                  to="Status"/>  
+
+        <remap from="hce_rapi/Status"                  to="Status"/>
+        <remap from="hce_rapi/diagnostics"                  to="/diagnostics"/>  
+  
+        <remap from="hce_rapi/ne_status" to="ne_status"/>  
+    </node>
+    
+	<!-- *************************** Navi Rapi ************************ -->    
+    <node pkg="navi_rapi" type="navi_rapi" name="navi_rapi" output="screen">
+    
+			<rosparam file="$(find navi_rapi)/resources/yaml/parameters.yaml" command="load"/>
+			<rosparam file="$(find navi_rapi)/resources/yaml/destinations.yaml" command="load" />
+
+            <remap from="navi_rapi/goal" to="move_base_simple/goal"/>
+            <remap from="navi_rapi/goal_action" to="move_base/goal"/>
+            
+            <remap from="navi_rapi/goal_cancel" to="move_base/cancel"/>
+            <remap from="navi_rapi/action_result" to="move_base/result"/>
+            <remap from="navi_rapi/action_feedback" to="move_base/feedback"/>
+            <remap from="navi_rapi/action_status" to="move_base/status"/>
+            
+            
+            
+            
+            <remap from="navi_rapi/OnOffDevice"            to="/korus/sensors/OnOffDevice"/>
+            <remap from="navi_rapi/PowerSystem"             to="/korus/sensors/PowerSystem"/>            
+            <remap from="navi_rapi/odom"             to="/korus/odom"/>
+            <remap from="navi_rapi/amcl_pose"             to="/korus/localization_ekf/pose"/>    
+    
+        <param name="disable_rapi_comms" value="$(arg disable_rapi_comms)"/>
+		 <param name="lin_max_vel" value="0.3"/>
+    	 <param name="ang_max_vel" value="0.6"/>
+
+        <remap from="navi_rapi/mainframe" to="mainframe/server"/>
+        <remap from="navi_rapi/port" to="mainframe/ne_port"/>
+        <remap from="navi_rapi/connection_timeout" to="mainframe/connection_timeout"/>
+
+        <remap from="navi_rapi/cmd_vel"                 to="rem_cmd_vel"/>
+        <remap from="navi_rapi/odom"                    to="odom"/>
+
+               
+        <remap from="navi_rapi/enable"                   to="enable"/>
+        <remap from="navi_rapi/disable"                  to="disable"/>  
+
+        <remap from="navi_rapi/DeviceStatus"            to="sensors/DeviceStatus"/>
+        <remap from="navi_rapi/OnOffDevice"            to="sensors/OnOffDevice"/>
+        <remap from="navi_rapi/PSD"                      to="sensors/PSD"/>
+        <remap from="navi_rapi/PowerSystem"             to="sensors/PowerSystem"/>
+        <remap from="navi_rapi/sonar"                    to="sensors/sonar"/>
+
+
+<!--
+        <remap from="navi_rapi/Status"                  to="Status"/>
+        <remap from="navi_rapi/diagnostics"                  to="/diagnostics"/>  
+-->       
+        
+        
+    </node>        
+        
+        
+ 	<!-- *************************** Korus Rapi ************************ -->           
+        <node pkg="korus_rapi" type="korus_rapi_node" name="korus_rapi" output="screen"/>
+        
+
+	
+  <!--/group-->
+</launch>

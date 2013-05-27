@@ -1,0 +1,124 @@
+# MECHANISM MODEL
+#
+# Description: 
+#     Configuration of the mechanism model. Actually, most of this is scattered
+#     around the place, controllers, joints. Here is just the core node params.
+#
+# Note, if you change parameters here, make sure you change parameters in:
+#
+#  - urdf/korus.xacro (names, limits)
+#  - yaml/mobile_base/diff_drive_base.yaml (wheel name strings)
+#  - goo/*.yaml (names)
+
+# frequency is in Hz. If < 0 the mechanism model will cowardly refuse to 
+# publish at all. 
+joint_state_publishing_frequency: 10
+
+# Ordering for these groups is important as it is expected to match the inputs for the controllers/action servers.
+joint_groups:
+  'all' : [ 'base_x', 'base_y', 'base_theta', 'torso_turn', 'torso_lift', 'shoulder', 'elbow', 'wrist',
+            'gripper', 'head_pan', 'head_tilt' ]
+  'base': [ 'base_x', 'base_y', 'base_theta' ]
+  'arm' : [ 'torso_turn', 'torso_lift', 'shoulder', 'elbow', 'wrist', 'gripper' ]
+  'head': [ 'head_pan', 'head_tilt' ]
+  'upper_body': [ 'torso_turn', 'torso_lift', 'shoulder', 'elbow', 'wrist', 'gripper', 'head_pan', 'head_tilt' ]
+actuator_groups:
+  'all' : [ 'wheel_left', 'wheel_right' ]
+  'base': [ 'wheel_left', 'wheel_right' ]
+
+joints:
+  'base_x': {
+      transmission: base,
+      limit_min: -9999.0,
+      limit_max:  9999.0,
+      nominal_rate: 0.5,
+      max_acceleration: 0.25,
+  }
+  'base_y': {
+      transmission: base,
+      limit_min: -9999.0,
+      limit_max:  9999.0,
+      nominal_rate: 0.5,
+      max_acceleration: 0.25,
+  }
+  'base_theta': {
+      transmission: base,
+      limit_min: -9999.0,
+      limit_max:  9999.0,
+      nominal_rate: 1.11,
+      max_acceleration: 0.5,
+  }
+  'torso_turn': {
+      transmission: revolute,
+      limit_min: -3.24631,
+      limit_max:  2.79253,
+      nominal_rate: 1.54811,
+      max_acceleration: 5.0,
+  }
+  'torso_lift': {
+      transmission: prismatic,
+      rad_to_m: 0.00254648,
+      limit_min: -0.00000,
+      limit_max: 0.18000,
+      nominal_rate: 0.038,
+      max_acceleration: 5.0,
+  }
+  'shoulder': {
+      transmission: revolute,
+      limit_min: -1.22173,
+      limit_max:  1.60570,
+      nominal_rate: 1.27409,
+      max_acceleration: 5.0,
+  }
+  'elbow': {
+      transmission: coupled,
+      coupled_joint_name: shoulder,
+      coupled_joint_ratio: 1.0,
+      limit_min: -3.17650,
+      limit_max:  1.91986,
+      nominal_rate: 1.58824,
+      max_acceleration: 5.0,
+  }
+  'wrist': {
+      transmission: revolute,
+      limit_min: -1.74533,
+      limit_max:  1.74533,
+      nominal_rate: 1.26536,
+      max_acceleration: 5.0,
+  }
+  'gripper': {
+      transmission: revolute,
+      limit_min: -0.03491,
+      limit_max:  1.36136,
+      nominal_rate: 1.41023,
+      max_acceleration: 5.0,
+  }
+  'head_pan': {
+      transmission: revolute,
+      limit_min: -2.39110,
+      limit_max:  2.39110,
+      nominal_rate: 8.30777,
+      max_acceleration: 5.0,
+  }
+  'head_tilt': {
+      transmission: revolute,
+      limit_min: -1.60570,
+      limit_max:  0.55850,
+      nominal_rate: 8.30777,
+      max_acceleration: 5.0,
+   }
+actuators:
+  'wheel_left': {
+      transmission: base,
+      limit_min: -9999.0,
+      limit_max:  9999.0,
+      nominal_rate: 0.5,
+      max_acceleration: 0.25,
+  }
+  'wheel_right': {
+      transmission: base,
+      limit_min: -9999.0,
+      limit_max:  9999.0,
+      nominal_rate: 0.5,
+      max_acceleration: 0.25,
+  }

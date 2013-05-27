@@ -1,0 +1,10 @@
+<!--
+  Launches the interactive head controller
+ -->
+<launch>
+  <group ns="korus">
+    <node name="interactive_head_controller" pkg="ycs_interactive_head_controller" type="interactive_head_controller">
+      <remap from="interactive_head_controller/head_controller" to="head_controller"/>
+    </node>
+  </group>
+</launch>

@@ -1,0 +1,15 @@
+<!--
+  Used for visualising the korus robot in action.  
+  
+  Note the robot description should already be published, but if not (i.e. maybe just running
+  the base) it reloads it here for convenience.
+  
+ -->
+<launch>
+<!--   <node name="robot_state_publisher" pkg="robot_state_publisher" type="state_publisher"> -->
+<!--     <param name="robot_description" command="$(find xacro)/xacro.py '$(find korus_meta)/resources/urdf/korus.xacro'" /> -->
+<!--     <remap from="joint_states" to="robot_core/mechanism_model/joint_states"/> -->
+<!--     <remap from="robot_description" to="robot_state_publisher/robot_description"/> -->
+<!--   </node> -->
+  <node name="rviz" pkg="rviz" type="rviz" args="-d $(find korus_meta)/resources/rviz/view_robot.vcg" />
+</launch>

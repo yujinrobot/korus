@@ -1,0 +1,5 @@
+# RUNTIME MODE
+#
+# This can be used to run a goo in non-simulation mode (needs hardware).
+#
+simulation_mode: false

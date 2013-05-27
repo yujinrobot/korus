@@ -1,0 +1,38 @@
+#!/bin/bash
+#
+# If you want to call this script from a particular user
+# (very important if you don't want root to run it), then do
+# something like:
+#
+# sudo -u yujin /opt/korus_workspace/korus/korus_meta/scripts/start_robot
+#
+
+. /opt/korus_workspace/setup.sh
+
+mkdir -p /usr/local/log
+mkdir -p /usr/local/log/pid
+mkdir -p /usr/local/log/ros/log
+
+export LOG_DIR=/usr/local/log
+export PID_DIR=${LOG_DIR}/pid
+
+export ROS_LOG_DIR=/usr/local/log/ros/log
+export ROS_HOME=/usr/local/log/ros
+export LOG_FILE=/usr/local/log/korus.log
+export PID_FILE=/usr/local/log/pid/korus.pid
+
+echo "Launching Korus in the background..."
+roslaunch --core --pid=$PID_DIR/core.pid > ${LOG_DIR}/core.log 2>&1 &
+sleep 2
+while [ ! -e $PID_DIR/core.pid ]; do sleep 1; echo exist?; done
+tail -f ${LOG_DIR}/core.log --pid=`cat $PID_DIR/core.pid` > `roslaunch-logs`/core.log 2>&1 &
+sleep 2
+
+#roslaunch korus_meta korus_v3_2_navigation.launch --wait --pid=$PID_DIR/korus.pid > ${LOG_DIR}/korus.log 2>&1 &
+roslaunch korus_meta korus_v3_2_pot.launch --wait --pid=$PID_DIR/korus.pid > ${LOG_DIR}/korus.log 2>&1 &
+
+
+sleep 2
+while [ ! -e $PID_DIR/korus.pid ]; do sleep 1; echo exists2?; done
+tail -f ${LOG_DIR}/korus.log --pid=`cat $PID_DIR/korus.pid` > `roslaunch-logs`/korus.log 2>&1 &
+

@@ -1,0 +1,32 @@
+<launch>
+  <group ns="korus">
+	  <!--- Our joy stick to command velocity transformer -->
+	  <node pkg="joyop_core" type="joyop" name="joyop">
+	    <param name="axis_linear" value="1"/>
+	    <param name="axis_angular" value="0"/>
+	    <param name="scale_linear" value="1.0"/>
+	    <param name="scale_angular" value="1.0"/>
+	    <param name="max_linear_vel" value="0.5"/>
+	    <param name="max_angular_vel" value="1.0"/>
+	    <param name="max_linear_acc" value="0.5"/>
+	    <param name="max_angular_acc" value="1.0"/>
+	    <param name="enable_deadman" value="true"/>
+	    <param name="deadman_button" value="5"/>
+	    <param name="enable_button" value="0"/>
+	    <param name="disable_button" value="1"/>
+	    <param name="enable_accel_key" value="false"/>
+	    <param name="enable_mode" value="false"/>
+	    <param name="mode" value="1"/> <!-- 1: analog axis -->
+	    <param name="reset_button" value="4"/> <!-- 1: analog axis -->
+	    <param name="use_sonar" value="false"/>
+      <param name="spin_frequency" value="10"/>
+	    <remap from="joyop/joy" to="joy"/>
+	    <remap from="joyop/cmd_vel" to="cmd_vel"/>
+	    <remap from="joyop/odom" to="odom"/>
+	    <remap from="joyop/enable" to="enable"/>
+	    <remap from="joyop/disable" to="disable"/>
+	  </node>
+	  <!--- ROS joystick driver -->
+	  <node pkg="joy" type="joy_node" name="joystick"/>
+  </group>
+</launch>

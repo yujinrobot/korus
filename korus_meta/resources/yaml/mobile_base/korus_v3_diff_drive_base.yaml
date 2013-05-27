@@ -1,0 +1,13 @@
+# Note, if you change parameters here, make sure you change paramaters in:
+#
+#  - urdf/korus.xacro (all)
+#  - yaml/mechanism_model/joints.yaml (string names)
+#  - goo/base.yaml (names)
+
+bias: 0.45
+odom_frame_id: "/odom"
+base_frame_id: "/base_footprint"
+wheel_radius: 0.075
+wheel_left_name: wheel_left 
+wheel_right_name: wheel_right
+

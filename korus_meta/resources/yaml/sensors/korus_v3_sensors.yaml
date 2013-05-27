@@ -1,0 +1,34 @@
+# This can be used instead of putting all the parameters in an xml launch file.
+# Use the following xml specification to call it.
+#
+# <rosparam file="$(find remocon)/resources/yaml/parameters.yaml" command="load"/>
+
+# Important Bits!
+# - device_name : must be either serial or ftdi.
+# - device_id : either port for serial device, or serial string id for ftdi device.
+
+#device_name: ftdi
+#device_id: YUJIN0004
+
+device_name: serial
+device_id: /dev/ttyUSB5
+target_robot: korus
+
+# These are messages to enable or disable each devices.
+main_power: MainPower
+lcd: LCD
+stargazer: Stargazer
+stargazer_ir: StargazerIR
+gyro: Gyro
+scanner: Scanner
+sonar: Sonar
+sonar_mode: SonarMode
+speaker: Speaker
+
+
+# Enable or not
+enable_touch: false
+enable_bottom: false
+enable_bumper: false
+enable_sonar: true
+enable_scanner: true

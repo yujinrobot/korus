@@ -1,0 +1,8 @@
+<!--
+  Launches the head calibration script for Korus
+ -->
+<launch>
+  <group ns="korus">
+    <node pkg="korus_smach" type="head_calibration.py" name="korus_head_calibration"/>
+  </group>
+</launch>

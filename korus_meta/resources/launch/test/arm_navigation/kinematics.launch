@@ -1,0 +1,14 @@
+<launch>
+    <!-- Buggy with the release of diamondback, logging falls apart in standalone mode.
+    <node pkg="nodelet" type="nodelet" name="kinematics" args="standalone korus_kinematics/KorusKinematics" output="screen">    
+    -->
+    <node pkg="nodelet" type="nodelet" name="kinematics_node" args="manager" output="screen"/>
+    <node pkg="nodelet" type="nodelet" name="kinematics" args="load korus_kinematics/KorusKinematics kinematics_node" output="screen">
+        <rosparam file="$(find korus_meta)/resources/yaml/move_arm/kinematics.yaml" command="load" />
+        <param name="robot_description" command="$(find xacro)/xacro.py '$(find korus_meta)/resources/urdf/korus.xacro'" />
+	    <remap from="kinematics/get_fk" to="/move_arm/arm_fk"/>
+	    <remap from="kinematics/get_ik" to="/move_arm/arm_ik"/>
+	    <remap from="kinematics/get_fk_solver_info" to="/move_arm/arm_fk_solver_info"/>
+	    <remap from="kinematics/get_ik_solver_info" to="/move_arm/arm_ik_solver_info"/>
+    </node>
+</launch>

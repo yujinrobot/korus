@@ -1,0 +1,259 @@
+<?xml version="1.0" ?>
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro" name="korus_3DOF_arm">
+  <include filename="$(find korus_meta)/resources/urdf/materials.urdf.xacro"/>  
+  
+  <!-- ************************ Arm macro ************************* -->
+  <xacro:macro name="korus_3DOF_arm" params="arm_mount_link">
+    <joint name="arm_mount" type="fixed">
+      <parent link="${arm_mount_link}"/>
+      <child link="shoulder_link"/>
+      <origin xyz="0.08225 0.0 0.0" rpy="${pi/2} 0.0 0.0"/>
+    </joint>  
+    <link name="shoulder_link">
+      <visual>
+        <geometry>
+          <box size="0.122 0.254 0.131"/>
+        </geometry>
+        <origin xyz="-0.020 0.070 -0.0655" rpy="0 0 0"/>
+        <xacro:insert_block name="material_white"/>
+      </visual>
+      <collision>
+        <geometry>
+          <box size="0.122 0.254 0.131"/>
+        </geometry>
+        <origin xyz="-0.020 0.070 -0.0655" rpy="0 0 0"/>
+       </collision>
+    </link>
+	
+	  <joint name="shoulder" type="revolute">
+	    <parent link="shoulder_link"/>
+	    <child link="upper_arm_link"/>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+	    <axis xyz="0 0 1"/>
+	    <limit effort="250.0" lower="${-70*rad}" upper="${92*rad}" velocity="${73*rad}"/>
+	  </joint>    
+	  <link name="upper_arm_link">
+	    <visual>
+	      <geometry>
+	        <box size="0.378 0.095 0.055"/>
+	      </geometry>
+	      <origin xyz="0.1415 0.0 0.0275" rpy="0 0 0"/>
+	      <xacro:insert_block name="material_white" />
+	    </visual>
+      <collision>
+        <geometry>
+          <box size="0.378 0.095 0.055"/>
+        </geometry>
+        <origin xyz="0.1415 0.0 0.0275" rpy="0 0 0"/>
+       </collision>
+	  </link>
+	
+	  <joint name="elbow" type="revolute">
+	    <parent link="upper_arm_link"/>
+	    <child link="lower_arm_link"/>
+	    <origin xyz="0.283 0.0 0.055" rpy="0 0 0"/>
+	    <axis xyz="0 0 1"/>
+	    <limit effort="200.0" lower="${-200*rad}" upper="${92*rad}" velocity="${91*rad}"/>
+	  </joint>  
+	  <link name="lower_arm_link">
+	    <visual>
+	      <geometry>
+	        <box size="0.477 0.095 0.057"/>
+	      </geometry>
+	      <origin xyz="0.19426 0.00 0.0285" rpy="0 0 0"/>
+	      <xacro:insert_block name="material_white" />
+	    </visual>
+      <collision>
+        <geometry>
+          <box size="0.477 0.095 0.057"/>
+        </geometry>
+        <origin xyz="0.19426 0.00 0.0285" rpy="0 0 0"/>
+      </collision>
+	  </link>
+	
+	  <joint name="wrist" type="revolute">
+	    <parent link="lower_arm_link"/>
+	    <child link="wrist_link"/>
+	    <origin xyz="0.382 0.0 0.0" rpy="0 0 0"/>
+	    <axis xyz="0 0 1"/>
+	    <limit effort="51.0" lower="${-100*rad}" upper="${100*rad}" velocity="${72.5*rad}"/>
+	  </joint>
+	  <link name="wrist_link">
+	    <visual>
+	      <geometry>
+          <cylinder length="0.0854" radius="0.038"/>
+	      </geometry>
+	      <origin xyz="0.0 0.0 -0.0427" rpy="0 0 0"/>
+	      <xacro:insert_block name="material_white"/>
+	    </visual>
+      <collision>
+        <geometry>
+          <cylinder length="0.0854" radius="0.038"/>
+        </geometry>
+        <origin xyz="0.0 0.0 -0.0427" rpy="0 0 0"/>
+      </collision>
+	  </link>
+	  
+  	<!--   Endeffector (gripper)  -->
+	  <joint name="palm" type="fixed">
+	    <parent link="wrist_link"/>
+	    <child link="palm_link"/>
+	    <origin xyz="0.0 0.0 -0.045" rpy="0 0 0"/>
+	  </joint>
+	  <link name="palm_link">
+	    <visual>
+	      <geometry>
+	        <box size="0.1044 0.077 0.0804"/>
+	      </geometry>      
+	      <origin xyz="0.0522 0.0 0.0" rpy="0 0 0"/>
+        <xacro:insert_block name="material_white"/>
+      </visual>
+      <collision>
+        <geometry>
+          <box size="0.1044 0.077 0.0804"/>
+        </geometry>
+        <origin xyz="0.0522 0.0 0.0" rpy="0 0 0"/>
+      </collision>
+	  </link>
+	  
+    <joint name="gripper_center" type="fixed">
+      <parent link="palm_link"/>
+      <child link="gripper_center_link"/>
+      <origin xyz="0.15 0.0 0.0" rpy="0 0 0"/>
+    </joint>
+    <link name="gripper_center_link"/>
+
+	  <joint name="gripper" type="revolute">
+	    <parent link="palm_link"/>
+	    <child link="gripper_link"/>
+	    <origin xyz="0.08 0.0 0.0" rpy="${-pi/2} 0 0"/>
+	    <axis xyz="0 0 1"/>
+	    <limit effort="33.4" lower="${-2*rad}" upper="${78*rad}" velocity="${80.8*rad}"/>
+	  </joint>
+	  <link name="gripper_link"/>
+
+    <joint name="finger_left_knuckle_1" type="revolute">
+      <parent link="palm_link"/>
+      <child link="finger_left_knuckle_1_link"/>
+      <origin xyz="0.0925 0.0 -0.022" rpy="${pi/2} ${-10*rad} 0"/>
+      <axis xyz="0 0 1"/>
+      <limit effort="33.4" lower="${-78*rad}" upper="${2*rad}" velocity="${80.8*rad}"/>
+    </joint>
+	  <link name="finger_left_knuckle_1_link">
+      <visual>
+	      <geometry>
+	        <box size="0.0595 0.0247 0.0306"/>
+	      </geometry>
+	      <origin xyz="0.02975 0.0 0.0" rpy="0 0 0"/>
+	      <xacro:insert_block name="material_white"/>
+	    </visual>
+      <collision>
+        <geometry>
+          <box size="0.0595 0.0247 0.0306"/>
+        </geometry>
+        <origin xyz="0.02975 0.0 0.0" rpy="0 0 0"/>
+      </collision>
+	  </link>
+    <joint name="finger_left_knuckle_2" type="revolute">
+      <parent link="finger_left_knuckle_1_link"/>
+      <child link="finger_left_knuckle_2_link"/>
+      <origin xyz="0.051 0.0 0.0" rpy="0 0 ${-10*rad}"/>
+      <axis xyz="0 0 1"/>
+      <limit effort="33.4" lower="${-2*rad}" upper="${78*rad}" velocity="${80.8*rad}"/>
+    </joint>
+    <link name="finger_left_knuckle_2_link">
+      <visual>
+        <geometry>
+          <box size="0.065 0.0247 0.0306"/>
+        </geometry>
+        <origin xyz="0.0325 0.0 0.0" rpy="0 0 0"/>
+        <xacro:insert_block name="material_white"/>
+      </visual>
+      <collision>
+        <geometry>
+          <box size="0.065 0.0247 0.0306"/>
+        </geometry>
+        <origin xyz="0.0325 0.0 0.0" rpy="0 0 0"/>
+      </collision>
+    </link>
+    <joint name="finger_left_tip" type="fixed">
+      <parent link="finger_left_knuckle_2_link"/>
+      <child link="finger_left_tip_link"/>
+      <origin xyz="0.065 0.0 0.0" rpy="0 0 0"/>
+    </joint>
+    <link name="finger_left_tip_link"/>
+    
+    <joint name="finger_right_knuckle_1" type="revolute">
+      <parent link="palm_link"/>
+      <child link="finger_right_knuckle_1_link"/>
+      <origin xyz="0.0925 0.0 0.022" rpy="${-pi/2} ${10*rad} 0.0"/>
+      <axis xyz="0 0 1"/>
+      <limit effort="33.4" lower="${-78*rad}" upper="${2*rad}" velocity="${80.8*rad}"/>
+    </joint>
+    <link name="finger_right_knuckle_1_link">
+      <visual>
+        <geometry>
+          <box size="0.0595 0.0247 0.0306"/>
+        </geometry>
+        <origin xyz="0.02975 0.0 0.0" rpy="0 0 0"/>
+        <xacro:insert_block name="material_white"/>
+      </visual>
+      <collision>
+        <geometry>
+          <box size="0.0595 0.0247 0.0306"/>
+        </geometry>
+        <origin xyz="0.02975 0.0 0.0" rpy="0 0 0"/>
+      </collision>
+    </link>
+    <joint name="finger_right_knuckle_2" type="revolute">
+      <parent link="finger_right_knuckle_1_link"/>
+      <child link="finger_right_knuckle_2_link"/>
+      <origin xyz="0.051 0.0 0.0" rpy="0 0 ${-10*rad}"/>
+      <axis xyz="0 0 1"/>
+      <limit effort="33.4" lower="${-2*rad}" upper="${78*rad}" velocity="${80.8*rad}"/>
+    </joint>
+    <link name="finger_right_knuckle_2_link">
+      <visual>
+        <geometry>
+          <box size="0.065 0.0247 0.0306"/>
+        </geometry>
+        <origin xyz="0.0325 0.0 0.0" rpy="0 0 0"/>
+        <xacro:insert_block name="material_white"/>
+      </visual>
+      <collision>
+        <geometry>
+          <box size="0.065 0.0247 0.0306"/>
+        </geometry>
+        <origin xyz="0.0325 0.0 0.0" rpy="0 0 0"/>
+      </collision>
+    </link>
+    <joint name="finger_right_tip" type="fixed">
+      <parent link="finger_right_knuckle_2_link"/>
+      <child link="finger_right_tip_link"/>
+      <origin xyz="0.065 0.0 0.0" rpy="0 0 0"/>
+    </joint>
+    <link name="finger_right_tip_link"/>
+    
+    <joint name="gripper_camera" type="fixed">
+      <parent link="palm_link"/>
+      <child link="gripper_camera_link"/>
+      <origin xyz="0.10015 0 0" rpy="0.0 ${pi/2} 0.0"/>
+    </joint>    
+    <link name="gripper_camera_link">
+      <visual>
+        <geometry>
+          <cylinder length="0.01" radius="0.005"/>
+        </geometry>
+        <origin xyz="0.0 0.0 0.0" rpy="0 0 0"/>
+        <xacro:insert_block name="material_black"/>
+      </visual>
+      <collision>
+        <geometry>
+          <cylinder length="0.01" radius="0.005"/>
+        </geometry>
+        <origin xyz="0.0 0.0 0.0" rpy="0 0 0"/>
+        <xacro:insert_block name="material_black"/>
+      </collision>
+    </link>
+  </xacro:macro>
+</robot>

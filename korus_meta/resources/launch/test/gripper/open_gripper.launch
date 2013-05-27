@@ -1,0 +1,11 @@
+<launch>
+    <node pkg="joint_action_server" type="client" name="gripper_action_client" output="screen">
+        <param name="joint_name" type="str" value="gripper"/>
+        <param name="target" type="double" value="0.0"/>
+        <remap from="gripper_action_client/command" to="/robot_core/head_action/command"/>
+        <remap from="gripper_action_client/goal" to="/robot_core/gripper_action/goal"/>
+        <remap from="gripper_action_client/feedback" to="/robot_core/gripper_action/feedback"/>
+        <remap from="gripper_action_client/status" to="/robot_core/gripper_action/status"/>
+        <remap from="gripper_action_client/result" to="/robot_core/gripper_action/result"/>
+        <remap from="gripper_action_client/cancel" to="/robot_core/gripper_action/cancel"/>    </node>
+</launch>

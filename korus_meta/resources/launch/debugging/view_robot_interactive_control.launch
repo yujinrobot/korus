@@ -1,0 +1,6 @@
+<!--
+  Used as interface for interactive control (arm, gripper, head)
+ -->
+<launch>
+  <node name="rviz" pkg="rviz" type="rviz" args="-d $(find korus_meta)/resources/rviz/view_robot_interactive_control.vcg" />
+</launch>

@@ -1,0 +1,16 @@
+
+# This is only a very minimal set of parameters that really should be configured for the laser.
+# See http://www.ros.org/wiki/hokuyo_node for more information.
+#
+# Note, we don't have intensity on our laser scanner. Typically that is used for material
+# or colour classification. PR2 uses this for detecting door handles, but not much else. 
+
+port: /dev/ttyACM0
+frame_id: /laser_link
+intensity: false
+# starts up faster, but timestamps will be inaccurate. 
+calibrate_time: true
+
+# Theoric values look almost ok for Korus 2, but for Korus 1 we must restrict a bit the min angle
+min_ang: -1.72  # theoric -1.7617 (-100.94*π/180)
+max_ang: +1.718  # theoric +1.7617 (+100.94*π/180)

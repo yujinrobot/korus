@@ -1,0 +1,5 @@
+# SIMULATION MODE
+#
+# This can be used to run a goo in simulation mode (feeds back the command directly).
+#
+simulation_mode: true

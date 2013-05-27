@@ -1,0 +1,74 @@
+#For full documentation of the parameters in this file, and a list of all the
+#parameters available for TrajectoryPlannerROS, please see
+#
+#  http://www.ros.org/wiki/base_local_planner
+#
+
+TrajectoryPlannerROS:
+
+  # Set the acceleration limits of the robot [ defaults: 3.2, 2.5, 2.5 ]
+  acc_lim_theta: 2.6
+  acc_lim_x: 1.0
+  acc_lim_y: 1.0
+
+  # Set the velocity limits of the robot [ defaults: 0.65, 0.1, 1.0, 0.6 ]
+  max_vel_x: 0.45
+  min_vel_x: 0.1
+  max_vel_theta:  1.0
+  min_vel_theta: -1.0
+  min_in_place_vel_theta: 0.6
+
+  # Notice that this velocity is set to be negative. A bit confusing admittedly.
+  escape_vel: -0.1
+  escape_reset_dist: 0.3
+
+  # For this example, we'll use a holonomic robot
+  holonomic_robot: false
+
+  # Set the tolerance on achieving a goal [0.05, 0.10]
+  xy_goal_tolerance: 0.15
+  yaw_goal_tolerance: 0.2 #7.2
+
+  # If goal tolerance is latched, if the robot ever reaches the goal xy location it 
+  # will simply rotate in place, even if it ends up outside the goal tolerance 
+  # while it is doing so [false]
+  latch_xy_goal_tolerance: false
+
+  # The amount of time to forward-simulate trajectories in seconds [1.0]
+  sim_time: 3.0
+  # The step size, in meters, to take between points on a given trajectory [0.025]
+  sim_granularity: 0.05
+  # The step size, in radians, to take between angular samples on a given trajectory [sim_granularity]
+  angular_sim_granularity: 0.025
+  # The number of samples to use when exploring the x velocity space [3]
+  vx_samples: 10
+  # The number of samples to use when exploring the theta velocity space [20]
+  vtheta_samples: 20
+
+  # Parameters for scoring trajectories
+  meter_scoring: false
+  goal_distance_bias: 0.8
+  path_distance_bias: 0.9
+  gdist_scale: 0.8
+  pdist_scale: 0.9
+  occdist_scale: 0.01
+  # How far to look ahead in meters when scoring different in-place-rotation trajectories [0.325] 
+  heading_lookahead: 1.2
+  # Whether to score based on the robot's heading to the path or its distance from the path [false]
+  heading_scoring: false
+  # How far to look ahead in time in seconds along the simulated trajectory when using heading scoring [0.8] 
+  heading_scoring_timestep: 1.0
+  
+  publish_cost_grid_pc: false
+
+  # We'll use the Dynamic Window Approach to control instead of Trajectory Rollout
+  dwa: true
+
+  # Whether or not to publish the cost grid that the planner will use when planning
+  publish_cost_grid_pc: true
+
+  # How far the robot must travel before oscillation flags are reset
+  oscillation_reset_dist: 0.05
+
+  # Eat up the plan as the robot moves along it
+  prune_plan: true

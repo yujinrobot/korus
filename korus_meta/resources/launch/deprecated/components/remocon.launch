@@ -1,0 +1,22 @@
+<!--
+  The remocon - it can run standalone.
+  Imported from Robosem - not yet used
+ -->
+<launch>
+  <!--
+    remocon_device can be ftdi, serial and serial_simulation -> these point to different yaml configurations.  
+   -->
+  <arg name="remocon_device" default="serial"/>
+  <group ns="robosem">
+    <node pkg="nodelet" type="nodelet" name="remocon_manager" args="manager"/>
+    <node pkg="nodelet" type="nodelet" name="remocon" args="load irobi_rf_remocon/RemoconNodelet remocon_manager" output="screen">
+      <rosparam file="$(find robosem_meta)/resources/yaml/remocons/rf_remocon_$(arg remocon_device).yaml" command="load"/>
+      <!--
+      <remap from="remocon/request_info"          to=""/>
+      <remap from="remocon/remocon_data"          to=""/>
+      -->
+      <remap from="remocon/enable"             to="enable"/>
+      <remap from="remocon/disable"            to="disable"/>          
+    </node>
+  </group>    
+</launch>

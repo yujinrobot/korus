@@ -1,0 +1,243 @@
+<?xml version="1.0" ?>
+  <robot xmlns:xacro="http://www.ros.org/wiki/xacro">
+  
+    <!-- ************************ Properties ************************* -->
+    <xacro:property name="pi" value="3.1415926535897931" />
+    <xacro:property name="material_white">
+      <material name="white">
+        <color rgba="1 1 1 1"/>
+      </material>
+    </xacro:property>
+    <xacro:property name="material_orange">
+      <material name="orange">
+        <color rgba="1.0 0.7 0.0 1"/>
+      </material>
+    </xacro:property>
+    <xacro:property name="material_red">
+      <material name="red">
+        <color rgba="1.0 0.0 0.0 1"/>
+      </material>
+    </xacro:property>
+    <xacro:property name="material_grey_blue">
+      <material name="grey_blue">
+        <color rgba="0.4 0.4 1.0 1"/>
+      </material>
+    </xacro:property>
+    <xacro:property name="material_blue">
+      <material name="blue">
+        <color rgba="0.0 0.0 1.0 1"/>
+      </material>
+    </xacro:property>
+    <xacro:property name="material_green">
+      <material name="green">
+        <color rgba="0 .8 0 1"/>
+      </material>
+    </xacro:property>
+    <xacro:property name="material_grey">
+      <material name="grey">
+        <color rgba="0.7 0.7 0.7 1.0"/>
+      </material>
+    </xacro:property>
+    <xacro:property name="material_black">
+      <material name="black">
+        <color rgba="0.1 0.1 0.1 1"/>
+      </material>
+    </xacro:property>
+  
+  <!-- ************************ Arm macro ************************* -->
+  <xacro:macro name="korus_arm" params="parent">
+    <joint name="arm_mount_joint" type="fixed">
+      <parent link="${parent}"/>
+      <child link="arm_mount_link"/>
+      <origin xyz="0 0 0" rpy="0 0 0"/>
+    </joint>  
+    <link name="arm_mount_link">
+      <visual>
+        <geometry>
+          <box size="0.2185 0.25 0.13"/>
+        </geometry>
+        <origin xyz="-0.10925 0.0 0.0" rpy="0 0 0"/>
+        <xacro:insert_block name="material_grey_blue" />
+      </visual>
+    </link>
+    
+    <joint name="shoulder_roll" type="revolute">
+	    <parent link="arm_mount_link"/>
+	    <child link="shoulder_roll_link"/>
+	    <origin xyz="-0.241 -0.076 0" rpy="${pi} ${pi/2} 0.0"/>
+	    <axis xyz="0 1 0"/>
+	    <limit effort="10" lower="-${pi}" upper="${pi}" velocity="0.5"/>
+	  </joint>    
+	  <link name="shoulder_roll_link">
+	  </link>
+	
+	  <joint name="shoulder_pitch" type="revolute">
+	    <parent link="shoulder_roll_link"/>
+	    <child link="shoulder_pitch_link"/>
+	    <origin xyz="0.0 0.0 0.0" rpy="0.0 0.0 0.0"/>
+	    <axis xyz="0 0 1"/>
+	    <limit effort="10" lower="-${pi}" upper="${pi}" velocity="0.013"/>
+	  </joint>    
+	  <link name="shoulder_pitch_link">
+	    <visual>
+	      <geometry>
+	        <box size="0.270 0.093 0.055"/>
+	      </geometry>
+	      <origin xyz="0.081 0.0 0.0" rpy="0 0 0"/>
+	      <xacro:insert_block name="material_grey_blue" />
+	    </visual>
+	  </link>
+	
+	  <joint name="elbow_pitch" type="revolute">
+	    <parent link="shoulder_pitch_link"/>
+	    <child link="elbow_pitch_link"/>
+	    <origin xyz="0.162 0.0 0.045" rpy="0 0 3.141592"/>
+	    <axis xyz="0 0 1"/>
+	    <limit effort="10" lower="-${pi}" upper="${pi}" velocity="0.013"/>
+	  </joint>  
+	  <link name="elbow_pitch_link">
+	    <visual>
+	      <geometry>
+	        <box size="0.380 0.093 0.053"/>
+	      </geometry>
+	      <origin xyz="0.134 0.00 0.009" rpy="0 0 0"/>
+	      <xacro:insert_block name="material_grey_blue" />
+	    </visual>  
+	  </link>
+	
+	  <joint name="wrist_pitch" type="revolute">
+	    <parent link="elbow_pitch_link"/>
+	    <child link="wrist_pitch_link"/>
+	    <origin xyz="0.268 0.0 -0.058" rpy="0 0 0"/>
+	    <axis xyz="0 0 1"/>
+	    <limit effort="10" lower="-1.7453" upper="1.7453" velocity="0.5"/>
+	  </joint>
+	  <link name="wrist_pitch_link">
+	    <visual>
+	      <geometry>
+	        <box size="0.09 0.09 0.081"/>
+	      </geometry>
+	      <origin xyz="0.0 0.0 0.0" rpy="0 0 0"/>
+	      <xacro:insert_block name="material_grey_blue" />
+	    </visual>  
+	  </link>
+	  
+	  <joint name="wrist_roll" type="revolute">
+	    <parent link="wrist_pitch_link"/>
+	    <child link="wrist_roll_link"/>
+	    <origin xyz="0.045 0 0" rpy="0 ${pi/2} 0.0"/>
+	    <axis xyz="0 0 1"/>
+	    <limit effort="10" lower="-${pi}" upper="${pi}" velocity="0.013"/>    
+	<!--     <limit effort="10" lower="-2.0944" upper="2.0944" velocity="0.5"/> -->
+	  </joint>
+	  <link name="wrist_roll_link">
+	    <visual>
+	      <geometry>
+	        <box size="0.068 0.034 0.068"/>
+	      </geometry>
+	      <origin xyz="0.0 0.0 0.034" rpy="0 0 0"/>
+	      <xacro:insert_block name="material_grey_blue" />
+	    </visual>
+	  </link>
+	
+	  <joint name="wrist_yaw" type="revolute">
+	    <parent link="wrist_roll_link"/>
+	    <child link="wrist_yaw_link"/>
+	    <origin xyz="0 0 0.034" rpy="${pi/2} -${pi/2} 0.0"/>
+	    <axis xyz="0 0 1"/>
+	    <limit effort="10" lower="-1.6232" upper="1.6232" velocity="0.5"/>
+	  </joint>
+	  <link name="wrist_yaw_link">
+	      <visual>
+	      <geometry>
+	        <box size="0.148 0.09 0.045"/>
+	      </geometry>
+	      <origin xyz="0.057 0.0 0.0" rpy="0 0 0"/>
+	      <xacro:insert_block name="material_grey_blue" />
+	    </visual>  
+	  </link>
+	
+	<!--   Endeffector (gripper)  -->
+	  <joint name="gripper_palm" type="fixed">
+	    <parent link="wrist_yaw_link"/>
+	    <child link="gripper_palm_link"/>
+	    <origin xyz="0.131 0 0" rpy="0.0 0.0 0.0"/>
+	    <axis xyz="0 0 1"/>
+	    <limit effort="10" lower="-1.6232" upper="1.6232" velocity="0.5"/>
+	  </joint>
+	  <link name="gripper_palm_link">
+	<!--     <visual> -->
+	<!--       <geometry> -->
+	<!--         <box size="0.01 0.01 0.01"/> -->
+	<!--       </geometry> -->
+	<!--       <origin xyz="0.0 0.0 0.0" rpy="0 0 0"/> -->
+	<!--       <xacro:insert_block name="material_green"/> -->
+	<!--     </visual>  -->
+	  </link>
+	  
+	  <!-- center of the volume covered by the fingers -->
+	  <joint name="gripper_center" type="fixed">
+	    <parent link="wrist_yaw_link"/>
+	    <child link="gripper_center_link"/>
+	    <origin xyz="0.181 0 0" rpy="0 0 0"/>
+	  </joint>
+	  <link name="gripper_center_link">
+	    <visual>
+	      <geometry>
+	        <box size="0.04 0.04 0.08"/>
+	      </geometry>
+	      <origin xyz="0.0 0.0 0.0" rpy="0 0 0"/>
+	      <xacro:insert_block name="material_orange" />
+	    </visual>   
+	  </link>
+	  
+	<!--   <joint name="gripper_tip" type="fixed"> -->
+	<!--     <parent link="wrist_yaw_link"/> -->
+	<!--     <child link="gripper_tip_link"/> -->
+	<!--     <origin xyz="0.191 0 0" rpy="0.0 0.0 0.0"/> -->
+	<!--   </joint> -->
+	<!--   <link name="gripper_tip_link"> -->
+	<!--       <visual> -->
+	<!--       <geometry> -->
+	<!--         <box size="0.01 0.01 0.01"/> -->
+	<!--       </geometry> -->
+	<!--       <origin xyz="0.0 0.0 0.0" rpy="0 0 0"/> -->
+	<!--       <xacro:insert_block name="material_red" /> -->
+	<!--     </visual>   -->
+	<!--   </link> -->
+	  
+	  <joint name="gripper_left_finger_joint" type="prismatic">
+	    <parent link="wrist_yaw_link"/>
+	    <child link="gripper_left_finger_tip_link"/>
+	    <origin xyz="0.131 -0.04 0.0" rpy="0.0 0.0 0.0"/>
+	    <axis xyz="0 1 0"/>
+	    <limit effort="10" lower="0.0" upper="0.04" velocity="0.5"/>
+	  </joint>
+	  <link name="gripper_left_finger_tip_link">
+	      <visual>
+	      <geometry>
+	        <box size="0.08 0.02 0.01"/>
+	      </geometry>
+	      <origin xyz="0.04 0.0 0.0" rpy="${pi/2} 0 0"/>
+	      <xacro:insert_block name="material_grey_blue" />
+	    </visual>  
+	  </link>
+	
+	  <joint name="gripper_right_finger_joint" type="prismatic">
+	    <parent link="wrist_yaw_link"/>
+	    <child link="gripper_right_finger_tip_link"/>
+	    <origin xyz="0.131 0.04 0.0" rpy="${pi} 0.0 0.0"/>
+	    <axis xyz="0 1 0"/>
+	    <limit effort="10" lower="0.0" upper="0.04" velocity="0.5"/>
+	  </joint>
+	  <link name="gripper_right_finger_tip_link">
+	      <visual>
+	      <geometry>
+	        <box size="0.08 0.02 0.01"/>
+	      </geometry>
+	      <origin xyz="0.04 0.0 0.0" rpy="${pi/2} 0 0"/>
+	      <xacro:insert_block name="material_grey_blue" />
+	    </visual>  
+	  </link>
+  </xacro:macro>
+</robot>

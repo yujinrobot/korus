@@ -1,0 +1,5 @@
+<launch>
+    <node  pkg="goo" type="potentiometers" name="potentiometers">
+        <rosparam file="$(find korus_meta)/resources/yaml/goo/peripheral.yaml" command="load" />
+    </node>
+</launch>

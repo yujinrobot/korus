@@ -1,0 +1,64 @@
+<?xml version="1.0" ?>
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro" name="omni_drive_base">
+  <xacro:include filename="$(find korus_meta)/resources/urdf/materials.urdf.xacro"/>
+
+  <!-- ************************** TODO!!! ************************** -->
+  
+  <!-- ************************** Properties ************************** -->
+  <xacro:property name="wheel_bias" value="0.450"/>
+  <xacro:property name="wheel_radius" value="0.075"/>
+  <xacro:property name="caster_wheel_bias" value="0.2"/>
+  <xacro:property name="caster_wheel_radius" value="0.040"/>
+    
+  <!-- ************************** Wheel macro ************************** -->
+  <xacro:macro name="wheel" params="name parent length radius off_x off_y off_z type">
+    <joint name="${name}_joint" type="${type}">
+      <parent link="${parent}"/>
+      <child link="${name}_link"/>
+      <origin rpy="0 0 ${pi/2}" xyz="${off_x} ${off_y} ${off_z}"/>
+    </joint>
+    <link name="${name}_link">
+      <visual>
+        <geometry>
+          <cylinder length="${length}" radius="${radius}"/>
+        </geometry>
+        <origin rpy="0 ${pi/2} 0" xyz="0 0 0"/>
+        <material name="black">
+          <color rgba="0.1 0.1 0.1 1"/>
+        </material>
+      </visual>
+    </link>
+  </xacro:macro>
+    
+  <!-- ************************** Differential drive base macro ************************** -->
+  <xacro:macro name="omni_drive_base" params="parent body_mount_link">
+    <link name="${parent}"/>
+    <joint name="base_joint" type="fixed">
+      <parent link="${parent}"/>
+      <child link="${body_mount_link}"/>
+      <origin rpy="0 0 0" xyz="0.0 0.0 0.075"/>
+    </joint>
+    <link name="${body_mount_link}">
+      <visual>
+        <origin rpy="0 0 0" xyz="0.0 0 0.0875"/>
+         <geometry>
+          <cylinder length="0.275" radius="0.280"/>
+        </geometry>
+        <xacro:insert_block name="material_white" />
+      </visual>
+      <collision>
+        <origin rpy="0 0 0" xyz="0.0 0 0.0875"/>
+         <geometry>
+           <cylinder length="0.275" radius="0.280"/>
+         </geometry>
+         <xacro:insert_block name="material_white" />          
+      </collision>
+    </link>
+    <xacro:wheel name="wheel_left" parent="${body_mount_link}" length="0.03" radius="${wheel_radius}" off_x="0.0" off_y="${wheel_bias/2}" off_z="0.0" type="continuous"/>
+    <xacro:wheel name="wheel_right" parent="${body_mount_link}" length="0.03" radius="${wheel_radius}" off_x="0.0" off_y="-${wheel_bias/2}" off_z="0.0" type="continuous"/>
+    <xacro:wheel name="caster_front_left" parent="${body_mount_link}" length="0.02" radius="${caster_wheel_radius}" off_x="0.18" off_y="${caster_wheel_bias/2}" off_z="-0.035" type="fixed"/>
+    <xacro:wheel name="caster_front_right" parent="${body_mount_link}" length="0.02" radius="${caster_wheel_radius}" off_x="0.18" off_y="-${caster_wheel_bias/2}" off_z="-0.035" type="fixed"/>
+    <xacro:wheel name="caster_back_left" parent="${body_mount_link}" length="0.02" radius="${caster_wheel_radius}" off_x="-0.18" off_y="${caster_wheel_bias/2}" off_z="-0.035" type="fixed"/>
+    <xacro:wheel name="caster_back_right" parent="${body_mount_link}" length="0.02" radius="${caster_wheel_radius}" off_x="-0.18" off_y="-${caster_wheel_bias/2}" off_z="-0.035" type="fixed"/>  
+  </xacro:macro>
+</robot>

@@ -1,0 +1,14 @@
+<launch>
+    <node pkg="korus_meta" type="initialise_arm" name="initialise_arm" output="screen">
+        <!-- param remaps -->
+        <remap from="initialise_arm/joint_names" to = "/robot_core/mechanism_model/joint_groups/arm"/>
+        <!-- topic remaps -->
+        <remap from="initialise_arm/command" to="/move_arm/command"/>
+        <remap from="initialise_arm/goal" to="/move_arm/goal"/>
+        <remap from="initialise_arm/feedback" to="/move_arm/feedback"/>
+        <remap from="initialise_arm/status" to="/move_arm/status"/>
+        <remap from="initialise_arm/result" to="/move_arm/result"/>
+        <remap from="initialise_arm/cancel" to="/move_arm/cancel"/>
+        <remap from="initialise_arm/arm_controller_state" to="/robot_core/arm_controller/state"/>
+    </node>
+</launch>

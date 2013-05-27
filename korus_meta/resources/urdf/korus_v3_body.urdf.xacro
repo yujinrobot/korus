@@ -1,0 +1,276 @@
+<?xml version="1.0" ?>
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro" name="korus_v3_body">
+  <include filename="$(find korus_meta)/resources/urdf/materials.urdf.xacro"/>  
+
+  <!-- ************************** Robot body macro ************************** -->
+  <xacro:macro name="korus_v3_body" params="body_mount_link arm_mount_link">
+
+    <!-- ************************** Torso *************************** -->
+	  <joint name="torso_turn" type="revolute">
+	    <parent link="${body_mount_link}"/>
+	    <child link="torso_link"/>
+	    <origin rpy="0 0 0" xyz="0.0 0.0 0.2665"/>
+	    <axis xyz="0 0 1"/>
+	    <limit effort="205.0" lower="-${186*rad}" upper="${160*rad}" velocity="${88.7*rad}"/>
+	  </joint>
+	  <link name="torso_link">
+	    <visual>
+	       <geometry>
+	        <cylinder length="0.025" radius="0.278"/>
+	      </geometry>
+	      <origin xyz="0.0 0.0 0.0" rpy="0 0 0"/>
+	      <xacro:insert_block name="material_white" />
+	    </visual>
+      <collision>
+         <geometry>
+          <cylinder length="0.025" radius="0.278"/>
+        </geometry>
+        <origin xyz="0.0 0.0 0.0" rpy="0 0 0"/>
+        <xacro:insert_block name="material_white" />
+      </collision>	    
+	  </link>
+	  <joint name="turret" type="fixed">
+	    <parent link="torso_link"/>
+	    <child link="turret_link"/>
+	    <origin xyz="-0.13786 0.0 0.0" rpy="0 0 0"/>
+	  </joint>
+	  <link name="turret_link">
+	    <visual>
+	      <geometry>
+           <box size="0.204 0.25746 0.57888" />
+	      </geometry>
+        <origin xyz="0.0 0.0 0.30194" rpy="0.0 0.0 0.0"/>
+	      <xacro:insert_block name="material_white" />
+	    </visual>
+      <collision>
+        <geometry>
+           <box size="0.204 0.25746 0.57888" />
+        </geometry>
+        <origin xyz="0.0 0.0 0.30194" rpy="0.0 0.0 0.0"/>
+       </collision>  		    
+	  </link>
+
+	  <joint name="torso_lift_offset" type="fixed">
+	    <parent link="turret_link"/>
+	    <child link="torso_lift_offset_link"/>
+	    <origin xyz="0.10361 0.010 0.170" rpy="0 0 0"/>
+	  </joint>
+	  <link name="torso_lift_offset_link"/>
+
+	  <joint name="torso_lift" type="prismatic">
+	    <parent link="torso_lift_offset_link"/>
+	    <child link="${arm_mount_link}"/>
+	    <origin xyz="0 0 0" rpy="0 0 0"/>
+	    <axis xyz="0 0 1"/>
+	    <limit effort="26.0" lower="-0.002" upper="0.1750" velocity="0.038"/>
+	  </joint>  
+	  <link name="${arm_mount_link}"/>
+
+    <!-- ************************** Neck with tablet ************************** -->		  
+	  <joint name="neck" type="fixed">
+	    <parent link="turret_link"/>
+	    <child link="neck_link"/>
+	    <origin rpy="0 0 0" xyz="0.0125 0.0 0.59138"/>
+	  </joint>
+	  <link name="neck_link">
+	    <visual>
+	      <geometry>
+          <box size="0.030 0.060 0.23262"/>
+	      </geometry>
+	      <origin xyz="0.0 0.0 0.11631" rpy="0 0 0"/>
+	      <xacro:insert_block name="material_white"/>
+	    </visual>
+      <collision>
+        <geometry>
+          <box size="0.030 0.060 0.23262"/>
+        </geometry>
+        <origin xyz="0.0 0.0 0.11631" rpy="0 0 0"/>
+      </collision>
+	  </link>
+	  
+    <joint name="tablet" type="fixed">
+      <parent link="neck_link"/>
+      <child link="tablet_link"/>
+      <origin rpy="0 0 0" xyz="0.085 0.0 0.05812"/>
+    </joint>
+    <link name="tablet_link">
+      <visual>
+        <geometry>
+          <box size="0.022 0.270 0.1812"/>
+        </geometry>
+        <origin xyz="0.0 0.0 0.0" rpy="0.0 0.0 0.0"/>
+        <xacro:insert_block name="material_black" />
+      </visual>
+      <collision>
+        <geometry>
+          <box size="0.022 0.270 0.1812"/>
+        </geometry>
+        <origin xyz="0.0 0.0 0.0" rpy="0.0 0.0 0.0"/>
+      </collision>
+    </link>
+	  
+	  <!-- ************************** Head with ASUS Xtion Pro Live and Stargazer ************************** -->
+    <joint name="head" type="fixed">
+      <parent link="neck_link"/>
+      <child link="head_link"/>
+      <origin xyz="0.0 0.0 0.23262" rpy="0 0 0"/>
+    </joint>
+    <link name="head_link">
+      <visual>
+        <geometry>
+          <box size="0.227 0.11872 0.0645" />
+        </geometry>
+        <origin xyz="0.0495 0.0 0.03225" rpy="0.0 0.0 0.0"/>
+        <xacro:insert_block name="material_white" />
+      </visual>
+      <collision>
+        <geometry>
+          <box size="0.227 0.11872 0.0645" />
+        </geometry>
+        <origin xyz="0.0495 0.0 0.03225" rpy="0.0 0.0 0.0"/>
+      </collision>
+    </link>
+    
+    <joint name="stargazer" type="fixed">
+      <parent link="head_link"/>
+      <child link="stargazer_link"/>
+      <origin xyz="-0.040 0.0 0.1025" rpy="0 0 ${pi}"/>
+    </joint>
+    <link name="stargazer_link">
+      <visual>
+        <geometry>
+          <box size="0.09065 0.090 0.0417" />
+        </geometry>
+        <origin xyz="0.02133 0.0 -0.0175" rpy="0.0 0.0 0.0"/>
+        <xacro:insert_block name="material_white" />
+      </visual>
+      <collision>
+        <geometry>
+          <box size="0.09065 0.090 0.0417" />
+        </geometry>
+        <origin xyz="0.02133 0.0 -0.0175" rpy="0.0 0.0 0.0"/>
+      </collision>
+    </link>
+    
+    <joint name="head_pan" type="revolute">
+      <parent link="head_link"/>
+      <child link="head_pan_link"/>
+      <origin xyz="0.133 0.0 0.0645" rpy="0 0 0"/>
+      <axis xyz="0 0 1"/>
+      <limit effort="9.0" lower="${-137*rad}" upper="${137*rad}" velocity="${476*rad}"/>
+    </joint>
+    <link name="head_pan_link">
+      <visual>
+        <geometry>
+          <box size="0.1122 0.090 0.0417"/>
+        </geometry>
+        <origin xyz="-0.0339 0.0 0.02085" rpy="0.0 0.0 0.0"/>
+        <xacro:insert_block name="material_white"/>
+      </visual>
+      <collision>
+        <geometry>
+          <box size="0.1122 0.090 0.0417"/>
+        </geometry>
+        <origin xyz="-0.0339 0.0 0.02085" rpy="0.0 0.0 0.0"/>
+      </collision>
+    </link>
+
+    <joint name="head_tilt" type="revolute">
+      <parent link="head_pan_link"/>
+      <child link="head_tilt_link"/>
+      <origin xyz="0.028 0.0 0.0275" rpy="${pi/2} 0 0"/> <!-- x original 0.013 -->
+      <axis xyz="0 0 1"/>
+      <limit effort="9.0" lower="${-92*rad}" upper="${32*rad}" velocity="${476*rad}"/>
+    </joint>
+    <link name="head_tilt_link"/>
+    
+    <joint name="head_tilt_fixed" type="fixed">
+      <parent link="head_link"/>
+      <child link="head_tilt_fixed_link"/>
+      <origin xyz="0.146 0.0 0.092" rpy="${pi/2} 0 0"/>
+    </joint>
+    <link name="head_tilt_fixed_link"/>
+    
+    <!-- Frames published by openni_launch expect <camera name>_link tf
+         as parent, so we publish this fake link just to satisfy it -->
+    <joint name="sensor_3d" type="fixed">
+      <parent link="head_tilt_link"/>
+      <child link="sensor_3d_link"/>
+      <!-- adds 2 deg to yaw, because the xtion is mounted on its surface which is inclined (approx. 2 deg) -->
+      <origin xyz="0.0 0.0 0.0" rpy="${-pi/2} 0 0.035"/> 
+    </joint>
+    <link name="sensor_3d_link">
+      <visual>
+        <origin xyz="0.0075 0.0 0.0315" rpy="${pi/2} 0 ${pi/2}" />
+        <geometry>
+           <!-- Thank you IHeartRobotics for the Xtion mesh! -->
+           <mesh filename="package://korus_meta/resources/meshes/asus_xtion_pro_live.dae" scale="0.001 0.001 0.001"/>
+        </geometry>
+        <xacro:insert_block name="material_black"/>
+      </visual>
+      <collision>
+        <origin xyz="0.0 0.0032 0.0291" rpy="0 0 0" />
+        <geometry>
+          <box size="0.036 0.180 0.0298"/>
+        </geometry>
+      </collision>
+    </link>
+    
+    <joint name="sensor_3d_depth_joint" type="fixed">
+      <origin xyz="0.01 0.0485 0.0315" rpy="0 0.0 0" />
+      <parent link="sensor_3d_link" />
+      <child link="sensor_3d_depth_frame" />
+    </joint>
+    <link name="sensor_3d_depth_frame">
+      <inertial>
+        <mass value="0.01" />
+        <origin xyz="0 0 0" />
+        <inertia ixx="0.001" ixy="0.0" ixz="0.0"
+                 iyy="0.001" iyz="0.0" izz="0.001" />
+      </inertial>
+    </link>
+
+    <joint name="sensor_3d_depth_optical_joint" type="fixed">
+      <origin xyz="0 0 0" rpy="${-pi/2} 0 ${-pi/2}" />
+      <parent link="sensor_3d_depth_frame" />
+      <child link="sensor_3d_depth_optical_frame" />
+    </joint>
+    <link name="sensor_3d_depth_optical_frame">
+      <inertial>
+        <mass value="0.001" />
+        <origin xyz="0 0 0" />
+        <inertia ixx="0.0001" ixy="0.0" ixz="0.0"
+                 iyy="0.0001" iyz="0.0" izz="0.0001" />
+      </inertial>
+    </link>
+
+    <joint name="sensor_3d_rgb_joint" type="fixed">
+      <origin xyz="0.01 0.023 0.0315" rpy="0 -0.017 0" />
+      <parent link="sensor_3d_link" />
+      <child link="sensor_3d_rgb_frame" />
+    </joint>
+    <link name="sensor_3d_rgb_frame">
+      <inertial>
+        <mass value="0.001" />
+        <origin xyz="0 0 0" />
+        <inertia ixx="0.0001" ixy="0.0" ixz="0.0"
+                 iyy="0.0001" iyz="0.0" izz="0.0001" />
+      </inertial>
+    </link>
+
+    <joint name="sensor_3d_rgb_optical_joint" type="fixed">
+      <origin xyz="0 0 0" rpy="${-pi/2} 0 ${-pi/2}" />
+      <parent link="sensor_3d_rgb_frame" />
+      <child link="sensor_3d_rgb_optical_frame" />
+    </joint>
+    <link name="sensor_3d_rgb_optical_frame">
+      <inertial>
+        <mass value="0.001" />
+        <origin xyz="0 0 0" />
+        <inertia ixx="0.0001" ixy="0.0" ixz="0.0"
+                 iyy="0.0001" iyz="0.0" izz="0.0001" />
+      </inertial>
+    </link>
+
+  </xacro:macro>
+</robot>

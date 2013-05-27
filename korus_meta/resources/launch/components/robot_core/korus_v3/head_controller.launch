@@ -1,0 +1,21 @@
+<!--
+  Launches a joint trajectory controller only for the head (joints)
+-->
+
+<launch>
+  <node pkg="nodelet" type="nodelet" name="head_controller" args="load ycs_joint_trajectory_controller/JointTrajectoryControllerNodelet robot_core">
+    <!-- Parameters -->
+    <param name="frequency"  value="20"  type="double"/>
+    <param name="feedback_frequency"  value="20"  type="double"/>
+    <param name="state_frequency"  value="20"  type="double"/>
+    <param name="estimated_interpolation_time"  value="0.01"  type="double"/>
+    <!-- Parameter remappings -->
+    <remap from="head_controller/joint_names" to = "mechanism_model/joint_groups/head"/>
+    <remap from="head_controller/joints" to = "mechanism_model/joints"/>
+    <!-- topic remaps -->
+    <remap from="head_controller/joint_command/head_pan" to="joint_command/head_pan"/>
+    <remap from="head_controller/joint_state/head_pan" to="joint_state/head_pan"/>
+    <remap from="head_controller/joint_command/head_tilt" to="joint_command/head_tilt"/>
+    <remap from="head_controller/joint_state/head_tilt" to="joint_state/head_tilt"/>
+  </node>
+</launch>

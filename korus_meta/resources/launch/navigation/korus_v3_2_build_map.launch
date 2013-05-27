@@ -1,0 +1,79 @@
+<!--
+    Laser and stargazer map building, based on gmapping SLAM.
+
+    Launches the korus base with ros navistack + gmapping slam + scanner to create a laser map. 
+    Argument costmap_sensors must contain the list of observation sources to use in costmaps,
+    separated by spaces. All sensors listed here must be launched by setting the corresponding
+    launch_<sensor name> argument as true.
+ -->
+<launch>
+  <arg name="launch_hokuyo" value="true"/>
+  <arg name="launch_sonars" value="false"/>
+  <arg name="launch_sensor_3d" value="false"/>
+  <arg name="costmap_sensors" value="hokuyo"/>
+
+  <arg name="map_name"         default="map"/>
+  <arg name="build_stargz_map" default="false"/>
+
+  <group ns="korus">
+    <!--  ************* Robot core components **********  -->
+    <include file="$(find korus_meta)/resources/launch/components/korus_v3_robot_core.launch">
+      <arg name="simulation" value="false"/>
+      <arg name="whole_body_control" value="false"/>
+      <arg name="kinematics_base" value="false"/>
+      <arg name="korus_v3_1" value="false"/>
+      <arg name="korus_v3_2" value="true"/>
+    </include>
+
+    <!--  ***************** Robot sensors **************  -->
+    <include file="$(find korus_meta)/resources/launch/components/korus_v3_sensors.launch">
+      <arg name="launch_hokuyo" value="$(arg launch_hokuyo)"/>
+      <arg name="launch_sonars" value="$(arg launch_sonars)"/>
+      <arg name="launch_sensor_3d" value="$(arg launch_sensor_3d)"/>
+      <arg name="launch_stargazer" value="true"/>
+      <arg name="launch_gripper_camera" value="false"/>
+      <arg name="launch_gyro" value="true"/>
+      <arg name="launch_sensor_integration_board" value="true"/>
+      <arg name="launch_remocon" value="false"/>
+    </include>
+
+    <!--  ************** Rosnav move base **************  -->
+    <include file="$(find korus_meta)/resources/launch/components/move_base.launch">
+      <arg name="costmap_sensors" value="$(arg costmap_sensors)"/>
+    </include>
+
+    <!--
+      Tweaks to adapt the move base node to slam navigation:
+       - update global costmap each 5 seconds, keeping pace with slam algorithm updates
+       - use really slow velocities, to allow proper mapping and smooth motion
+       - allow big delays in sensors readings; necessary on time consuming map updates
+       - don't try recovery behaviors; just report "unreachable goal"
+       - replan each 5 seconds, as map changes
+    -->
+    <param name="move_base_node/global_costmap/update_frequency"  value="0.2"/>
+    <param name="move_base_node/global_costmap/publish_frequency" value="0.2"/>
+
+    <param name="move_base_node/TrajectoryPlannerROS/max_vel_x" value="0.08"/>
+    <param name="move_base_node/TrajectoryPlannerROS/max_rotational_vel" value="0.18"/>
+    <param name="move_base_node/TrajectoryPlannerROS/min_in_place_rotational_vel" value="0.1"/>
+    
+    <param name="move_base_node/local_costmap/hokuyo/expected_update_rate"  value="3.0"/>
+    <param name="move_base_node/global_costmap/hokuyo/expected_update_rate" value="3.0"/>
+    <param name="move_base_node/local_costmap/kinect/expected_update_rate"  value="3.0"/>
+    <param name="move_base_node/global_costmap/kinect/expected_update_rate" value="3.0"/>
+    <param name="move_base_node/local_costmap/pctols/expected_update_rate"  value="3.0"/>
+    <param name="move_base_node/global_costmap/pctols/expected_update_rate" value="3.0"/>
+    
+    <param name="move_base_node/recovery_behavior_enabled" value="false"/>
+    <param name="move_base_node/planner_frequency" value="0.2"/>
+
+    <!--  *************** SLAM mapping *****************  -->
+    <include file="$(find korus_meta)/resources/launch/components/gmapping.launch"/>
+
+    <!--  ***** Stargazer map node in mapping mode ****** -->
+    <include if="$(arg build_stargz_map)" file="$(find korus_meta)/resources/launch/components/stargz_map.launch">
+      <arg name="landmarks_file_path" value="$(arg map_name).stgz"/>
+      <arg name="operation_mode" value="2"/>
+    </include>
+  </group>
+</launch>

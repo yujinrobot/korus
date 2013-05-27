@@ -1,0 +1,78 @@
+<!--
+  Model for the robot core
+ -->
+ 
+<launch>
+  <arg name="kinematics_base"/>
+  <param name="robot_description" command="$(find xacro)/xacro.py '$(find korus_meta)/resources/urdf/korus_v3_diff_drive.urdf.xacro'"/>
+  <node pkg="nodelet" type="nodelet" name="mechanism_model" args="load ycs_mechanism_model/MechanismModel robot_core">
+    <rosparam unless="$(arg kinematics_base)" file="$(find korus_meta)/resources/yaml/mechanism_model/korus_v3.yaml" command="load"/>
+    <rosparam if="$(arg kinematics_base)" file="$(find korus_meta)/resources/yaml/mechanism_model/korus_v3_kinematics_base.yaml" command="load"/>
+    <!-- Base -->
+    <remap unless="$(arg kinematics_base)" from="mechanism_model/actuator_command/wheel_left" to="actuator_command/wheel_left"/>
+    <remap unless="$(arg kinematics_base)" from="mechanism_model/actuator_state/wheel_left" to="actuator_state/wheel_left"/>
+    <remap unless="$(arg kinematics_base)" from="mechanism_model/joint_command/wheel_left" to="joint_command/wheel_left"/>
+    <remap unless="$(arg kinematics_base)" from="mechanism_model/joint_state/wheel_left" to="joint_state/wheel_left"/>
+    <remap unless="$(arg kinematics_base)" from="mechanism_model/actuator_command/wheel_right" to="actuator_command/wheel_right"/>
+    <remap unless="$(arg kinematics_base)" from="mechanism_model/actuator_state/wheel_right" to="actuator_state/wheel_right"/>
+    <remap unless="$(arg kinematics_base)" from="mechanism_model/joint_command/wheel_right" to="joint_command/wheel_right"/>
+    <remap unless="$(arg kinematics_base)" from="mechanism_model/joint_state/wheel_right" to="joint_state/wheel_right"/>
+    <remap if="$(arg kinematics_base)" from="mechanism_model/actuator_command/base_x" to="actuator_command/base_x"/>
+    <remap if="$(arg kinematics_base)" from="mechanism_model/actuator_state/base_x" to="actuator_state/base_x"/>
+    <remap if="$(arg kinematics_base)" from="mechanism_model/joint_command/base_x" to="joint_command/base_x"/>
+    <remap if="$(arg kinematics_base)" from="mechanismu_model/joint_state/base_x" to="joint_state/base_x"/>
+    <remap if="$(arg kinematics_base)" from="mechanism_model/actuator_command/base_y" to="actuator_command/base_y"/>
+    <remap if="$(arg kinematics_base)" from="mechanism_model/actuator_state/base_y" to="actuator_state/base_y"/>
+    <remap if="$(arg kinematics_base)" from="mechanism_model/joint_command/base_y" to="joint_command/base_y"/>
+    <remap if="$(arg kinematics_base)" from="mechanism_model/joint_state/base_y" to="joint_state/base_y"/>
+    <remap if="$(arg kinematics_base)" from="mechanism_model/actuator_command/base_theta" to="actuator_command/base_theta"/>
+    <remap if="$(arg kinematics_base)" from="mechanism_model/actuator_state/base_theta" to="actuator_state/base_theta"/>
+    <remap if="$(arg kinematics_base)" from="mechanism_model/joint_command/base_theta" to="joint_command/base_theta"/>
+    <remap if="$(arg kinematics_base)" from="mechanism_model/joint_state/base_theta" to="joint_state/base_theta"/>
+		<!-- Torso -->
+		<remap from="mechanism_model/actuator_command/torso_turn" to="actuator_command/torso_turn"/>
+		<remap from="mechanism_model/actuator_state/torso_turn" to="actuator_state/torso_turn"/>
+		<remap from="mechanism_model/joint_command/torso_turn" to="joint_command/torso_turn"/>
+		<remap from="mechanism_model/joint_state/torso_turn" to="joint_state/torso_turn"/>
+		<remap from="mechanism_model/actuator_command/torso_lift" to="actuator_command/torso_lift"/>
+		<remap from="mechanism_model/actuator_state/torso_lift" to="actuator_state/torso_lift"/>
+		<remap from="mechanism_model/joint_command/torso_lift" to="joint_command/torso_lift"/>
+		<remap from="mechanism_model/joint_state/torso_lift" to="joint_state/torso_lift"/>
+    <!-- Arm -->		
+		<remap from="mechanism_model/actuator_command/shoulder" to="actuator_command/shoulder"/>
+		<remap from="mechanism_model/actuator_state/shoulder" to="actuator_state/shoulder"/>
+		<remap from="mechanism_model/joint_command/shoulder" to="joint_command/shoulder"/>
+		<remap from="mechanism_model/joint_state/shoulder" to="joint_state/shoulder"/>
+		<remap from="mechanism_model/actuator_command/elbow" to="actuator_command/elbow"/>
+		<remap from="mechanism_model/actuator_state/elbow" to="actuator_state/elbow"/>
+		<remap from="mechanism_model/joint_command/elbow" to="joint_command/elbow"/>
+		<remap from="mechanism_model/joint_state/elbow" to="joint_state/elbow"/>
+		<remap from="mechanism_model/actuator_command/wrist" to="actuator_command/wrist"/>
+		<remap from="mechanism_model/actuator_state/wrist" to="actuator_state/wrist"/>
+		<remap from="mechanism_model/joint_command/wrist" to="joint_command/wrist"/>
+		<remap from="mechanism_model/joint_state/wrist" to="joint_state/wrist"/>
+		<!-- Gripper -->
+  	<remap from="mechanism_model/actuator_command/gripper" to="actuator_command/gripper"/>
+		<remap from="mechanism_model/actuator_state/gripper" to="actuator_state/gripper"/>
+		<remap from="mechanism_model/joint_command/gripper" to="joint_command/gripper"/>
+		<remap from="mechanism_model/joint_state/gripper" to="joint_state/gripper"/>
+    <remap from="mechanism_model/joint_state/finger_left_knuckle_1" to="joint_state/finger_left_knuckle_1"/>
+    <remap from="mechanism_model/joint_state/finger_left_knuckle_2" to="joint_state/finger_left_knuckle_2"/>
+    <remap from="mechanism_model/joint_state/finger_right_knuckle_1" to="joint_state/finger_right_knuckle_1"/>
+    <remap from="mechanism_model/joint_state/finger_right_knuckle_2" to="joint_state/finger_right_knuckle_2"/>
+    <!-- Head -->
+    <remap from="mechanism_model/actuator_command/head_pan" to="actuator_command/head_pan"/>
+    <remap from="mechanism_model/actuator_state/head_pan" to="actuator_state/head_pan"/>
+    <remap from="mechanism_model/joint_command/head_pan" to="joint_command/head_pan"/>
+    <remap from="mechanism_model/joint_state/head_pan" to="joint_state/head_pan"/>
+		<remap from="mechanism_model/actuator_command/head_tilt" to="actuator_command/head_tilt"/>
+		<remap from="mechanism_model/actuator_state/head_tilt" to="actuator_state/head_tilt"/>
+		<remap from="mechanism_model/joint_command/head_tilt" to="joint_command/head_tilt"/>
+		<remap from="mechanism_model/joint_state/head_tilt" to="joint_state/head_tilt"/>
+		
+    <remap from="mechanism_model/actuator_states" to="actuator_states"/>
+		<remap from="mechanism_model/joint_states" to="joint_states"/>
+  </node>
+  <node name="robot_state_publisher" pkg="robot_state_publisher" type="state_publisher"/>
+</launch>
+    

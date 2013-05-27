@@ -1,0 +1,7 @@
+<launch>
+    <node pkg="goo" type="potentiometers" name="goo_base">
+        <rosparam file="$(find korus_meta)/resources/yaml/goo/base.yaml" command="load" />
+        <remap from="goo_base/potentiometers" to="potentiometers"/>
+        <param name="count" value="50"/>    
+    </node>
+</launch>

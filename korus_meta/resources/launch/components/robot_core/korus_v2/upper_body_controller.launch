@@ -1,0 +1,37 @@
+<!--
+  Like whole body controller, but without the base
+-->
+
+<launch>
+  <node pkg="nodelet" type="nodelet" name="upper_body_controller" args="load ycs_joint_trajectory_controller/JointTrajectoryControllerNodelet robot_core">
+    <rosparam file="$(find korus_meta)/resources/yaml/controllers/korus_v2_upper_body_controller.yaml" command="load" />
+    <!-- param remaps -->
+    <remap from="upper_body_controller/joint_names" to = "mechanism_model/joint_groups/all"/>
+    <remap from="upper_body_controller/joints" to = "mechanism_model/joints"/>
+    <!-- topic remaps -->
+    <remap from="upper_body_controller/joint_command/torso_turn" to="joint_command/torso_turn"/>
+    <remap from="upper_body_controller/joint_state/torso_turn" to="joint_state/torso_turn"/>
+    <remap from="upper_body_controller/joint_command/torso_lift" to="joint_command/torso_lift"/>
+    <remap from="upper_body_controller/joint_state/torso_lift" to="joint_state/torso_lift"/>
+    <remap from="upper_body_controller/joint_command/shoulder_pitch" to="joint_command/shoulder_pitch"/>
+    <remap from="upper_body_controller/joint_state/shoulder_pitch" to="joint_state/shoulder_pitch"/>
+    <remap from="upper_body_controller/joint_command/elbow_pitch" to="joint_command/elbow_pitch"/>
+    <remap from="upper_body_controller/joint_state/elbow_pitch" to="joint_state/elbow_pitch"/>
+    <remap from="upper_body_controller/joint_command/wrist_pitch" to="joint_command/wrist_pitch"/>
+    <remap from="upper_body_controller/joint_state/wrist_pitch" to="joint_state/wrist_pitch"/>
+    <remap from="upper_body_controller/joint_command/wrist_roll" to="joint_command/wrist_roll"/>
+    <remap from="upper_body_controller/joint_state/wrist_roll" to="joint_state/wrist_roll"/>
+    <remap from="upper_body_controller/joint_command/wrist_yaw" to="joint_command/wrist_yaw"/>
+    <remap from="upper_body_controller/joint_state/wrist_yaw" to="joint_state/wrist_yaw"/>
+    <remap from="upper_body_controller/joint_command/wrist_pitch" to="joint_command/gripper"/>
+    <remap from="upper_body_controller/joint_state/wrist_pitch" to="joint_state/gripper"/>
+    <remap from="upper_body_controller/joint_command/3d_sensor" to="joint_command/3d_sensor"/>
+    <remap from="upper_body_controller/joint_state/3d_sensor" to="joint_state/3d_sensor"/>
+    <remap from="upper_body_controller/joint_command/monitor" to="joint_command/monitor"/>
+    <remap from="upper_body_controller/joint_state/monitor" to="joint_state/monitor"/>
+    <remap from="upper_body_controller/joint_command/tele_cam_pan" to="joint_command/tele_cam_pan"/>
+    <remap from="upper_body_controller/joint_state/tele_cam_pan" to="joint_state/tele_cam_pan"/>
+    <remap from="upper_body_controller/joint_command/tele_cam_tilt" to="joint_command/tele_cam_tilt"/>
+    <remap from="upper_body_controller/joint_state/tele_cam_tilt" to="joint_state/tele_cam_tilt"/>
+  </node>
+</launch>

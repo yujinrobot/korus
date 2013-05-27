@@ -1,0 +1,65 @@
+<!-- Simulation test for the kinematics base of Korus
+  - involves
+    * YCS joint trajectory controller
+    * Goos
+    * Korus robot with kinematics base
+  - launch Qgoo separately to make the base move
+-->
+
+<launch>
+  <arg name="simulation" value="true" />
+  <param name="robot_description" command="$(find xacro)/xacro.py '$(find korus_meta)/resources/urdf/korus_v3_world.urdf.xacro'" />
+  <node name="robot_state_publisher" pkg="robot_state_publisher" type="state_publisher" />
+  
+  <!-- Robot core -->
+  <node pkg="nodelet" type="nodelet" name="robot_core" args="manager">
+    <param name="num_worker_threads" value="4" />
+  </node>
+ 
+  <!-- Controller (whole robot) -->
+  <node pkg="nodelet" type="nodelet" name="kinematics_base_controller"
+      args="load ycs_joint_trajectory_controller/JointTrajectoryControllerNodelet robot_core">
+    <rosparam file="$(find korus_meta)/resources/yaml/test/kinematics_base/joint_trajectory_controller.yaml" command="load" />
+    <!-- param remaps -->
+    <remap from="kinematics_base_controller/joint_names" to="mechanism_model/joint_groups/all" />
+    <remap from="kinematics_base_controller/joints" to="mechanism_model/joints" />
+    <!-- topic remaps -->
+    <remap from="kinematics_base_controller/joint_command/revolute_1" to="joint_command/revolute_1" />
+    <remap from="kinematics_base_controller/joint_state/revolute_1" to="joint_state/revolute_1" />
+    <remap from="kinematics_base_controller/joint_command/prismatic" to="joint_command/prismatic" />
+    <remap from="kinematics_base_controller/joint_state/prismatic" to="joint_state/prismatic" />
+    <remap from="kinematics_base_controller/joint_command/revolute_2" to="joint_command/revolute_2" />
+    <remap from="kinematics_base_controller/joint_state/revolute_2" to="joint_state/revolute_2" />
+  </node>
+  
+  <!-- Mechanism model -->  
+  <node pkg="nodelet" type="nodelet" name="mechanism_model" args="load ycs_mechanism_model/MechanismModel robot_core">
+    <rosparam file="$(find korus_meta)/resources/yaml/test/kinematics_base/mechanism_model.yaml" command="load" />
+    <remap from="mechanism_model/actuator_command/revolute_1" to="actuator_command/revolute_1" />
+    <remap from="mechanism_model/actuator_state/revolute_1" to="actuator_state/revolute_1" />
+    <remap from="mechanism_model/joint_command/revolute_1" to="joint_command/revolute_1" />
+    <remap from="mechanism_model/joint_state/revolute_1" to="joint_state/revolute_1" />
+    <remap from="mechanism_model/actuator_command/prismatic" to="actuator_command/prismatic" />
+    <remap from="mechanism_model/actuator_state/prismatic" to="actuator_state/prismatic" />
+    <remap from="mechanism_model/joint_command/prismatic" to="joint_command/prismatic" />
+    <remap from="mechanism_model/joint_state/prismatic" to="joint_state/prismatic" />
+    <remap from="mechanism_model/actuator_command/revolute_2" to="actuator_command/revolute_2" />
+    <remap from="mechanism_model/actuator_state/revolute_2" to="actuator_state/revolute_2" />
+    <remap from="mechanism_model/joint_command/revolute_2" to="joint_command/revolute_2" />
+    <remap from="mechanism_model/joint_state/revolute_2" to="joint_state/revolute_2" />
+    <remap from="mechanism_model/joint_states" to="joint_states" />
+  </node>
+  
+  <!-- Goos (Motors) -->
+  <node pkg="nodelet" type="nodelet" name="goos" args="load goo/GooNodelet robot_core">
+    <rosparam file="$(find korus_meta)/resources/yaml/test/kinematics_base/goos.yaml" command="load" />
+    <remap from="goos/actuator_command/revolute_1" to="actuator_command/revolute_1" />
+    <remap from="goos/actuator_state/revolute_1" to="actuator_state/revolute_1" />
+    <remap from="goos/actuator_command/prismatic" to="actuator_command/prismatic"/>
+    <remap from="goos/actuator_state/prismatic" to="actuator_state/prismatic"/>
+    <remap from="goos/actuator_command/revolute_2" to="actuator_command/revolute_2"/>
+    <remap from="goos/actuator_state/revolute_2" to="actuator_state/revolute_2"/>
+    <remap from="goos/enable" to="enable" />
+    <remap from="goos/disable" to="disable" />
+  </node>
+</launch>  

@@ -1,0 +1,12 @@
+# MAINFRAME
+#
+# Description: 
+#     Connection details for the mainframe.
+# 
+
+server: 192.168.2.1
+ace_port: 5002
+hce_port: 5001
+ne_port: 5015
+connection_timeout: 3.0
+perform_shutdown: true

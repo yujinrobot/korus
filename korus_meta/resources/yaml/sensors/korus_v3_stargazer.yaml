@@ -1,0 +1,30 @@
+# This can be used instead of putting all the parameters in an xml launch file.
+# Use the following xml specification to call it.
+#
+# <rosparam file="$(find stargazer)/resources/yaml/parameters.yaml" command="load"/>]
+
+# Important Bits!
+# enable_verbose: true			# true or false
+# device_name: serial			# serial or ftdi
+# device_id: /dev/ttyUSB1		# /dev/ttyUSB1 or /dev/ttyS0 or ftdi_vendor_ID(?)
+# mark_type: Office				# Office or Home
+# thresholder: Manual			# Manual or 
+# cmos: Success					# Success or Failure
+# version: unknown				# doesn't matter
+# threshold_value: 220			# MUST be 200~255
+# height: -1					# doesn't matter and it will be updated automatically
+# on_time: 5000					# MUST be 1000~10000
+# off_time: 7000				# MUST be 1000~10000
+
+enable_verbose: false
+device_name: serial
+device_id: /dev/ttyUSB6
+
+mark_type: Office
+thresholder: Manual
+cmos: Success
+version: unknownros
+threshold_value: 230
+height: -1
+on_time: 5000
+off_time: 3000
