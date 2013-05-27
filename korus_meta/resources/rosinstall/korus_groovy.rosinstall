@@ -5,10 +5,10 @@
 
 # Yujin Stacks
 
-# Robosem
+# Korus
 - git:
-    local-name: robosem
-    uri: git@bitbucket.org:yujinrobot/robosem.git
+    local-name: korus
+    uri: git@bitbucket.org:yujinrobot/korus.git
     version: groovy-devel
     
 # YCS
