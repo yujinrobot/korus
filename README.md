@@ -16,16 +16,17 @@ Software for our mobile manipulation robot
 	sudo apt-get install ros-groovy-ecl-devices ros-groovy-ecl-containers ros-groovy-ecl-formatters ros-groovy-ecl-command-line ros-groovy-ecl-streams ros-groovy-ecl-converters ros-groovy-ecl-geometry ros-groovy-ecl-sigslots ros-groovy-ecl-exceptions ros-groovy-ecl-threads ros-groovy-ecl-utilities ros-groovy-ecl-manipulators
 	```
 	
-3. Get the rosinstaller
+3. Create your workspace, e.g.
 
 	```
-	$ wget korus_groovy.rosinstall
+	$ mkdir /opt/korus_workspace
 	```
 	
 4. Set up your catkin workspace (we will be using the [yujin_tools](https://github.com/yujinrobot/yujin_tools/wiki/yujin-init) from here on)
 
 	```
-	$ yujin_init_workspace ./ korus_groovy.rosinstall
+	$ cd /opt/korus_workspace
+	$ yujin_init_workspace ./ https://bitbucket.org/yujinrobot/korus/raw/4c75e40505135678b59b07df37589c289fbf7c29/korus_meta/resources/rosinstall/korus_groovy.rosinstall
 	```
 	
 5. Set-up the build directory
@@ -39,6 +40,13 @@ Software for our mobile manipulation robot
 	```
 	$ yujin_make
 	```
+	
+7. Set-up the environment variables
+
+	```
+	$ source devel/setup.bash
+	```
+	
 
 ## Running
 
