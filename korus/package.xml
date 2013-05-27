@@ -1,0 +1,17 @@
+<?xml version="1.0"?>
+<package>
+  <name>korus</name>
+  <version>0.0.1</version>
+  <description>Catkin metapackage for the Korus software stack</description>
+  <maintainer email="marcus@todo.todo">marcus</maintainer>
+  <license>Yujin</license>
+  <url type="website">http://ros.org/wiki/korus</url>
+  <author email="jane.doe@example.com">Jane Doe</author>
+  
+  <buildtool_depend>catkin</buildtool_depend>
+  <run_depend>korus_meta</run_depend>
+
+  <export>
+    <metapackage/>
+  </export>
+</package>
