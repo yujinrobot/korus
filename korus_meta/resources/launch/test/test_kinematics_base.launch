@@ -9,7 +9,7 @@
 <launch>
   <arg name="simulation" value="true" />
   <param name="robot_description" command="$(find xacro)/xacro.py '$(find korus_meta)/resources/urdf/korus_v3_world.urdf.xacro'" />
-  <node name="robot_state_publisher" pkg="robot_state_publisher" type="state_publisher" />
+  <node name="robot_state_publisher" pkg="robot_state_publisher" type="robot_state_publisher" />
   
   <!-- Robot core -->
   <node pkg="nodelet" type="nodelet" name="robot_core" args="manager">

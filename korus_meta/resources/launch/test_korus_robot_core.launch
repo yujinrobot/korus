@@ -20,7 +20,7 @@
 	  </node>
 	  
     <param name="robot_description" command="$(find xacro)/xacro.py '$(find korus_meta)/resources/urdf/korus_v3_diff_drive.urdf.xacro'"/>
-	  <node name="robot_state_publisher" pkg="robot_state_publisher" type="state_publisher"/>
+	  <node name="robot_state_publisher" pkg="robot_state_publisher" type="robot_state_publisher"/>
 	  
 	  <node pkg="nodelet" type="nodelet" name="goo" args="load goo/GooNodelet robot_core">
 	    <rosparam file="$(find korus_meta)/resources/yaml/goo/simulation.yaml" command="load"/>

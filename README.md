@@ -26,6 +26,7 @@ Software for our mobile manipulation robot
 
 	```
 	$ cd /opt/korus_workspace
+
 	$ yujin_init_workspace ./ https://bitbucket.org/yujinrobot/korus/raw/4c75e40505135678b59b07df37589c289fbf7c29/korus_meta/resources/rosinstall/korus_groovy.rosinstall
 	```
 	

@@ -29,8 +29,21 @@
     uri: git@bitbucket.org:yujinrobot/ycs_mechanisms.git
     version: groovy-devel
 - git:
+    local-name: ycs_mobile_bases
+    uri: git@bitbucket.org:yujinrobot/ycs_mobile_bases.git
+    version: groovy-devel
+- git:
     local-name: ycs_msgs
     uri: git@bitbucket.org:yujinrobot/ycs_msgs.git
+    version: groovy-devel
+# Uncomment when catkinized nav_stack is available
+#- git:
+#    local-name: ycs_navigation
+#    uri: git@bitbucket.org:yujinrobot/ycs_navigation.git
+#    version: groovy-devel
+- git:
+    local-name: ycs_remocon
+    uri: git@bitbucket.org:yujinrobot/ycs_remocon.git
     version: groovy-devel
     
 # ECL (just overlay a few more recent versions)
