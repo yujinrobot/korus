@@ -9,7 +9,9 @@
   <author email="marcus.liebhardt@yujinrobot.com">Marcus Liebhardt</author>
   
   <buildtool_depend>catkin</buildtool_depend>
+
   <run_depend>korus_meta</run_depend>
+  <run_depend>korus_moveit_config</run_depend>
 
   <export>
     <metapackage/>

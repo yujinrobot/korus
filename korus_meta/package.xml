@@ -12,7 +12,6 @@
   <buildtool_depend>catkin</buildtool_depend>
     
   <!-- Yujin -->
-  <run_depend>korus_moveit_config</run_depend> -->
   <run_depend>ycs_mechanism_model</run_depend>
   <run_depend>goo</run_depend>
   <run_depend>cruizcore</run_depend>
