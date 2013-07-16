@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <package>
   <name>korus_meta</name>
-  <version>0.0.1</version>
+  <version>0.1.0</version>
   <description>Meta-package for the Korus software stack</description>
   <maintainer email="marcus.liebhardt@yujinrobot.com">Marcus Liebhardt</maintainer>
   <license>Yujin</license>
@@ -12,7 +12,7 @@
   <buildtool_depend>catkin</buildtool_depend>
     
   <!-- Yujin -->
-<!--   <run_depend>korus_v3_arm_navigation</run_depend> -->
+  <run_depend>korus_moveit_config</run_depend> -->
   <run_depend>ycs_mechanism_model</run_depend>
   <run_depend>goo</run_depend>
   <run_depend>cruizcore</run_depend>
