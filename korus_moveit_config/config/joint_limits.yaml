@@ -1,0 +1,31 @@
+joint_limits:
+  wrist:
+    has_velocity_limits: true
+    max_velocity: 1.26536370769
+    has_acceleration_limits: true
+    max_acceleration: 0.253072741538
+  torso_lift:
+    has_velocity_limits: true
+    max_velocity: 0.038
+    has_acceleration_limits: true
+    max_acceleration: 0.0076
+  shoulder:
+    has_velocity_limits: true
+    max_velocity: 1.27409035395
+    has_acceleration_limits: true
+    max_acceleration: 0.25481807079
+  elbow:
+    has_velocity_limits: true
+    max_velocity: 1.58824961931
+    has_acceleration_limits: true
+    max_acceleration: 0.317649923862
+  gripper:
+    has_velocity_limits: true
+    max_velocity: 0.055
+    has_acceleration_limits: true
+    max_acceleration: 0.011
+  torso_turn:
+    has_velocity_limits: true
+    max_velocity: 1.54810704652
+    has_acceleration_limits: true
+    max_acceleration: 0.309621409304
