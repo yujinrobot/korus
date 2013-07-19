@@ -1,0 +1,24 @@
+controller_list:
+  - name: /korus
+    ns: arm_controller
+    type: FollowJointTrajectory
+    default: true
+    joints:
+      - torso_turn
+      - torso_lift
+      - shoulder
+      - elbow
+      - wrist
+#  - name: gripper_controller
+#    ns: ""
+#    type: FollowJointTrajectory
+#    default: true
+#    joints:
+#      - gripper
+#  - name: head_controller
+#    ns: ""
+#    type: FollowJointTrajectory
+#    default: true
+#    joints:
+#      - head_pan
+#      - head_tilt

@@ -5,4 +5,4 @@ moveit_setup_assistant_config:
   SRDF:
     relative_path: config/korus_v3.srdf
   CONFIG:
-    generated_timestamp: 1373880562
+    generated_timestamp: 1374022603

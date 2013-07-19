@@ -1,9 +1,19 @@
 joint_limits:
-  wrist:
+  torso_turn:
     has_velocity_limits: true
-    max_velocity: 1.26536370769
+    max_velocity: 1.54810704652
     has_acceleration_limits: true
-    max_acceleration: 0.253072741538
+    max_acceleration: 0.309621409304
+  head_pan:
+    has_velocity_limits: true
+    max_velocity: 8.30776723947
+    has_acceleration_limits: true
+    max_acceleration: 1.661553447894
+  head_tilt:
+    has_velocity_limits: true
+    max_velocity: 8.30776723947
+    has_acceleration_limits: true
+    max_acceleration: 1.661553447894
   torso_lift:
     has_velocity_limits: true
     max_velocity: 0.038
@@ -19,13 +29,33 @@ joint_limits:
     max_velocity: 1.58824961931
     has_acceleration_limits: true
     max_acceleration: 0.317649923862
+  wrist:
+    has_velocity_limits: true
+    max_velocity: 1.26536370769
+    has_acceleration_limits: true
+    max_acceleration: 0.253072741538
+  finger_left_knuckle_1:
+    has_velocity_limits: true
+    max_velocity: 1.41022603561
+    has_acceleration_limits: true
+    max_acceleration: 0.282045207122
+  finger_left_knuckle_2:
+    has_velocity_limits: true
+    max_velocity: 1.41022603561
+    has_acceleration_limits: true
+    max_acceleration: 0.282045207122
+  finger_right_knuckle_1:
+    has_velocity_limits: true
+    max_velocity: 1.41022603561
+    has_acceleration_limits: true
+    max_acceleration: 0.282045207122
+  finger_right_knuckle_2:
+    has_velocity_limits: true
+    max_velocity: 1.41022603561
+    has_acceleration_limits: true
+    max_acceleration: 0.282045207122
   gripper:
     has_velocity_limits: true
-    max_velocity: 0.055
+    max_velocity: 1.41022603561
     has_acceleration_limits: true
-    max_acceleration: 0.011
-  torso_turn:
-    has_velocity_limits: true
-    max_velocity: 1.54810704652
-    has_acceleration_limits: true
-    max_acceleration: 0.309621409304
+    max_acceleration: 0.282045207122

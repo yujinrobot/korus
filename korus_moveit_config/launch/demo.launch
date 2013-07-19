@@ -13,7 +13,7 @@
   <node name="robot_state_publisher" pkg="robot_state_publisher" type="robot_state_publisher" respawn="true" output="screen" />
 
   <include file="$(find korus_moveit_config)/launch/move_group.launch">
-    <arg name="allow_trajectory_execution" value="false"/>
+    <arg name="allow_trajectory_execution" value="true"/>
   </include>
 
   <include file="$(find korus_moveit_config)/launch/moveit_rviz.launch">
