@@ -18,8 +18,7 @@
   <run_depend>stargazer</run_depend>
   <run_depend>diff_drive_base</run_depend>
   <run_depend>diff_drive_gyro_base</run_depend>
-  <run_depend>pointcloud_to_laserscan</run_depend>
-  <run_depend>sensor_integration_board</run_depend>
+  <run_depend>sensor_board</run_depend>
   <run_depend>ycs_joint_trajectory_controller</run_depend>
 <!--   <run_depend>ycs_localization_ekf</run_depend> -->
 <!--   <run_depend>ycs_stargazer_map</run_depend> -->
