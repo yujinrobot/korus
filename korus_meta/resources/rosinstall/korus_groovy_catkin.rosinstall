@@ -51,3 +51,13 @@
     local-name: ecl_manipulation
     uri: 'https://github.com/bit-pirate/ecl_manipulation.git'
     version: groovy-devel
+
+# ROS
+- git:
+    local-name: xacro
+    uri: 'https://github.com/ros/xacro.git'
+    version: hydro-devel
+- git:
+    local-name: robot_model
+    uri: 'https://github.com/ros/robot_model.git'
+    version: hydro-devel
