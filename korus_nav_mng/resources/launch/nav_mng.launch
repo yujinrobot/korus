@@ -1,0 +1,31 @@
+<!--
+  Korus navigation manager.
+ -->
+<launch>
+  <arg name="check_localized" default="false"/>
+
+  <node pkg="korus_nav_mng" type="navigation_mng" name="navigation_mng">
+    <!--    Parameters   -->
+    <param name="bound_speed"             value="false"/>
+    <param name="check_sonars"            value="false"/>
+    <param name="check_bumpers"           value="false"/>
+    <param name="check_psd_irs"           value="false"/>
+    <param name="check_localized"         value="$(arg check_localized)"/>
+    
+    <!-- Incoming remaps -->
+    <remap from="sonars"       to="sensors/sonar"/>
+    <remap from="on_off_dev"   to="sensors/OnOffDevice"/>
+    <remap from="nav_cmd_vel"  to="nav_cmd_vel"/>
+    <remap from="joy_cmd_vel"  to="rem_cmd_vel"/>
+    <remap from="odometry"     to="odom"/>
+    <remap from="stargazer"    to="stargazer/pose"/>
+    <remap from="new_goal"     to="move_base_simple/goal"/>
+    <remap from="amcl_init"    to="initialpose"/>
+    <remap from="amcl_pose"    to="amcl/pose"/>
+    
+    <!-- Outgoing remaps -->
+    <remap from="mng_cmd_vel"  to="cmd_vel"/>
+    <remap from="cancel_goal"  to="move_base/cancel"/>
+    <remap from="initial_pose" to="initialpose"/>
+  </node>
+</launch>

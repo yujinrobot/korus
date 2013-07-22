@@ -1,0 +1,5 @@
+<launch>
+  <node pkg="korus_nav_mng" type="board_emulator" name="board_emulator" ns="korus">
+    <remap from="OnOffDevice" to="sensors/OnOffDevice"/>
+  </node>
+</launch>
