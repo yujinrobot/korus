@@ -25,6 +25,10 @@ include_directories(include ${Boost_INCLUDE_DIR} ${catkin_INCLUDE_DIRS})
 # common commands for building c++ executables and libraries
 add_executable(navigation_mng src/nav_mng_node.cpp)
 add_executable(board_emulator src/nav_mng_test.cpp)
+
+add_dependencies(navigation_mng sensor_board_msgs_gencpp stargazer_msgs_gencpp)
+add_dependencies(board_emulator sensor_board_msgs_gencpp stargazer_msgs_gencpp)
+
 target_link_libraries(navigation_mng ${Boost_LIBRARIES} ${catkin_LIBRARIES})
 target_link_libraries(board_emulator ${Boost_LIBRARIES} ${catkin_LIBRARIES})
 
