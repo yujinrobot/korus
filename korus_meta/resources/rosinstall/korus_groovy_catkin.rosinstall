@@ -12,7 +12,7 @@
     version: groovy-devel
  - git:
     local-name: korus_comms
-    uri: https://github.com/yujinrobot/korus_comms.git
+    uri: 'https://github.com/yujinrobot/korus_comms.git'
     version: groovy-devel
     
 # YCS
