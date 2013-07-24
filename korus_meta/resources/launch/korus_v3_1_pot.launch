@@ -82,8 +82,8 @@
       <arg name="operation_mode" value="1"/>
     </include>
 
-    <!--  *********** rapi launch: hce, navi ************  -->
-    <include file="$(find korus_meta)/resources/launch/components/rapi.launch"/>    
+    <!--  *********** rapi launch: hce, navi ************  deprecated
+    <include file="$(find korus_meta)/resources/launch/components/rapi.launch"/>-->    
     
   </group>
   
