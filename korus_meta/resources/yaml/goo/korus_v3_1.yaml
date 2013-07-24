@@ -22,7 +22,7 @@ motor:
     control_mode: velocity, 
     measurement_device: encoder,
     encoder_direction: -1, 
-    output_direction: -1,
+    output_direction: +1,
      
     p_gain: 0.0025, 
     i_gain: 0.0002, 
@@ -74,8 +74,8 @@ motor:
     feedback_mode: position,
     control_mode: velocity, 
     measurement_device: encoder,
-    encoder_direction: 1, 
-    output_direction: 1, 
+    encoder_direction: +1, 
+    output_direction: -1, 
       
     p_gain: 0.0026, 
     i_gain: 0.0002, 
