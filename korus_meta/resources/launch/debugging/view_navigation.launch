@@ -6,5 +6,5 @@
   
  -->
 <launch>
-  <node name="rviz" pkg="rviz" type="rviz" args="-d $(find korus_meta)/resources/rviz/view_navigation.vcg"/>
+  <node name="rviz" pkg="rviz" type="rviz" args="-d $(find korus_meta)/resources/rviz/view_navigation.rviz"/>
 </launch>
