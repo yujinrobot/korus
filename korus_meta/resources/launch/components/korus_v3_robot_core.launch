@@ -39,9 +39,9 @@
   </include>
   
   <!-- controllers -->
-<!--  <include file="$(find korus_meta)/resources/launch/components/robot_core/korus_v3/base_controller.launch">
+  <include file="$(find korus_meta)/resources/launch/components/robot_core/korus_v3/base_controller.launch">
     <arg name="simulation" value="$(arg simulation)"/>
-  </include> -->
+  </include>
   <include unless="$(arg whole_body_control)" file="$(find korus_meta)/resources/launch/components/robot_core/korus_v3/arm_controller.launch"/>
   <include unless="$(arg whole_body_control)" file="$(find korus_meta)/resources/launch/components/robot_core/korus_v3/gripper_controller.launch"/>
   <include unless="$(arg whole_body_control)" file="$(find korus_meta)/resources/launch/components/robot_core/korus_v3/head_controller.launch"/>
