@@ -10,6 +10,10 @@
     local-name: korus
     uri: git@bitbucket.org:yujinrobot/korus.git
     version: groovy-devel
+ - git:
+    local-name: korus_comms
+    uri: 'https://github.com/yujinrobot/korus_comms.git'
+    version: groovy-devel
     
 # YCS
 - git:
@@ -60,3 +64,8 @@
     local-name: robot_model
     uri: 'https://github.com/ros/robot_model.git'
     version: hydro-devel
+- git:
+    local-name: navigation
+    uri: 'https://github.com/ros-planning/navigation.git'
+    version: groovy-devel-catkinized
+
