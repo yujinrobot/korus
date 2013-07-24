@@ -38,7 +38,7 @@
       <arg name="launch_stargazer" value="true"/>
       <arg name="launch_gripper_camera" value="false"/>
       <arg name="launch_gyro" value="true"/>
-      <arg name="launch_sensor_integration_board" value="true"/>
+      <arg name="launch_sensor_board" value="true"/>
       <arg name="launch_remocon" value="true"/>
     </include>
     
