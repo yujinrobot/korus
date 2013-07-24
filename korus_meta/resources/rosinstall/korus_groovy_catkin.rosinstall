@@ -10,7 +10,7 @@
     local-name: korus
     uri: git@bitbucket.org:yujinrobot/korus.git
     version: groovy-devel
- - git:
+- git:
     local-name: korus_comms
     uri: 'https://github.com/yujinrobot/korus_comms.git'
     version: groovy-devel
