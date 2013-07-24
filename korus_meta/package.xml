@@ -35,10 +35,11 @@
 <!--   <depend package="remop_core"/>  -->
  
   <!-- ROS -->
+  <run_depend>std_msgs</run_depend>
   <run_depend>control_msgs</run_depend>
   <run_depend>joint_state_publisher</run_depend>
   <run_depend>robot_state_publisher</run_depend>
-  <run_depend>std_msgs</run_depend>
+  <run_depend>laser_drivers</run_depend>
   
   <!-- System dependencies -->
   <run_depend>unison</run_depend>
