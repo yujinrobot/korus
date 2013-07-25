@@ -3,7 +3,7 @@
   <xacro:include filename="$(find korus_meta)/resources/urdf/components/omni_drive_base.urdf.xacro"/>
   <xacro:include filename="$(find korus_meta)/resources/urdf/components/upper_body.urdf.xacro"/>
   <xacro:include filename="$(find korus_meta)/resources/urdf/components/arm.urdf.xacro"/>
-  <xacro:include filename="$(find korus_meta)/resources/urdf/components/table.urdf.xacro"/>
+  <xacro:include filename="$(find korus_meta)/resources/urdf/environment/table.urdf.xacro"/>
   
   <!-- ************************ Base model ************************* -->
   <xacro:omni_drive_base parent="local_manip_start" body_mount_link="base_link"/>
