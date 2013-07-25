@@ -1,7 +1,0 @@
-<launch>
-    <node pkg="goo" type="potentiometers" name="goo_arm_lower">
-        <rosparam file="$(find korus_meta)/resources/yaml/goo/arm_lower.yaml" command="load" />
-        <remap from="goo_arm_lower/potentiometers" to="potentiometers"/>
-        <param name="count" value="50"/>
-    </node>
-</launch>

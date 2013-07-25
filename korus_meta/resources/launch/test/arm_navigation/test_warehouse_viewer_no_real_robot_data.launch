@@ -1,5 +1,0 @@
-<launch>
-  <group ns="korus">
-    <include file="$(find korus_arm_navigation)/launch/planning_scene_warehouse_viewer_korus_no_real_robot_data.launch"/>    
-  </group>
-</launch>

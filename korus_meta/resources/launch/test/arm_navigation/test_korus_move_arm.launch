@@ -1,5 +1,0 @@
-<launch>
-  <group ns="korus">
-    <include file="$(find korus_arm_navigation)/launch/move_groups.launch" />
-  </group>
-</launch>

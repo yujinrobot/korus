@@ -1,8 +1,0 @@
-<!--
-  Launches the Pick & Place application
- -->
-<launch>
-  <group ns="korus">
-    <node pkg="korus_smach" type="pick_and_place_test.py" name="pick_and_place_app"/>
-  </group>
-</launch>
