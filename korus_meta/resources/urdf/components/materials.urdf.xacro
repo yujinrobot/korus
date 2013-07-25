@@ -1,6 +1,6 @@
 <?xml version="1.0" ?>
-<robot xmlns:xacro="http://www.ros.org/wiki/xacro" name="materials">
-      
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro">
+
 	<!-- ************************ Properties ************************** -->
 	<xacro:property name="pi" value="3.1415926535897931" />
 	<xacro:property name="rad" value="0.0174532925199" /> <!-- pi/180 -->

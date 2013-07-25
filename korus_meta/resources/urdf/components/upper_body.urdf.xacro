@@ -1,9 +1,9 @@
 <?xml version="1.0" ?>
-<robot xmlns:xacro="http://www.ros.org/wiki/xacro" name="korus_v3_body">
-  <include filename="$(find korus_meta)/resources/urdf/materials.urdf.xacro"/>  
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro">
+  <xacro:include filename="$(find korus_meta)/resources/urdf/materials.urdf.xacro"/>
 
   <!-- ************************** Robot body macro ************************** -->
-  <xacro:macro name="korus_v3_body" params="body_mount_link arm_mount_link">
+  <xacro:macro name="upper_body" params="body_mount_link arm_mount_link">
 
     <!-- ************************** Torso *************************** -->
 	  <joint name="torso_turn" type="revolute">

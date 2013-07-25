@@ -1,9 +1,9 @@
 <?xml version="1.0" ?>
-<robot xmlns:xacro="http://www.ros.org/wiki/xacro" name="korus_3DOF_arm">
-  <include filename="$(find korus_meta)/resources/urdf/materials.urdf.xacro"/>  
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro">
+  <xacro:include filename="$(find korus_meta)/resources/urdf/materials.urdf.xacro"/>
   
   <!-- ************************ Arm macro ************************* -->
-  <xacro:macro name="korus_3DOF_arm" params="arm_mount_link">
+  <xacro:macro name="arm" params="arm_mount_link">
     <joint name="arm_mount" type="fixed">
       <parent link="${arm_mount_link}"/>
       <child link="shoulder_link"/>

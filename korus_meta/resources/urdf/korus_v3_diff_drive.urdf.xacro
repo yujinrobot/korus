@@ -1,15 +1,15 @@
 <?xml version="1.0" ?>
-<robot xmlns:xacro="http://www.ros.org/wiki/xacro" name="korus_v3">
-  <xacro:include filename="$(find korus_meta)/resources/urdf/diff_drive_base.urdf.xacro"/>
-  <xacro:include filename="$(find korus_meta)/resources/urdf/korus_v3_body.urdf.xacro"/>
-  <xacro:include filename="$(find korus_meta)/resources/urdf/korus_3DOF_arm.urdf.xacro"/>
-
+<robot name="korus_v3" xmlns:xacro="http://www.ros.org/wiki/xacro">
+  <xacro:include filename="$(find korus_meta)/resources/urdf/components/diff_drive_base.urdf.xacro"/>
+  <xacro:include filename="$(find korus_meta)/resources/urdf/components/upper_body.urdf.xacro"/>
+  <xacro:include filename="$(find korus_meta)/resources/urdf/components/arm.urdf.xacro"/>
+  
   <!-- ************************ Base model ************************* -->
   <xacro:diff_drive_base parent="base_footprint" body_mount_link="base_link"/>
-
+  
   <!-- ************************ Body model ************************* -->
-  <xacro:korus_v3_body body_mount_link="base_link" arm_mount_link="torso_lift_link"/>
- 
+  <xacro:upper_body body_mount_link="base_link" arm_mount_link="torso_lift_link"/>
+  
   <!-- ************************ Arm model ************************* -->
-	<xacro:korus_3DOF_arm arm_mount_link="torso_lift_link"/>
+  <xacro:arm arm_mount_link="torso_lift_link"/>
 </robot>

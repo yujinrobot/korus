@@ -1,46 +1,19 @@
 <?xml version="1.0" ?>
-<robot xmlns:xacro="http://www.ros.org/wiki/xacro" name="korus_v3">
-  <xacro:include filename="$(find korus_meta)/resources/urdf/kinematics_base.urdf.xacro"/>
-  <xacro:include filename="$(find korus_meta)/resources/urdf/diff_drive_base.urdf.xacro"/>
-  <xacro:include filename="$(find korus_meta)/resources/urdf/omni_drive_base.urdf.xacro"/>
-  <xacro:include filename="$(find korus_meta)/resources/urdf/korus_v3_body.urdf.xacro"/>
-  <xacro:include filename="$(find korus_meta)/resources/urdf/korus_3DOF_arm.urdf.xacro"/>
-  <xacro:include filename="$(find korus_meta)/resources/urdf/table.urdf.xacro"/>  
-
+<robot name="korus_v3" xmlns:xacro="http://www.ros.org/wiki/xacro">
+  <xacro:include filename="$(find korus_meta)/resources/urdf/components/omni_drive_base.urdf.xacro"/>
+  <xacro:include filename="$(find korus_meta)/resources/urdf/components/upper_body.urdf.xacro"/>
+  <xacro:include filename="$(find korus_meta)/resources/urdf/components/arm.urdf.xacro"/>
+  <xacro:include filename="$(find korus_meta)/resources/urdf/components/table.urdf.xacro"/>
+  
   <!-- ************************ Base model ************************* -->
-  <xacro:kinematics_base parent="local_manip_start" body_mount_link="base_link"/>
-<!--   <xacro:diff_drive_base parent="base_footprint" body_mount_link="base_link"/> -->
-<!--   <xacro:omni_drive_base parent="base_footprint" body_mount_link="base_link"/> -->
-
+  <xacro:omni_drive_base parent="local_manip_start" body_mount_link="base_link"/>
+  
   <!-- ************************ Body model ************************* -->
-  <xacro:korus_v3_body body_mount_link="base_link" arm_mount_link="torso_lift_link"/>
- 
+  <xacro:upper_body body_mount_link="base_link" arm_mount_link="torso_lift_link"/>
+  
   <!-- ************************ Arm model ************************* -->
-  <xacro:korus_3DOF_arm arm_mount_link="torso_lift_link"/>
-
+  <xacro:arm arm_mount_link="torso_lift_link"/>
+  
   <!-- ************************ Table model ************************* -->
   <xacro:table parent="local_manip_start"/>
-  
-  <!-- ************************ Object on floor ************************* -->
-<!--   <joint name="floor_object" type="fixed"> -->
-<!--     <parent link="local_manip_start"/> -->
-<!--     <child link="floor_object_link"/> -->
-<!--     <origin xyz="-0.3 0.0 0.0" rpy="0 0 0" /> -->
-<!--   </joint> -->
-<!-- 	<link name="floor_object_link"> -->
-<!-- 	  <visual> -->
-<!-- 	    <geometry> -->
-<!-- 	      <box size="0.08 0.08 0.15"/> -->
-<!-- 	    </geometry> -->
-<!-- 	    <origin xyz="0.0 0.0 0.075" rpy="0 0 0"/> -->
-<!-- 	    <xacro:insert_block name="material_green" /> -->
-<!-- 	  </visual> -->
-<!-- 	  <collision> -->
-<!-- 	    <geometry> -->
-<!-- 	      <box size="0.08 0.08 0.15"/> -->
-<!-- 	    </geometry> -->
-<!-- 	    <origin xyz="0.0 0.0 0.075" rpy="0 0 0"/> -->
-<!-- 	    <xacro:insert_block name="material_green" />   -->
-<!-- 	  </collision> -->
-<!-- 	</link>   -->
 </robot>
