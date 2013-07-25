@@ -1,5 +1,5 @@
 <?xml version="1.0" ?>
-<robot name="korus_v3" xmlns:xacro="http://www.ros.org/wiki/xacro">
+<robot name="korus" xmlns:xacro="http://www.ros.org/wiki/xacro">
   <xacro:include filename="$(find korus_meta)/resources/urdf/components/omni_drive_base.urdf.xacro"/>
   <xacro:include filename="$(find korus_meta)/resources/urdf/components/upper_body.urdf.xacro"/>
   <xacro:include filename="$(find korus_meta)/resources/urdf/components/arm.urdf.xacro"/>

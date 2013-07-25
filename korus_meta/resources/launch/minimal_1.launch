@@ -1,23 +1,23 @@
 <!--
-  Launches the mighty Korus
+  Launches the Korus' minimal configuration for Yujin's robot (#1), i.e.
   
-  In detail:
-   * robot core (goo, mechanism model, joint trajectory controller
-   * ...
- -->
+  * robot core (goo, mechanism model, joint trajectory controller)
+  * sensors (...)
+  -->
+  
 <launch>
   <group ns="korus">
     <!--  ************* Robot core components **********  -->
-    <include file="$(find korus_meta)/resources/launch/components/korus_v3_robot_core.launch">
+    <include file="$(find korus_meta)/resources/launch/components/robot_core.launch">
       <arg name="simulation" value="true"/>
       <arg name="whole_body_control" value="false"/>
-      <arg name="kinematics_base" value="false"/>
-      <arg name="korus_v3_1" value="true"/>
-      <arg name="korus_v3_2" value="false"/>
+      <arg name="omni_base" value="false"/>
+      <arg name="korus_1" value="true"/>
+      <arg name="korus_2" value="false"/>
     </include>
     
     <!--  ***************** Robot sensors **************  -->
-    <include file="$(find korus_meta)/resources/launch/components/korus_v3_sensors.launch">
+    <include file="$(find korus_meta)/resources/launch/components/sensors.launch">
       <arg name="launch_hokuyo" value="false"/>
       <arg name="launch_sonars" value="false"/>
       <arg name="launch_sensor_3d" value="false"/>

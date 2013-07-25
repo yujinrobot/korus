@@ -1,19 +1,15 @@
 <?xml version="1.0" ?>
-<robot name="korus_v3" xmlns:xacro="http://www.ros.org/wiki/xacro">
-  <xacro:include filename="$(find korus_meta)/resources/urdf/components/omni_drive_base.urdf.xacro"/>
+<robot name="korus" xmlns:xacro="http://www.ros.org/wiki/xacro">
+  <xacro:include filename="$(find korus_meta)/resources/urdf/components/diff_drive_base.urdf.xacro"/>
   <xacro:include filename="$(find korus_meta)/resources/urdf/components/upper_body.urdf.xacro"/>
   <xacro:include filename="$(find korus_meta)/resources/urdf/components/arm.urdf.xacro"/>
-  <xacro:include filename="$(find korus_meta)/resources/urdf/environment/table.urdf.xacro"/>
   
   <!-- ************************ Base model ************************* -->
-  <xacro:omni_drive_base parent="local_manip_start" body_mount_link="base_link"/>
+  <xacro:diff_drive_base parent="base_footprint" body_mount_link="base_link"/>
   
   <!-- ************************ Body model ************************* -->
   <xacro:upper_body body_mount_link="base_link" arm_mount_link="torso_lift_link"/>
   
   <!-- ************************ Arm model ************************* -->
   <xacro:arm arm_mount_link="torso_lift_link"/>
-  
-  <!-- ************************ Table model ************************* -->
-  <xacro:table parent="local_manip_start"/>
 </robot>

@@ -3,32 +3,32 @@
  -->
  
 <launch>
-  <arg name="kinematics_base"/>
-  <param name="robot_description" command="$(find xacro)/xacro.py '$(find korus_meta)/resources/urdf/korus_v3_diff_drive.urdf.xacro'"/>
+  <arg name="omni_base"/>
+  <param name="robot_description" command="$(find xacro)/xacro.py '$(find korus_meta)/resources/urdf/korus_diff_drive.urdf.xacro'"/>
   <node pkg="nodelet" type="nodelet" name="mechanism_model" args="load ycs_mechanism_model/MechanismModel robot_core">
-    <rosparam unless="$(arg kinematics_base)" file="$(find korus_meta)/resources/yaml/mechanism_model/korus_v3.yaml" command="load"/>
-    <rosparam if="$(arg kinematics_base)" file="$(find korus_meta)/resources/yaml/mechanism_model/korus_v3_kinematics_base.yaml" command="load"/>
+    <rosparam unless="$(arg omni_base)" file="$(find korus_meta)/resources/yaml/mechanism_model/mechanisms.yaml" command="load"/>
+    <rosparam if="$(arg omni_base)" file="$(find korus_meta)/resources/yaml/mechanism_model/mechanisms_omni_base.yaml" command="load"/>
     <!-- Base -->
-    <remap unless="$(arg kinematics_base)" from="mechanism_model/actuator_command/wheel_left" to="actuator_command/wheel_left"/>
-    <remap unless="$(arg kinematics_base)" from="mechanism_model/actuator_state/wheel_left" to="actuator_state/wheel_left"/>
-    <remap unless="$(arg kinematics_base)" from="mechanism_model/joint_command/wheel_left" to="joint_command/wheel_left"/>
-    <remap unless="$(arg kinematics_base)" from="mechanism_model/joint_state/wheel_left" to="joint_state/wheel_left"/>
-    <remap unless="$(arg kinematics_base)" from="mechanism_model/actuator_command/wheel_right" to="actuator_command/wheel_right"/>
-    <remap unless="$(arg kinematics_base)" from="mechanism_model/actuator_state/wheel_right" to="actuator_state/wheel_right"/>
-    <remap unless="$(arg kinematics_base)" from="mechanism_model/joint_command/wheel_right" to="joint_command/wheel_right"/>
-    <remap unless="$(arg kinematics_base)" from="mechanism_model/joint_state/wheel_right" to="joint_state/wheel_right"/>
-    <remap if="$(arg kinematics_base)" from="mechanism_model/actuator_command/base_x" to="actuator_command/base_x"/>
-    <remap if="$(arg kinematics_base)" from="mechanism_model/actuator_state/base_x" to="actuator_state/base_x"/>
-    <remap if="$(arg kinematics_base)" from="mechanism_model/joint_command/base_x" to="joint_command/base_x"/>
-    <remap if="$(arg kinematics_base)" from="mechanismu_model/joint_state/base_x" to="joint_state/base_x"/>
-    <remap if="$(arg kinematics_base)" from="mechanism_model/actuator_command/base_y" to="actuator_command/base_y"/>
-    <remap if="$(arg kinematics_base)" from="mechanism_model/actuator_state/base_y" to="actuator_state/base_y"/>
-    <remap if="$(arg kinematics_base)" from="mechanism_model/joint_command/base_y" to="joint_command/base_y"/>
-    <remap if="$(arg kinematics_base)" from="mechanism_model/joint_state/base_y" to="joint_state/base_y"/>
-    <remap if="$(arg kinematics_base)" from="mechanism_model/actuator_command/base_theta" to="actuator_command/base_theta"/>
-    <remap if="$(arg kinematics_base)" from="mechanism_model/actuator_state/base_theta" to="actuator_state/base_theta"/>
-    <remap if="$(arg kinematics_base)" from="mechanism_model/joint_command/base_theta" to="joint_command/base_theta"/>
-    <remap if="$(arg kinematics_base)" from="mechanism_model/joint_state/base_theta" to="joint_state/base_theta"/>
+    <remap unless="$(arg omni_base)" from="mechanism_model/actuator_command/wheel_left" to="actuator_command/wheel_left"/>
+    <remap unless="$(arg omni_base)" from="mechanism_model/actuator_state/wheel_left" to="actuator_state/wheel_left"/>
+    <remap unless="$(arg omni_base)" from="mechanism_model/joint_command/wheel_left" to="joint_command/wheel_left"/>
+    <remap unless="$(arg omni_base)" from="mechanism_model/joint_state/wheel_left" to="joint_state/wheel_left"/>
+    <remap unless="$(arg omni_base)" from="mechanism_model/actuator_command/wheel_right" to="actuator_command/wheel_right"/>
+    <remap unless="$(arg omni_base)" from="mechanism_model/actuator_state/wheel_right" to="actuator_state/wheel_right"/>
+    <remap unless="$(arg omni_base)" from="mechanism_model/joint_command/wheel_right" to="joint_command/wheel_right"/>
+    <remap unless="$(arg omni_base)" from="mechanism_model/joint_state/wheel_right" to="joint_state/wheel_right"/>
+    <remap if="$(arg omni_base)" from="mechanism_model/actuator_command/base_x" to="actuator_command/base_x"/>
+    <remap if="$(arg omni_base)" from="mechanism_model/actuator_state/base_x" to="actuator_state/base_x"/>
+    <remap if="$(arg omni_base)" from="mechanism_model/joint_command/base_x" to="joint_command/base_x"/>
+    <remap if="$(arg omni_base)" from="mechanismu_model/joint_state/base_x" to="joint_state/base_x"/>
+    <remap if="$(arg omni_base)" from="mechanism_model/actuator_command/base_y" to="actuator_command/base_y"/>
+    <remap if="$(arg omni_base)" from="mechanism_model/actuator_state/base_y" to="actuator_state/base_y"/>
+    <remap if="$(arg omni_base)" from="mechanism_model/joint_command/base_y" to="joint_command/base_y"/>
+    <remap if="$(arg omni_base)" from="mechanism_model/joint_state/base_y" to="joint_state/base_y"/>
+    <remap if="$(arg omni_base)" from="mechanism_model/actuator_command/base_theta" to="actuator_command/base_theta"/>
+    <remap if="$(arg omni_base)" from="mechanism_model/actuator_state/base_theta" to="actuator_state/base_theta"/>
+    <remap if="$(arg omni_base)" from="mechanism_model/joint_command/base_theta" to="joint_command/base_theta"/>
+    <remap if="$(arg omni_base)" from="mechanism_model/joint_state/base_theta" to="joint_state/base_theta"/>
 		<!-- Torso -->
 		<remap from="mechanism_model/actuator_command/torso_turn" to="actuator_command/torso_turn"/>
 		<remap from="mechanism_model/actuator_state/torso_turn" to="actuator_state/torso_turn"/>
