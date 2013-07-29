@@ -59,7 +59,7 @@
 		<link name="${body_mount_link}">
 		  <visual>
 		    <geometry>
-		      <mesh filename="package://korus_meta/resources/meshes/base_test_model.dae" />
+		      <mesh filename="package://korus_meta/resources/meshes/base.dae" />
 		    </geometry>
 		    <origin xyz="0.0 0.0 0.1045" rpy="0 0 0"/>
 		    <xacro:insert_block name="material_white"/>
