@@ -14,21 +14,22 @@
         <origin xyz="0 0 0" rpy="0 0 0" />
         <inertia ixx="0.0001" ixy="0" ixz="0" iyy="0.000001" iyz="0" izz="0.0001" />
       </inertial>
-      <visual>
-        <geometry>
-           <box size="0.050 0.050 0.0703" />
-   	    </geometry>
-        <origin xyz="0.0 0.0 -0.023" rpy="0 0 0"/> 
-        <material name="black">
-          <color rgba="0.1 0.1 0.1 1"/>
-        </material>
-      </visual>
-      <collision>
-        <geometry>
-           <box size="0.050 0.050 0.0703" />
-        </geometry>
-        <origin xyz="0.0 0.0 -0.023" rpy="0 0 0"/> 
-      </collision>
+<!-- visual and collision is commented out, since the laser is inside the base -->
+<!--       <visual> -->
+<!--         <geometry> -->
+<!--            <box size="0.050 0.050 0.0703" /> -->
+<!--    	    </geometry> -->
+<!--         <origin xyz="0.0 0.0 -0.023" rpy="0 0 0"/>  -->
+<!--         <material name="black"> -->
+<!--           <color rgba="0.1 0.1 0.1 1"/> -->
+<!--         </material> -->
+<!--       </visual> -->
+<!--       <collision> -->
+<!--         <geometry> -->
+<!--            <box size="0.050 0.050 0.0703" /> -->
+<!--         </geometry> -->
+<!--         <origin xyz="0.0 0.0 -0.023" rpy="0 0 0"/>  -->
+<!--       </collision> -->
     </link>
   </xacro:macro>
 </robot>

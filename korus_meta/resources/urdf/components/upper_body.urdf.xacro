@@ -16,9 +16,11 @@
 	  <link name="torso_link">
 	    <visual>
 	       <geometry>
-	        <cylinder length="0.025" radius="0.278"/>
+<!-- 	        <cylinder length="0.025" radius="0.278"/> -->
+          <mesh filename="package://korus_meta/resources/meshes/turret_test_model_02.dae" />
 	      </geometry>
-	      <origin xyz="0.0 0.0 0.0" rpy="0 0 0"/>
+        <origin xyz="0.0 0.0 0.45885" rpy="0 0 0"/>
+<!-- 	      <origin xyz="0.0 0.0 0.0" rpy="0 0 0"/> -->
 	      <xacro:insert_block name="material_white" />
 	    </visual>
       <collision>
@@ -35,19 +37,20 @@
 	    <origin xyz="-0.13786 0.0 0.0" rpy="0 0 0"/>
 	  </joint>
 	  <link name="turret_link">
-	    <visual>
-	      <geometry>
-           <box size="0.204 0.25746 0.57888" />
-	      </geometry>
-        <origin xyz="0.0 0.0 0.30194" rpy="0.0 0.0 0.0"/>
-	      <xacro:insert_block name="material_white" />
-	    </visual>
+<!-- 	    <visual> -->
+<!-- 	      <geometry> -->
+<!--            <box size="0.204 0.25746 0.57888" /> -->
+<!-- 	      </geometry> -->
+<!--         <origin xyz="0.0 0.0 0.30194" rpy="0.0 0.0 0.0"/> -->
+<!-- 	      <xacro:insert_block name="material_white" /> -->
+<!-- 	    </visual> -->
       <collision>
         <geometry>
            <box size="0.204 0.25746 0.57888" />
         </geometry>
         <origin xyz="0.0 0.0 0.30194" rpy="0.0 0.0 0.0"/>
-       </collision>  		    
+        <xacro:insert_block name="material_white" />
+       </collision>
 	  </link>
 
 	  <joint name="torso_lift_offset" type="fixed">
@@ -73,13 +76,13 @@
 	    <origin rpy="0 0 0" xyz="0.0125 0.0 0.59138"/>
 	  </joint>
 	  <link name="neck_link">
-	    <visual>
-	      <geometry>
-          <box size="0.030 0.060 0.23262"/>
-	      </geometry>
-	      <origin xyz="0.0 0.0 0.11631" rpy="0 0 0"/>
-	      <xacro:insert_block name="material_white"/>
-	    </visual>
+<!-- 	    <visual> -->
+<!-- 	      <geometry> -->
+<!--           <box size="0.030 0.060 0.23262"/> -->
+<!-- 	      </geometry> -->
+<!-- 	      <origin xyz="0.0 0.0 0.11631" rpy="0 0 0"/> -->
+<!-- 	      <xacro:insert_block name="material_white"/> -->
+<!-- 	    </visual> -->
       <collision>
         <geometry>
           <box size="0.030 0.060 0.23262"/>
@@ -94,13 +97,13 @@
       <origin rpy="0 0 0" xyz="0.085 0.0 0.05812"/>
     </joint>
     <link name="tablet_link">
-      <visual>
-        <geometry>
-          <box size="0.022 0.270 0.1812"/>
-        </geometry>
-        <origin xyz="0.0 0.0 0.0" rpy="0.0 0.0 0.0"/>
-        <xacro:insert_block name="material_black" />
-      </visual>
+<!--       <visual> -->
+<!--         <geometry> -->
+<!--           <box size="0.022 0.270 0.1812"/> -->
+<!--         </geometry> -->
+<!--         <origin xyz="0.0 0.0 0.0" rpy="0.0 0.0 0.0"/> -->
+<!--         <xacro:insert_block name="material_black" /> -->
+<!--       </visual> -->
       <collision>
         <geometry>
           <box size="0.022 0.270 0.1812"/>
@@ -116,13 +119,13 @@
       <origin xyz="0.0 0.0 0.23262" rpy="0 0 0"/>
     </joint>
     <link name="head_link">
-      <visual>
-        <geometry>
-          <box size="0.227 0.11872 0.0645" />
-        </geometry>
-        <origin xyz="0.0495 0.0 0.03225" rpy="0.0 0.0 0.0"/>
-        <xacro:insert_block name="material_white" />
-      </visual>
+<!--       <visual> -->
+<!--         <geometry> -->
+<!--           <box size="0.227 0.11872 0.0645" /> -->
+<!--         </geometry> -->
+<!--         <origin xyz="0.0495 0.0 0.03225" rpy="0.0 0.0 0.0"/> -->
+<!--         <xacro:insert_block name="material_white" /> -->
+<!--       </visual> -->
       <collision>
         <geometry>
           <box size="0.227 0.11872 0.0645" />
@@ -137,13 +140,13 @@
       <origin xyz="-0.040 0.0 0.1025" rpy="0 0 ${pi}"/>
     </joint>
     <link name="stargazer_link">
-      <visual>
-        <geometry>
-          <box size="0.09065 0.090 0.0417" />
-        </geometry>
-        <origin xyz="0.02133 0.0 -0.0175" rpy="0.0 0.0 0.0"/>
-        <xacro:insert_block name="material_white" />
-      </visual>
+<!--       <visual> -->
+<!--         <geometry> -->
+<!--           <box size="0.09065 0.090 0.0417" /> -->
+<!--         </geometry> -->
+<!--         <origin xyz="0.02133 0.0 -0.0175" rpy="0.0 0.0 0.0"/> -->
+<!--         <xacro:insert_block name="material_white" /> -->
+<!--       </visual> -->
       <collision>
         <geometry>
           <box size="0.09065 0.090 0.0417" />
