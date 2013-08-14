@@ -12,14 +12,13 @@
   <arg name="launch_sensor_board"/>
   <arg name="launch_remocon"/>
   
-
   <!--  ******** Sensor integration board **********  -->
   <node if="$(arg launch_sensor_board)" pkg="nodelet" type="nodelet" name="sensor_board_manager" args="manager"/>
   <node if="$(arg launch_sensor_board)" pkg="nodelet" type="nodelet" name="sensors" args="load sensor_board/SensorNodelet sensor_board_manager"> 
 <!--    Nodelete debugging macros aren't working with standalones -->
 <!--    <node unless="$(arg simulation)" pkg="nodelet" type="nodelet" name="sensors" args="standalone sensor_board/SensorNodelet ">  -->
     <!-- Becareful!!!!!!!!!!!! The parameters of sensor board will be loaded from skelly pakage. -->
-    <rosparam file="$(find korus_meta)/resources/yaml/sensors/korus_v3_sensors.yaml" command="load"/>
+    <rosparam file="$(find korus_meta)/resources/yaml/sensors/sensors.yaml" command="load"/>
     <!--
     <remap from="sensors/DeviceStatus"           to=""/>
     <remap from="sensors/OnOffDevice"            to=""/>
@@ -37,7 +36,7 @@
 
   <!--  ************ Hokuyo laser ******************  -->
   <node if="$(arg launch_hokuyo)" name="laser" pkg="hokuyo_node" type="hokuyo_node" respawn="false">
-    <rosparam file="$(find korus_meta)/resources/yaml/sensors/korus_v3_hokuyo.yaml" command="load"/>
+    <rosparam file="$(find korus_meta)/resources/yaml/sensors/hokuyo.yaml" command="load"/>
     <remap from="/korus/scan" to="/korus/base_scan"/>
   </node>
   
