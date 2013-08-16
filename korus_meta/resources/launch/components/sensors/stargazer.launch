@@ -5,7 +5,7 @@
 <launch>
   <node pkg="nodelet" type="nodelet" name="stargazer_manager" args="manager"/>
   <node pkg="nodelet" type="nodelet" name="stargazer" args="load stargazer/StargazerNodelet stargazer_manager"> 
-    <rosparam file="$(find korus_meta)/resources/yaml/sensors/korus_v3_stargazer.yaml" command="load"/>
+    <rosparam file="$(find korus_meta)/resources/yaml/sensors/stargazer.yaml" command="load"/>
     <remap from="stargazer/enable"     to="enable"/>
     <remap from="stargazer/enable_ir"  to="enable"/>
     <remap from="stargazer/disable"    to="disable"/>  
