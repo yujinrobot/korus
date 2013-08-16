@@ -1,0 +1,15 @@
+<?xml version="1.0"?>
+<package>
+  <name>korus_object_recognition</name>
+  <version>0.1.0</version>
+  <description>Korus-specific launchers for the object recognition tools</description>
+  <maintainer email="marcus.liebhardt@yujinrobot.com">Marcus Liebhardt</maintainer>
+  <license>Yujin</license>
+  <url type="website">https://bitbucket.org/yujinrobot/korus/</url>
+  <author email="marcus.liebhardt@yujinrobot.com">Marcus Liebhardt</author>
+
+  <buildtool_depend>catkin</buildtool_depend>
+  <run_depend>korus_meta</run_depend>
+  <run_depend>object_recognition_ros</run_depend>
+  <run_depend>object_recognition_tabletop</run_depend>
+</package>
