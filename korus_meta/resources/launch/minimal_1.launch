@@ -9,7 +9,7 @@
   <group ns="korus">
     <!--  ************* Robot core components **********  -->
     <include file="$(find korus_meta)/resources/launch/components/robot_core.launch">
-      <arg name="simulation" value="true"/>
+      <arg name="simulation" value="false"/>
       <arg name="whole_body_control" value="false"/>
       <arg name="omni_base" value="false"/>
       <arg name="korus_1" value="true"/>

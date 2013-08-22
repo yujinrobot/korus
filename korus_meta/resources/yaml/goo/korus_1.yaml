@@ -129,7 +129,7 @@ motor:
     control_mode: position, 
     measurement_device: encoder,
     encoder_direction: -1, #1
-    output_direction: 1, #1
+    output_direction: -1, #1
     
     p_gain: 0.1, 
     i_gain: 0.0000, 
