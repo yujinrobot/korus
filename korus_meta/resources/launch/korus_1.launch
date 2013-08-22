@@ -81,10 +81,10 @@
       <arg name="landmarks_file_path" value="$(arg map_name).stgz"/>
       <arg name="operation_mode" value="1"/>
     </include>
-<!--
+
     <!--  *********** rapi launch: hce, navi ************  -->
-    <include file="$(find korus_meta)/resources/launch/components/rapi.launch"/>    
--->    
+<!--    <include file="$(find korus_meta)/resources/launch/components/rapi.launch"/> -->    
+    
   </group>
   
   <!--node pkg="korus_smach" type="head_calibration.py" name="head_calibration"/-->
