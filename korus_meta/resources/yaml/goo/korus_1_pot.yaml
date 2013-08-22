@@ -150,7 +150,7 @@ motor:
     
     # Potentiometer initialisation
     potentiometer_init: true,
-    potentiometer_initial_value: 1902,
+    potentiometer_initial_value: 1845,
     pots_per_revolution: -3658,
     
     # Gpio initialisation
@@ -279,7 +279,7 @@ motor:
     
     # Potentiometer initialisation
     potentiometer_init: true,
-    potentiometer_initial_value: 2064,
+    potentiometer_initial_value: 2032,
     pots_per_revolution:  -4856,
     
     # Gpio initialisation
@@ -332,7 +332,7 @@ motor:
     
     # Potentiometer initialisation
     potentiometer_init: true,
-    potentiometer_initial_value: 2071,
+    potentiometer_initial_value: 1953,
     pots_per_revolution: 4556,
     
     # Gpio initialisation
@@ -385,7 +385,7 @@ motor:
     
     # Potentiometer initialisation
     potentiometer_init: true,
-    potentiometer_initial_value: 2050,
+    potentiometer_initial_value: 1845,
     pots_per_revolution: -6544,
     
     # Gpio initialisation
@@ -491,7 +491,7 @@ motor:
     
     # Potentiometer initialisation
     potentiometer_init: true,
-    potentiometer_initial_value: 1808,
+    potentiometer_initial_value: 748,
     pots_per_revolution: 4500, #4384,
     
     # Gpio initialisation
