@@ -12,9 +12,10 @@
     <link name="shoulder_link">
       <visual>
         <geometry>
-          <box size="0.122 0.254 0.131"/>
+<!--           <box size="0.122 0.254 0.131"/> -->
+          <mesh filename="package://korus_meta/resources/meshes/shoulder.dae" />
         </geometry>
-        <origin xyz="-0.020 0.070 -0.0655" rpy="0 0 0"/>
+        <origin xyz="-0.020 0.070 -0.034" rpy="${-pi/2} 0 0"/>
         <xacro:insert_block name="material_white"/>
       </visual>
       <collision>
