@@ -1,0 +1,11 @@
+<!-- Launches the tabletop object recognition pipeline server-->
+<launch>
+  <group ns="korus">
+    <include file="$(find korus_object_recognition)/launch/tabletop.launch">
+      <arg name="recognition_config_file"
+           value="$(find korus_object_recognition)/conf/tabletop/korus.detection.object.ros.ork"/>
+      <arg name="robot_frame"  value="/base_footprint"/>
+      <arg name="sensor_frame" value="/sensor_3d_link"/>
+    </include>
+  </group>
+</launch>

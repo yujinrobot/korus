@@ -1,0 +1,6 @@
+<!-- Launches a general object recognition pipeline client -->
+<launch>
+  <group ns="korus">
+    <node pkg="object_recognition_ros" type="client" name="object_recognition_client"/>
+  </group>
+</launch>
