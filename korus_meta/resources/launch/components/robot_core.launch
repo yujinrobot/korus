@@ -11,6 +11,7 @@
  
 <launch>
   <arg name="simulation"/>
+  <arg name="pot"/>
   <arg name="whole_body_control"/>
   <arg name="omni_base"/>
   <arg name="position_controlled_base" value="false" unless="$(arg omni_base)"/>
@@ -26,10 +27,11 @@
   
   <!-- goo -->
   <include file="$(find korus_meta)/resources/launch/components/robot_core/goos.launch">
-    <arg name="simulation" value="$(arg simulation)"/>
-	  <arg name="korus_1" value="$(arg korus_1)"/>
-	  <arg name="korus_2" value="$(arg korus_2)"/>
-    <arg name="position_controlled_base" value="$(arg position_controlled_base)"/>
+    <arg name="simulation"                value="$(arg simulation)"/>
+    <arg name="pot"                       value="$(arg pot)"/>
+    <arg name="korus_1"                   value="$(arg korus_1)"/>
+    <arg name="korus_2"                   value="$(arg korus_2)"/>
+    <arg name="position_controlled_base"  value="$(arg position_controlled_base)"/>
   </include>
   
   <!-- mechanism model -->

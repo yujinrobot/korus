@@ -7,44 +7,34 @@
    * sensors (if set to true)
  -->
 <launch>
-
-  <arg name="launch_hokuyo" value="true"/>
-  <arg name="launch_sonars" value="false"/>
-  <arg name="launch_sensor_3d" value="false"/>
-  <arg name="costmap_sensors" value="hokuyo"/>
-  
+  <!-- Parameters for minimal configuration -->
+  <arg name="launch_hokuyo"                 value="true"/>
+  <arg name="launch_sonars"                 value="false"/>
+  <arg name="launch_sensor_3d"              value="false"/>
+  <arg name="launch_stargazer"              value="false"/>
+  <arg name="launch_gripper_camera"         value="false"/>
+  <arg name="launch_sensor_board"           value="false"/>
+  <arg name="launch_remocon"                value="false"/>
+  <!-- Parameters for move base -->
+  <arg name="costmap_sensors"               value="hokuyo"/>
   <!-- Name of the map to use (without extension) and initial position -->
-  <arg name="map_name"     default="$(find yujin_maps)/maps/yujin_edu_room"/>
-  <arg name="initial_pose_x" value="3.0"/>
-  <arg name="initial_pose_y" value="1.0"/>
-  <arg name="initial_pose_a" value="0.0"/>
+  <arg name="map_name"                      default="$(find yujin_maps)/maps/yujin_edu_room"/>
+  <arg name="initial_pose_x"                value="3.0"/>
+  <arg name="initial_pose_y"                value="1.0"/>
+  <arg name="initial_pose_a"                value="0.0"/>
 
   <group ns="korus">
-    <!--  ************* Robot core components **********  -->
-    <include file="$(find korus_meta)/resources/launch/components/robot_core_pot.launch">
-      <arg name="simulation" value="false"/>
-      <arg name="whole_body_control" value="false"/>
-      <arg name="omni_base" value="false"/>
-      <arg name="korus_1" value="true"/>
-      <arg name="korus_2" value="false"/>
-    </include>
-    
-<!--
-    <include file="$(find korus_meta)/resources/launch/manipulation/korus_v3_arm_kinematics.launch"/>
--->    
-
-    
-    
-    <!--  ***************** Robot sensors **************  -->
-    <include file="$(find korus_meta)/resources/launch/components/sensors.launch">
-      <arg name="launch_hokuyo" value="$(arg launch_hokuyo)"/>
-      <arg name="launch_sonars" value="$(arg launch_sonars)"/>
-      <arg name="launch_sensor_3d" value="$(arg launch_sensor_3d)"/>
-      <arg name="launch_stargazer" value="true"/>
-      <arg name="launch_gripper_camera" value="false"/>
-      <arg name="launch_gyro" value="true"/>
-      <arg name="launch_sensor_board" value="true"/>
-      <arg name="launch_remocon" value="true"/>
+    <!--  ************** Korus' minimal configuration **************  -->
+    <include file="$(find korus_meta)/resources/launch/minimal_1.launch">
+      <arg name="pot"                       value="true"/>
+      <arg name="launch_hokuyo"             value="$(arg map_name)"/>
+      <arg name="launch_sonars"             value="$(arg map_name)"/>
+      <arg name="launch_sensor_3d"          value="$(arg map_name)"/>
+      <arg name="launch_stargazer"          value="$(arg map_name)"/>
+      <arg name="launch_gripper_camera"     value="$(arg map_name)"/>
+      <arg name="launch_gyro"               value="$(arg map_name)"/>
+      <arg name="launch_sensor_board"       value="$(arg map_name)"/>
+      <arg name="launch_remocon"            value="$(arg map_name)"/>
     </include>
 
     <!--  ************** Rosnav move base **************  -->

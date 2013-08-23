@@ -12,17 +12,20 @@
 
 <launch>
   <arg name="simulation"/>
-  <arg name="cfg_env" value="simulation" if="$(arg simulation)"/>
-  <arg name="cfg_env" value="runtime" unless="$(arg simulation)"/>
+  <arg name="cfg_sim" value="simulation" if="$(arg simulation)"/>
+  <arg name="cfg_sim" value="runtime"    unless="$(arg simulation)"/>
+  <arg name="pot"/>
+  <arg name="cfg_pot" value="_pot" if="$(arg simulation)"/>
+  <arg name="cfg_pot" value=""     unless="$(arg simulation)"/>
   <arg name="position_controlled_base"/>
   <arg name="korus_1"/>
   <arg name="korus_2"/>
 
   
   <node pkg="nodelet" type="nodelet" name="goo" args="load goo/GooNodelet robot_core">
-    <rosparam file="$(find korus_meta)/resources/yaml/goo/$(arg cfg_env).yaml" command="load"/>
-    <rosparam if="$(arg korus_1)" file="$(find korus_meta)/resources/yaml/goo/korus_1.yaml" command="load"/>
-    <rosparam if="$(arg korus_2)" file="$(find korus_meta)/resources/yaml/goo/korus_2.yaml" command="load"/>
+    <rosparam file="$(find korus_meta)/resources/yaml/goo/$(arg cfg_sim).yaml" command="load"/>
+    <rosparam if="$(arg korus_1)" file="$(find korus_meta)/resources/yaml/goo/korus_1$(arg cfg_pot).yaml" command="load"/>
+    <rosparam if="$(arg korus_2)" file="$(find korus_meta)/resources/yaml/goo/korus_2$(arg cfg_pot).yaml" command="load"/>
     <rosparam if="$(arg position_controlled_base)" file="$(find korus_meta)/resources/yaml/goo/korus_base_pos_ctrl.yaml" command="load"/>
 
     <!-- Base -->
