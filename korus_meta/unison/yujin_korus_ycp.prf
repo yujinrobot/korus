@@ -1,8 +1,18 @@
-# Unison preferences
-ignore = Name setup.sh
-ignore = Name .rosstack_cache
+### Unison preferences for Korus ###
+# Unison parameters
+log = true
+# Paths & roots
+path = catkin_ws
+path = rosbuild_ws
+root = /opt/korus_workspace
+root = ssh://korus//opt/korus_workspace
+# Ignores
+## General
+ignore = Name *.pdf
+ignore = Name *.gv
+ignore = Name *.md5sum
+## Compiling
 ignore = Name *.pyc
-ignore = Name .svn
 ignore = Name *.hg
 ignore = Name *.git
 ignore = Name *.o
@@ -16,23 +26,16 @@ ignore = Name *.makefile
 ignore = Name *.log
 ignore = Name build
 ignore = Name CMakeFiles
-ignore = Name sandbox
-ignore = Name .cproject
-ignore = Name *.pydefproject
-ignore = Name .project
 ignore = Name CMakeLists.txt
+# Eclipse
+ignore = Path korus_workspace/.metadata
+ignore = Name .project
+ignore = Name .cproject
+ignore = Name .pydefproject
+# VCS
+ignore = Path .git
+ignore = Name .svn
+# Custom
 ignore = Name eclipse
 ignore = Name gnome-terminal
 ignore = Name konsole
-ignore = Name *.rosinstall
-ignore = Name .rosinstall
-ignore = Name *.pdf
-ignore = Name *.gv
-ignore = Name *.md5sum
-ignore = Path korus_workspace/.metadata
-log = true
-path = korus_workspace
-path = yujin/unstable/stacks/ycs
-path = yujin/unstable/stacks/ecl
-root = /opt/
-root = ssh://yujin_korus_ycp//opt/
