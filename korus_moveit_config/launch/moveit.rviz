@@ -266,7 +266,7 @@ Visualization Manager:
         Show Robot Visual: true
         Show Trail: false
         State Display Time: 0.05 s
-        Trajectory Topic: /korus/move_group/display_planned_path
+        Trajectory Topic: /move_group/display_planned_path
       Planning Metrics:
         Payload: 1
         Show Joint Torques: false
@@ -286,8 +286,8 @@ Visualization Manager:
         Show Workspace: false
         Start State Alpha: 1
         Start State Color: 0; 255; 0
-      Planning Scene Topic: /korus/move_group/monitored_planning_scene
-      Robot Description: /korus/robot_description
+      Planning Scene Topic: /move_group/monitored_planning_scene
+      Robot Description: /robot_description
       Scene Geometry:
         Scene Alpha: 0.9
         Scene Color: 50; 230; 50
@@ -525,17 +525,17 @@ Visualization Manager:
   Views:
     Current:
       Class: rviz/XYOrbit
-      Distance: 2.9965
+      Distance: 3.75881
       Focal Point:
         X: 0.113567
         Y: 0.10592
         Z: 2.23518e-07
       Name: Current View
       Near Clip Distance: 0.01
-      Pitch: 0.509797
+      Pitch: 0.504797
       Target Frame: /base_footprint
       Value: XYOrbit (rviz)
-      Yaw: 5.65995
+      Yaw: 4.91995
     Saved: ~
 Window Geometry:
   Displays:
@@ -547,7 +547,7 @@ Window Geometry:
   Hide Right Dock: false
   Motion Planning:
     collapsed: false
-  QMainWindow State: 000000ff00000000fd0000000100000000000002a200000389fc0200000005fb000000100044006900730070006c00610079007301000000320000022e000000d701000005fb0000000800480065006c00700000000342000000bb0000007101000005fb0000000a0056006900650077007300000003b0000000b0000000a901000005fb0000000c00430061006d00650072006100000002ff000001610000000000000000fb0000001e004d006f00740069006f006e00200050006c0061006e006e0069006e006701000002630000015800000158010000050000047f0000038900000001000000020000000100000002fc0000000100000002000000010000000a0054006f006f006c00730100000000ffffffff0000000000000000
+  QMainWindow State: 000000ff00000000fd0000000100000000000002a200000389fc0200000005fb000000100044006900730070006c00610079007301000000320000022e000000d701000005fb0000000800480065006c00700000000342000000bb0000007101000005fb0000000a0056006900650077007300000003b0000000b0000000a901000005fb0000000c00430061006d00650072006100000002ff000001610000000000000000fb0000001e004d006f00740069006f006e00200050006c0061006e006e0069006e00670100000263000001580000014f010000050000047f0000038900000001000000020000000100000002fc0000000100000002000000010000000a0054006f006f006c00730100000000ffffffff0000000000000000
   Views:
     collapsed: false
   Width: 1828
