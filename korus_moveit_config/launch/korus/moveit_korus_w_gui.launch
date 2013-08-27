@@ -1,0 +1,8 @@
+<launch>
+  <group ns="korus">
+	  <arg name="rviz_args" value="-d $(find korus_moveit_config)/launch/korus/moveit_korus.rviz" />
+	  <node name="$(anon rviz)" pkg="rviz" type="rviz" args="$(arg rviz_args)" respawn="false" >
+	    <rosparam command="load" file="$(find korus_moveit_config)/config/kinematics.yaml"/>
+	  </node>
+  </group>
+</launch>
