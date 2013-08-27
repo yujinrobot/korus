@@ -1,5 +1,0 @@
-<launch>
-  <group ns="korus">
-    <include file="$(find korus_meta)/resources/launch/components/arm_navigation/arm_kinematics.launch"/>
-  </group>
-</launch>

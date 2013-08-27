@@ -1,9 +1,0 @@
-<!--
-  Launches the Korus' robot core (simulation mode) and the arm navigation tools (except UI)
- -->
-<launch>
-  <group ns="korus">
-    <!--  ************* Arm navigation suite **********  -->
-    <include file="$(find korus_meta)/resources/launch/components/arm_navigation/planning_scene_warehouse_viewer_korus_v3_no_gui.launch"/>
-  </group>
-</launch>
