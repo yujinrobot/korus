@@ -1,19 +1,7 @@
-# Lower arm
-#
-# Description: 
-#     The wrist and gripper joints
-#
-# Called by:
-#     resources/launch/arm_control.launch
-#
-# Reference:
-#     http://yujin.dnsdojo.com:3000/wiki/goo/Goo_parameters
+# MDB configuration for whole Korus using potentiometers
 
 port: /dev/ttyUSB0
 baud_rate: 11
-#port: /dev/ttyS0
-# configured in runtime.yaml/simulation.yaml
-# simulation_mode: false
 scan_frequency: 20
 converter_id: 0
 

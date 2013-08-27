@@ -15,8 +15,8 @@
   <arg name="cfg_sim" value="simulation" if="$(arg simulation)"/>
   <arg name="cfg_sim" value="runtime"    unless="$(arg simulation)"/>
   <arg name="pot"/>
-  <arg name="cfg_pot" value="_pot" if="$(arg simulation)"/>
-  <arg name="cfg_pot" value=""     unless="$(arg simulation)"/>
+  <arg name="cfg_pot" value="_pot" if="$(arg pot)"/>
+  <arg name="cfg_pot" value=""     unless="$(arg pot)"/>
   <arg name="position_controlled_base"/>
   <arg name="korus_1"/>
   <arg name="korus_2"/>
