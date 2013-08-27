@@ -1,0 +1,4 @@
+<!-- Visualise the Korus robot in action -->
+<launch>
+  <node name="rviz" pkg="rviz" type="rviz" args="-d $(find korus_meta)/resources/rviz/view_object_recognition.rviz" />
+</launch>
