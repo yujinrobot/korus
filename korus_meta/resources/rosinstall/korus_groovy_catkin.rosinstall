@@ -63,7 +63,7 @@
 - git:
     local-name: robot_model
     uri: 'https://github.com/ros/robot_model.git'
-    version: hydro-devel
+    version: groovy-devel
 - git:
     local-name: navigation
     uri: 'https://github.com/ros-planning/navigation.git'
