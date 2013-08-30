@@ -12,7 +12,6 @@
     <link name="shoulder_link">
       <visual>
         <geometry>
-<!--           <box size="0.122 0.254 0.131"/> -->
           <mesh filename="package://korus_meta/resources/meshes/shoulder.dae" />
         </geometry>
         <origin xyz="-0.020 0.070 -0.034" rpy="${-pi/2} 0 0"/>
@@ -36,16 +35,16 @@
 	  <link name="upper_arm_link">
 	    <visual>
 	      <geometry>
-	        <box size="0.378 0.095 0.055"/>
+          <mesh filename="package://korus_meta/resources/meshes/upper_arm.dae" />
 	      </geometry>
-	      <origin xyz="0.1415 0.0 0.0275" rpy="0 0 0"/>
+	      <origin xyz="0.1425 0.001 0.0275" rpy="${pi/2} ${pi} ${pi/2}"/>
 	      <xacro:insert_block name="material_white" />
 	    </visual>
       <collision>
         <geometry>
           <box size="0.378 0.095 0.055"/>
         </geometry>
-        <origin xyz="0.1415 0.0 0.0275" rpy="0 0 0"/>
+        <origin xyz="0.145 0.0 0.028" rpy="0 0 0"/>
        </collision>
 	  </link>
 	
@@ -59,9 +58,9 @@
 	  <link name="lower_arm_link">
 	    <visual>
 	      <geometry>
-	        <box size="0.477 0.095 0.057"/>
+          <mesh filename="package://korus_meta/resources/meshes/lower_arm.dae" />
 	      </geometry>
-	      <origin xyz="0.19426 0.00 0.0285" rpy="0 0 0"/>
+	      <origin xyz="0.19 0.002 0.027" rpy="${pi/2} ${pi} ${pi/2}"/>
 	      <xacro:insert_block name="material_white" />
 	    </visual>
       <collision>
@@ -79,36 +78,28 @@
 	    <axis xyz="0 0 1"/>
 	    <limit effort="51.0" lower="${-100*rad}" upper="${100*rad}" velocity="${72.5*rad}"/>
 	  </joint>
-	  <link name="wrist_link">
-	    <visual>
-	      <geometry>
-          <cylinder length="0.0854" radius="0.038"/>
-	      </geometry>
-	      <origin xyz="0.0 0.0 -0.0427" rpy="0 0 0"/>
-	      <xacro:insert_block name="material_white"/>
-	    </visual>
-      <collision>
-        <geometry>
-          <cylinder length="0.0854" radius="0.038"/>
-        </geometry>
-        <origin xyz="0.0 0.0 -0.0427" rpy="0 0 0"/>
-      </collision>
-	  </link>
+	  <link name="wrist_link"/>
 	  
   	<!--   Endeffector (gripper)  -->
 	  <joint name="palm" type="fixed">
 	    <parent link="wrist_link"/>
 	    <child link="palm_link"/>
-	    <origin xyz="0.0 0.0 -0.045" rpy="0 0 0"/>
+	    <origin xyz="0.0 0.0 -0.0425" rpy="0 0 0"/>
 	  </joint>
 	  <link name="palm_link">
 	    <visual>
 	      <geometry>
-	        <box size="0.1044 0.077 0.0804"/>
-	      </geometry>      
-	      <origin xyz="0.0522 0.0 0.0" rpy="0 0 0"/>
+          <mesh filename="package://korus_meta/resources/meshes/palm.dae" />
+	      </geometry>
+	      <origin xyz="0.0395 0.001 0.0" rpy="${-pi/2} 0 0"/>
         <xacro:insert_block name="material_white"/>
       </visual>
+      <collision>
+        <geometry>
+          <cylinder length="0.0854" radius="0.038"/>
+        </geometry>
+        <origin xyz="0.0 0.0 0.0035" rpy="0 0 0"/>
+      </collision>
       <collision>
         <geometry>
           <box size="0.1044 0.077 0.0804"/>
@@ -142,9 +133,9 @@
     </joint>
 	  <link name="finger_left_knuckle_1_link">
       <visual>
-	      <geometry>
-	        <box size="0.0595 0.0247 0.0306"/>
-	      </geometry>
+        <geometry>
+          <mesh filename="package://korus_meta/resources/meshes/finger01.dae" />
+        </geometry>
 	      <origin xyz="0.02975 0.0 0.0" rpy="0 0 0"/>
 	      <xacro:insert_block name="material_white"/>
 	    </visual>
@@ -165,7 +156,7 @@
     <link name="finger_left_knuckle_2_link">
       <visual>
         <geometry>
-          <box size="0.065 0.0247 0.0306"/>
+          <mesh filename="package://korus_meta/resources/meshes/finger02.dae" />
         </geometry>
         <origin xyz="0.0325 0.0 0.0" rpy="0 0 0"/>
         <xacro:insert_block name="material_white"/>
@@ -194,7 +185,7 @@
     <link name="finger_right_knuckle_1_link">
       <visual>
         <geometry>
-          <box size="0.0595 0.0247 0.0306"/>
+          <mesh filename="package://korus_meta/resources/meshes/finger01.dae" />
         </geometry>
         <origin xyz="0.02975 0.0 0.0" rpy="0 0 0"/>
         <xacro:insert_block name="material_white"/>
@@ -216,7 +207,7 @@
     <link name="finger_right_knuckle_2_link">
       <visual>
         <geometry>
-          <box size="0.065 0.0247 0.0306"/>
+          <mesh filename="package://korus_meta/resources/meshes/finger02.dae" />
         </geometry>
         <origin xyz="0.0325 0.0 0.0" rpy="0 0 0"/>
         <xacro:insert_block name="material_white"/>

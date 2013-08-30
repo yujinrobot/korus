@@ -36,15 +36,15 @@
       <origin rpy="0 0 ${pi/2}" xyz="${off_x} ${off_y} ${off_z}"/>
     </joint>
     <link name="${name}_link">
-      <visual>
-        <geometry>
-          <cylinder length="${length}" radius="${radius}"/>
-        </geometry>
-        <origin rpy="0 ${pi/2} 0" xyz="0 0 0"/>
-        <material name="black">
-          <color rgba="0.1 0.1 0.1 1"/>
-        </material>
-      </visual>
+<!--       <visual> -->
+<!--         <geometry> -->
+<!--           <cylinder length="${length}" radius="${radius}"/> -->
+<!--         </geometry> -->
+<!--         <origin rpy="0 ${pi/2} 0" xyz="0 0 0"/> -->
+<!--         <material name="black"> -->
+<!--           <color rgba="0.1 0.1 0.1 1"/> -->
+<!--         </material> -->
+<!--       </visual> -->
     </link>
   </xacro:macro>
 	  
