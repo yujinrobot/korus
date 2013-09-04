@@ -6,11 +6,11 @@
 
   <node pkg="korus_nav_mng" type="navigation_mng" name="navigation_mng">
     <!--    Parameters   -->
-    <param name="bound_speed"             value="false"/>
-    <param name="check_sonars"            value="false"/>
-    <param name="check_bumpers"           value="false"/>
-    <param name="check_psd_irs"           value="false"/>
-    <param name="check_localized"         value="$(arg check_localized)"/>
+    <param name="bound_speed"     value="true"/>
+    <param name="check_sonars"    value="false"/>
+    <param name="check_bumpers"   value="false"/>
+    <param name="check_psd_irs"   value="false"/>
+    <param name="check_localized" value="$(arg check_localized)"/>
     
     <!-- Incoming remaps -->
     <remap from="sonars"       to="sensors/sonar"/>
