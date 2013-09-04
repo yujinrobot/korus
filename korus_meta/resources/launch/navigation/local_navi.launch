@@ -1,0 +1,72 @@
+<!--
+    Launches the korus base with ros navistack + sensors, without global map and therefore
+    without localization. Useful for testing obstacle avoidance and basic planning.
+    Argument costmap_sensors must contain the list of observation sources to use in costmaps,
+    separated by spaces. All sensors listed here must be launched by setting the corresponding
+    launch_<sensor name> argument as true.
+ -->
+<launch>
+  <!-- Parameters for minimal configuration -->
+  <arg name="launch_hokuyo"           value="true"/>
+  <arg name="launch_sonars"           value="false"/>
+  <arg name="launch_sensor_3d"        value="false"/>
+  <arg name="launch_stargazer"        value="false"/>
+  <arg name="launch_gripper_camera"   value="false"/>
+  <arg name="launch_gyro"             value="true"/>
+  <arg name="launch_sensor_board"     value="true"/>
+  <arg name="launch_remocon"          value="true"/>
+
+  <!-- Parameters for move base -->
+  <arg name="costmap_sensors"         value="hokuyo"/>
+
+  <!--  ************** Korus' minimal configuration **************  -->
+  <include file="$(find korus_meta)/resources/launch/minimal_1.launch">
+    <arg name="pot"                   value="true"/>
+    <arg name="launch_hokuyo"         value="$(arg launch_hokuyo)"/>
+    <arg name="launch_sonars"         value="$(arg launch_sonars)"/>
+    <arg name="launch_sensor_3d"      value="$(arg launch_sensor_3d)"/>
+    <arg name="launch_stargazer"      value="$(arg launch_stargazer)"/>
+    <arg name="launch_gripper_camera" value="$(arg launch_gripper_camera)"/>
+    <arg name="launch_gyro"           value="$(arg launch_gyro)"/>
+    <arg name="launch_sensor_board"   value="$(arg launch_sensor_board)"/>
+    <arg name="launch_remocon"        value="$(arg launch_remocon)"/>
+  </include>
+
+  <group ns="korus">
+
+    <!--  ************** Rosnav move base **************  -->
+    <include file="$(find korus_meta)/resources/launch/components/move_base.launch">
+      <arg name="costmap_sensors" value="$(arg costmap_sensors)"/>
+    </include>
+    
+    <!--
+      Tweaks to adapt the move base node to local navigation:
+       - global costmap is also a rolling window, non-static map
+       - so it's referenced to odom, as the local costmap
+       - and it must be updated, dislike a static map
+       - we use a bigger costmap than that of the local planner
+       - replan each 2 seconds, as global costmap changes
+    -->
+    <param name="move_base_node/global_costmap/global_frame" value="odom"/>
+    <param name="move_base_node/global_costmap/update_frequency" value="1.0"/>
+    <param name="move_base_node/global_costmap/publish_frequency" value="1.0"/>
+    <param name="move_base_node/global_costmap/static_map" value="false"/>
+    <param name="move_base_node/global_costmap/rolling_window" value="true"/>
+    <param name="move_base_node/global_costmap/width" value="10.0"/>
+    <param name="move_base_node/global_costmap/height" value="10.0"/>
+    <param name="move_base_node/global_costmap/resolution" value="0.1"/>
+    <param name="move_base_node/global_costmap/origin_x" value="0.0"/>
+    <param name="move_base_node/global_costmap/origin_y" value="0.0"/>
+    <param name="move_base_node/global_costmap/obstacle_range" value="5.0"/>
+    <param name="move_base_node/global_costmap/raytrace_range" value="5.5"/>
+
+    <param name="move_base_node/planner_frequency" value="0.5"/>
+
+    <!--  ************** Fake Localization *************  -->
+    <node name="fake_localization" pkg="fake_localization" type="fake_localization" respawn="false">
+      <param name="odom_frame_id" value="/odom"/>
+      <param name="global_frame_id" value="/map"/>
+      <param name="base_frame_id" value="/base_footprint"/>
+    </node>
+  </group>
+</launch>
