@@ -12,7 +12,7 @@
   <!-- Parameters for minimal configuration -->
   <arg name="launch_hokuyo"           value="true"/>
   <arg name="launch_sonars"           value="false"/>
-  <arg name="launch_sensor_3d"        value="false"/>
+  <arg name="launch_sensor_3d"        value="true"/>
   <arg name="launch_stargazer"        value="true"/>
   <arg name="launch_gripper_camera"   value="false"/>
   <arg name="launch_gyro"             value="true"/>
@@ -29,20 +29,26 @@
 
   <!--  ************** Korus' minimal configuration **************  -->
   <include file="$(find korus_meta)/resources/launch/minimal_1.launch">
-    <arg name="pot"                       value="false"/>
-    <arg name="launch_hokuyo"             value="$(arg launch_hokuyo)"/>
-    <arg name="launch_sonars"             value="$(arg launch_sonars)"/>
-    <arg name="launch_sensor_3d"          value="$(arg launch_sensor_3d)"/>
-    <arg name="launch_stargazer"          value="$(arg launch_stargazer)"/>
-    <arg name="launch_gripper_camera"     value="$(arg launch_gripper_camera)"/>
-    <arg name="launch_gyro"               value="$(arg launch_gyro)"/>
-    <arg name="launch_sensor_board"       value="$(arg launch_sensor_board)"/>
-    <arg name="launch_remocon"            value="$(arg launch_remocon)"/>
+    <arg name="pot"                   value="false"/>
+    <arg name="launch_hokuyo"         value="$(arg launch_hokuyo)"/>
+    <arg name="launch_sonars"         value="$(arg launch_sonars)"/>
+    <arg name="launch_sensor_3d"      value="$(arg launch_sensor_3d)"/>
+    <arg name="launch_stargazer"      value="$(arg launch_stargazer)"/>
+    <arg name="launch_gripper_camera" value="$(arg launch_gripper_camera)"/>
+    <arg name="launch_gyro"           value="$(arg launch_gyro)"/>
+    <arg name="launch_sensor_board"   value="$(arg launch_sensor_board)"/>
+    <arg name="launch_remocon"        value="$(arg launch_remocon)"/>
   </include>
 
   <!--  ************** Korus' navigation suite **************  -->
-  <include file="$(find korus_meta)/launch/navigation/navigation.launch.xml"/>
-  
+  <include file="$(find korus_meta)/resources/launch/navigation/navigation.launch.xml">
+    <arg name="costmap_sensors"       value="$(arg costmap_sensors)"/>
+    <arg name="map_name"              value="$(arg map_name)"/>
+    <arg name="initial_pose_x"        value="$(arg initial_pose_x)"/>
+    <arg name="initial_pose_y"        value="$(arg initial_pose_y)"/>
+    <arg name="initial_pose_a"        value="$(arg initial_pose_a)"/>
+  </include>
+
   <!--  ************** Korus' MoveIt! configuration **************  -->
   <include file="$(find korus_moveit_config)/launch/korus/moveit_korus.launch"/>
   
