@@ -1,15 +1,15 @@
 <launch>
   <group ns="korus">
-		<node pkg="keyop_core" type="keyop" name="keyop" output="screen">
-		  <remap from="keyop/enable" to="enable"/>
-		  <remap from="keyop/disable" to="disable"/>
-		  <remap from="keyop/cmd_vel" to="cmd_vel"/>
-<!-- 		    <remap from="keyop/reset_odometry" to="/robot_core/mobile_base/reset_odometry"/> -->
+    <node pkg="keyop_core" type="keyop" name="keyop" output="screen">
+      <remap from="keyop/enable"  to="enable"/>
+      <remap from="keyop/disable" to="disable"/>
+      <remap from="keyop/cmd_vel" to="rem_cmd_vel"/>
+<!--         <remap from="keyop/reset_odometry" to="/robot_core/mobile_base/reset_odometry"/> -->
       <param name="linear_vel_step"  value="0.005" type="double"/>
       <param name="linear_vel_max"   value="0.5"  type="double"/>
       <param name="angular_vel_step" value="0.0222" type="double"/>
       <param name="angular_vel_max"  value="2.22" type="double"/>
       <param name="mode"  value="simple" type="string"/>
-		</node>
+    </node>
   </group>
 </launch>
