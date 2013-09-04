@@ -621,7 +621,7 @@ int NavigationMng::init(ros::NodeHandle& nh)
 
   nh.getParam("move_base_node/TrajectoryPlannerROS/acc_lim_x", accel_lim_x);
   nh.getParam("move_base_node/TrajectoryPlannerROS/acc_lim_y", accel_lim_y);
-  nh.getParam("move_base_node/TrajectoryPlannerROS/acc_lim_th", accel_lim_t);
+  nh.getParam("move_base_node/TrajectoryPlannerROS/acc_lim_theta", accel_lim_t);
   nh.getParam("move_base_node/controller_frequency", nav_ctrl_freq);
 
   if (check_localized == false)
