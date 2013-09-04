@@ -10,14 +10,22 @@
  -->
 <launch>
   <!-- Parameters for minimal configuration -->
-  <arg name="launch_hokuyo"                 value="false"/>
-  <arg name="launch_sonars"                 value="false"/>
-  <arg name="launch_sensor_3d"              value="true"/>
-  <arg name="launch_stargazer"              value="false"/>
-  <arg name="launch_gripper_camera"         value="false"/>
-  <arg name="launch_gyro"                   value="false"/>
-  <arg name="launch_sensor_board"           value="false"/>
-  <arg name="launch_remocon"                value="false"/>
+  <arg name="launch_hokuyo"           value="true"/>
+  <arg name="launch_sonars"           value="false"/>
+  <arg name="launch_sensor_3d"        value="false"/>
+  <arg name="launch_stargazer"        value="true"/>
+  <arg name="launch_gripper_camera"   value="false"/>
+  <arg name="launch_gyro"             value="true"/>
+  <arg name="launch_sensor_board"     value="true"/>
+  <arg name="launch_remocon"          value="true"/>
+  <!-- Parameters for move base -->
+  <arg name="costmap_sensors"         value="hokuyo"/>
+
+  <!-- Name of the map to use (without extension) and initial position -->
+  <arg name="map_name"                default="$(find yujin_maps)/maps/yujin_edu_room"/>
+  <arg name="initial_pose_x"          value="3.0"/>
+  <arg name="initial_pose_y"          value="1.0"/>
+  <arg name="initial_pose_a"          value="0.0"/>
 
   <!--  ************** Korus' minimal configuration **************  -->
   <include file="$(find korus_meta)/resources/launch/minimal_1.launch">
