@@ -150,8 +150,8 @@
       <parent link="head_tilt_link"/>
       <child link="sensor_3d_link"/>
       <!-- adds 2 deg to yaw, because the xtion is mounted on its surface which is inclined (approx. 2 deg) -->
-<!--       <origin xyz="0.0 0.0 0.0" rpy="${-pi/2} 0 0.035"/> -->
-      <origin xyz="0.0 0.0 0.0" rpy="${-pi/2} 0 0.0"/> 
+      <origin xyz="0.0 0.0 0.0" rpy="${-pi/2} 0 0.035"/>
+<!--       <origin xyz="0.0 0.0 0.0" rpy="${-pi/2} 0 0.0"/>  -->
     </joint>
     <link name="sensor_3d_link">
       <visual>

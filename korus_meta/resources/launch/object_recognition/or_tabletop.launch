@@ -4,8 +4,8 @@
     <include file="$(find korus_object_recognition)/launch/tabletop.launch">
       <arg name="recognition_config_file"
            value="$(find korus_object_recognition)/conf/tabletop/korus.detection.object.ros.ork"/>
-      <arg name="robot_frame"  value="/base_footprint"/>
-      <arg name="sensor_frame" value="/sensor_3d_link"/>
+      <arg name="robot_frame"  value="base_footprint"/>
+      <arg name="sensor_frame" value="sensor_3d_rgb_optical_frame"/>
     </include>
   </group>
 </launch>

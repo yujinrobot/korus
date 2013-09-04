@@ -8,7 +8,7 @@
     </contributor>
     <created>2013-08-30T15:49:05</created>
     <modified>2013-08-30T15:49:05</modified>
-    <unit name="inch" meter="0.0254"/>
+    <unit name="millimeter" meter="0.001"/>
     <up_axis>Z_UP</up_axis>
   </asset>
   <library_effects>
@@ -137,7 +137,7 @@
   </library_lights>
   <library_images>
     <image id="_2_jpg">
-      <init_from>file:///E:/Windows/Documents/Korus/KORUS_V3_120912/SIMPLE_MESH/images/0_12.jpg</init_from>
+      <init_from>images/arm.jpg</init_from>
     </image>
   </library_images>
   <library_visual_scenes>

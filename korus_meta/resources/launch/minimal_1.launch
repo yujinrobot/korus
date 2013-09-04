@@ -11,7 +11,7 @@
   <arg name="omni_base"                 default="false"/>
   <arg name="launch_hokuyo"             default="false"/>
   <arg name="launch_sonars"             default="false"/>
-  <arg name="launch_sensor_3d"          default="true"/>
+  <arg name="launch_sensor_3d"          default="false"/>
   <arg name="launch_stargazer"          default="false"/>
   <arg name="launch_gripper_camera"     default="false"/>
   <arg name="launch_gyro"               default="false"/>

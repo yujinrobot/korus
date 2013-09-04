@@ -1,0 +1,31 @@
+<!--
+  Launches the Korus' minimal configuration in simulation mode, i.e.
+  
+  * robot core (goo, mechanism model, joint trajectory controller)
+  * sensors (...)
+  -->
+  
+<launch>
+  <group ns="korus">
+    <!--  ************* Robot core components **********  -->
+    <include file="$(find korus_meta)/resources/launch/components/robot_core.launch">
+      <arg name="simulation" value="true"/>
+      <arg name="whole_body_control" value="false"/>
+      <arg name="omni_base" value="false"/>
+      <arg name="korus_1" value="true"/>
+      <arg name="korus_2" value="false"/>
+    </include>
+    
+    <!--  ***************** Robot sensors **************  -->
+    <include file="$(find korus_meta)/resources/launch/components/sensors.launch">
+      <arg name="launch_hokuyo" value="false"/>
+      <arg name="launch_sonars" value="false"/>
+      <arg name="launch_sensor_3d" value="true"/>
+      <arg name="launch_stargazer" value="false"/>
+      <arg name="launch_gripper_camera" value="false"/>
+      <arg name="launch_gyro" value="false"/>
+      <arg name="launch_sensor_board" value="false"/>
+      <arg name="launch_remocon" value="false"/>
+    </include>
+  </group>
+</launch>
