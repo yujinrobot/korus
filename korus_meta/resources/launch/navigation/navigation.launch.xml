@@ -1,0 +1,57 @@
+<!--
+    Navigation system alone, intended to work together with minimal.launch.  
+    Argument costmap_sensors must contain the list of observation sources to use in costmaps,
+    separated by spaces. All sensors listed here must be launched by setting the corresponding
+    launch_<sensor name> argument as true.
+ -->
+<launch>
+  <!-- Parameters for move base -->
+  <arg name="costmap_sensors" default="hokuyo"/>
+
+  <!-- Name of the map to use (without extension) and initial position -->
+  <arg name="map_name"        default="map"/>
+  <arg name="initial_pose_x"  default="0.0"/>
+  <arg name="initial_pose_y"  default="0.0"/>
+  <arg name="initial_pose_a"  default="0.0"/>
+
+  <group ns="korus">
+
+    <!--  ************** Rosnav move base **************  -->
+    <include file="$(find korus_meta)/resources/launch/components/move_base.launch">
+      <arg name="costmap_sensors" value="$(arg costmap_sensors)"/>
+    </include>
+
+    <!--  ************* Navigation manager *************  -->
+    <include file="$(find korus_nav_mng)/resources/launch/nav_mng.launch"/>
+
+    <!--  ***************** Map Server *****************  -->
+    <node name="map_server" pkg="map_server" type="map_server" args="$(arg map_name).yaml">
+      <param name="frame_id" value="/map"/>
+    </node>
+
+    <!--  ********** Localization fusion node ***********  -->
+    <include file="$(find korus_meta)/resources/launch/components/localize_ekf.launch">
+      <arg name="initial_pose_x"   value="$(arg initial_pose_x)"/>
+      <arg name="initial_pose_y"   value="$(arg initial_pose_y)"/>
+      <arg name="initial_pose_yaw" value="$(arg initial_pose_a)"/>
+    </include>
+
+    <!--  ******************** Amcl ********************  -->
+    <include file="$(find korus_meta)/resources/launch/components/amcl.launch">
+      <arg name="tf_broadcast" value="false"/>
+      
+      <arg name="initial_pose_x" value="$(arg initial_pose_x)"/>
+      <arg name="initial_pose_y" value="$(arg initial_pose_y)"/>
+      <arg name="initial_pose_a" value="$(arg initial_pose_a)"/>
+    </include>
+
+    <!--  ***** Stargazer map node in localize mode *****  -->
+    <include file="$(find korus_meta)/resources/launch/components/stargz_map.launch">
+      <arg name="landmarks_file_path" value="$(arg map_name).stgz"/>
+      <arg name="operation_mode" value="1"/>
+    </include>
+
+    <!--  *********** rapi launch: hce, navi ************  deprecated
+    <include file="$(find korus_meta)/resources/launch/components/rapi.launch"/>-->    
+  </group>
+</launch>

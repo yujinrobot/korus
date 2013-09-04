@@ -1,0 +1,54 @@
+<!--
+    Laser and stargazer map building, based on gmapping SLAM.
+
+    Launches the korus base with ros navistack + gmapping slam + scanner to create a laser map. 
+    Argument costmap_sensors must contain the list of observation sources to use in costmaps,
+    separated by spaces. All sensors listed here must be launched by setting the corresponding
+    launch_<sensor name> argument as true.
+ -->
+<launch>
+  <!-- Parameters for minimal configuration -->
+  <arg name="launch_hokuyo"           value="true"/>
+  <arg name="launch_sonars"           value="false"/>
+  <arg name="launch_sensor_3d"        value="false"/>
+  <arg name="launch_stargazer"        value="true"/>
+  <arg name="launch_gripper_camera"   value="false"/>
+  <arg name="launch_gyro"             value="true"/>
+  <arg name="launch_sensor_board"     value="true"/>
+  <arg name="launch_remocon"          value="true"/>
+
+  <!-- Parameters for move base -->
+  <arg name="costmap_sensors"         value="hokuyo"/>
+
+  <!-- Output map configuration -->
+  <arg name="map_name"                default="map"/>
+  <arg name="build_laser_map"         default="true"/>
+  <arg name="build_stargz_map"        default="false"/>
+  <arg name="initial_pose_x"          default="0.0"/>
+  <arg name="initial_pose_y"          default="0.0"/>
+  <arg name="initial_pose_a"          default="0.0"/>
+
+  <!--  ************** Korus' minimal configuration **************  -->
+  <include file="$(find korus_meta)/resources/launch/minimal_1.launch">
+    <arg name="pot"                   value="true"/>
+    <arg name="launch_hokuyo"         value="$(arg launch_hokuyo)"/>
+    <arg name="launch_sonars"         value="$(arg launch_sonars)"/>
+    <arg name="launch_sensor_3d"      value="$(arg launch_sensor_3d)"/>
+    <arg name="launch_stargazer"      value="$(arg launch_stargazer)"/>
+    <arg name="launch_gripper_camera" value="$(arg launch_gripper_camera)"/>
+    <arg name="launch_gyro"           value="$(arg launch_gyro)"/>
+    <arg name="launch_sensor_board"   value="$(arg launch_sensor_board)"/>
+    <arg name="launch_remocon"        value="$(arg launch_remocon)"/>
+  </include>
+
+  <!--  ************** Map building system **************  -->
+  <include file="$(find korus_meta)/resources/launch/navigation/build_map.launch.xml">
+    <arg name="costmap_sensors"       value="$(arg costmap_sensors)"/>
+    <arg name="map_name"              value="$(arg map_name)"/>
+    <arg name="build_laser_map"       value="$(arg build_laser_map)"/>
+    <arg name="build_stargz_map"      value="$(arg build_stargz_map)"/>
+    <arg name="initial_pose_x"        value="$(arg initial_pose_x)"/>
+    <arg name="initial_pose_y"        value="$(arg initial_pose_y)"/>
+    <arg name="initial_pose_a"        value="$(arg initial_pose_a)"/>
+  </include>
+</launch>
