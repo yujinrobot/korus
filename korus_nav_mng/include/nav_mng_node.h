@@ -116,6 +116,7 @@ private:
   bool lock_joystick;
   bool joystick_input;
   bool navstack_input;
+  bool have_nav_goal;
   uint16_t collision;
   uint16_t drop_risk;
   uint16_t obstacles;

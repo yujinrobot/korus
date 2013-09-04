@@ -5,6 +5,8 @@
  *      Author: jorge
  */
 
+#include <tf/tf.h>
+
 #include <float.h>
 
 #include <boost/thread.hpp>
@@ -218,12 +220,18 @@ void NavigationMng::joyVelCmdCB(const geometry_msgs::Twist::ConstPtr& msg)
   // Remote control message received
   joystick_input = true;
 
-  // Cancel current goal sending an empty string  TODO maybe need to wait a bit?
-  actionlib_msgs::GoalID cmd;
-  cmd.id = "";
-  cancel_goal_pub.publish(cmd);
+  if (have_nav_goal == true)
+  {
+    // Cancel current goal sending an empty string  TODO maybe need to wait a bit?
+    actionlib_msgs::GoalID cmd;
+    cmd.id = "";
+    cancel_goal_pub.publish(cmd);
 
-  ROS_INFO("Remote control message received: current goal has been cancelled"); // TODO control if we actually have a goal, so we don't try to cancel something nonexistent
+    ROS_INFO("Remote control message received: current goal has been cancelled");
+
+    // TODO control if the goal has been reached, so we don't try to cancel something nonexistent
+    have_nav_goal = false;
+  }
 
   // Joystick is locked after a collision or drop risk; unlock it when
   // the risky condition disappears or the user release the joystick
@@ -369,6 +377,8 @@ void NavigationMng::newGoalMsgCB(const geometry_msgs::PoseStamped::ConstPtr& msg
     ROS_INFO("New goal designated: %.2f, %.2f, %.2f",
               msg->pose.position.x, msg->pose.position.y, yaw(msg->pose.orientation));
   }
+
+  have_nav_goal = true;
 }
 
 void NavigationMng::initPoseMsgCB(const geometry_msgs::PoseWithCovarianceStamped::ConstPtr& msg)
@@ -644,10 +654,10 @@ int NavigationMng::init(ros::NodeHandle& nh)
   stargz_sub  = nh.subscribe("stargazer",   1, &NavigationMng::stgzPoseMsgCB, this);
   amcl_p_sub  = nh.subscribe("amcl_pose",   1, &NavigationMng::amclPoseMsgCB, this);
   init_p_sub  = nh.subscribe("amcl_init",   1, &NavigationMng::initPoseMsgCB, this);
-  //n_goal_sub  = nh.subscribe("new_goal",    1, &NavigationMng::newGoalMsgCB,  this);
   cur_vel_sub = nh.subscribe("odometry",    1, &NavigationMng::curVelMsgCB,   this);
   joy_vel_sub = nh.subscribe("joy_cmd_vel", 1, &NavigationMng::joyVelCmdCB,   this);
   nav_vel_sub = nh.subscribe("nav_cmd_vel", 1, &NavigationMng::navVelCmdCB,   this);
+  n_goal_sub  = nh.subscribe("new_goal",    1, &NavigationMng::newGoalMsgCB,  this);
 
   cmd_vel_pub     = nh.advertise <geometry_msgs::Twist>                     ("mng_cmd_vel",  1);
   init_pose_pub   = nh.advertise <geometry_msgs::PoseWithCovarianceStamped> ("initial_pose", 1);
