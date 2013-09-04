@@ -37,7 +37,7 @@
   <!-- ROS -->
   <run_depend>std_msgs</run_depend>
   <run_depend>control_msgs</run_depend>
-  <run_depend>joint_state_publisher</run_depend>
+<!-- <run_depend>joint_state_publisher</run_depend> not catkinized in groovy -->
   <run_depend>robot_state_publisher</run_depend>
 <!-- somehow not available, see issue #1 <run_depend>laser_drivers</run_depend> -->
 
