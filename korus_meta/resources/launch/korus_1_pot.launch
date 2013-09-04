@@ -11,31 +11,35 @@
   <arg name="launch_hokuyo"                 value="true"/>
   <arg name="launch_sonars"                 value="false"/>
   <arg name="launch_sensor_3d"              value="false"/>
-  <arg name="launch_stargazer"              value="false"/>
+  <arg name="launch_stargazer"              value="true"/>
   <arg name="launch_gripper_camera"         value="false"/>
-  <arg name="launch_sensor_board"           value="false"/>
-  <arg name="launch_remocon"                value="false"/>
+  <arg name="launch_gyro"                   value="true"/>
+  <arg name="launch_sensor_board"           value="true"/>
+  <arg name="launch_remocon"                value="true"/>
+
   <!-- Parameters for move base -->
   <arg name="costmap_sensors"               value="hokuyo"/>
+
   <!-- Name of the map to use (without extension) and initial position -->
   <arg name="map_name"                      default="$(find yujin_maps)/maps/yujin_edu_room"/>
   <arg name="initial_pose_x"                value="3.0"/>
   <arg name="initial_pose_y"                value="1.0"/>
   <arg name="initial_pose_a"                value="0.0"/>
 
-  <group ns="korus">
     <!--  ************** Korus' minimal configuration **************  -->
     <include file="$(find korus_meta)/resources/launch/minimal_1.launch">
       <arg name="pot"                       value="true"/>
-      <arg name="launch_hokuyo"             value="$(arg map_name)"/>
-      <arg name="launch_sonars"             value="$(arg map_name)"/>
-      <arg name="launch_sensor_3d"          value="$(arg map_name)"/>
-      <arg name="launch_stargazer"          value="$(arg map_name)"/>
-      <arg name="launch_gripper_camera"     value="$(arg map_name)"/>
-      <arg name="launch_gyro"               value="$(arg map_name)"/>
-      <arg name="launch_sensor_board"       value="$(arg map_name)"/>
-      <arg name="launch_remocon"            value="$(arg map_name)"/>
+      <arg name="launch_hokuyo"             value="$(arg launch_hokuyo)"/>
+      <arg name="launch_sonars"             value="$(arg launch_sonars)"/>
+      <arg name="launch_sensor_3d"          value="$(arg launch_sensor_3d)"/>
+      <arg name="launch_stargazer"          value="$(arg launch_stargazer)"/>
+      <arg name="launch_gripper_camera"     value="$(arg launch_gripper_camera)"/>
+      <arg name="launch_gyro"               value="$(arg launch_gyro)"/>
+      <arg name="launch_sensor_board"       value="$(arg launch_sensor_board)"/>
+      <arg name="launch_remocon"            value="$(arg launch_remocon)"/>
     </include>
+
+  <group ns="korus">
 
     <!--  ************** Rosnav move base **************  -->
     <include file="$(find korus_meta)/resources/launch/components/move_base.launch">
@@ -72,10 +76,8 @@
       <arg name="operation_mode" value="1"/>
     </include>
 
-
-    <!--  *********** rapi launch: hce, navi ************  -->
-<!--    <include file="$(find korus_meta)/resources/launch/components/rapi.launch"/> -->    
-    
+    <!--  *********** rapi launch: hce, navi ************  deprecated
+    <include file="$(find korus_meta)/resources/launch/components/rapi.launch"/>-->    
   </group>
   
   <!--node pkg="korus_smach" type="head_calibration.py" name="head_calibration"/-->
