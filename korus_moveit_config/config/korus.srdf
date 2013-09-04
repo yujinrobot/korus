@@ -21,12 +21,12 @@
         <joint name="palm" />
     </group>
     <group name="gripper">
-        <link name="finger_left_knuckle_1_link" />
-        <link name="finger_left_knuckle_2_link" />
-        <link name="finger_left_tip_link" />
-        <link name="finger_right_knuckle_1_link" />
-        <link name="finger_right_knuckle_2_link" />
-        <link name="finger_right_tip_link" />
+<!--         <link name="finger_left_knuckle_1_link" /> -->
+<!--         <link name="finger_left_knuckle_2_link" /> -->
+<!--         <link name="finger_left_tip_link" /> -->
+<!--         <link name="finger_right_knuckle_1_link" /> -->
+<!--         <link name="finger_right_knuckle_2_link" /> -->
+<!--         <link name="finger_right_tip_link" /> -->
         <link name="gripper_link" />
         <link name="gripper_camera_link" />
         <link name="gripper_center_link" />
@@ -44,10 +44,10 @@
         <joint name="wrist" value="0" />
     </group_state>
     <group_state name="zero_gripper" group="gripper">
-        <joint name="finger_left_knuckle_1" value="0" />
-        <joint name="finger_left_knuckle_2" value="0" />
-        <joint name="finger_right_knuckle_1" value="0" />
-        <joint name="finger_right_knuckle_2" value="0" />
+<!--         <joint name="finger_left_knuckle_1" value="0" /> -->
+<!--         <joint name="finger_left_knuckle_2" value="0" /> -->
+<!--         <joint name="finger_right_knuckle_1" value="0" /> -->
+<!--         <joint name="finger_right_knuckle_2" value="0" /> -->
         <joint name="gripper" value="0" />
     </group_state>
     <group_state name="zero_head" group="head">
@@ -126,6 +126,7 @@
     <disable_collisions link1="caster_front_link" link2="wheel_right_link" reason="Never" />
     <disable_collisions link1="finger_left_knuckle_1_link" link2="finger_left_knuckle_2_link" reason="Adjacent" />
     <disable_collisions link1="finger_left_knuckle_1_link" link2="finger_right_knuckle_1_link" reason="Default" />
+    <disable_collisions link1="finger_left_knuckle_1_link" link2="finger_right_knuckle_2_link" reason="Default" />
     <disable_collisions link1="finger_left_knuckle_1_link" link2="gripper_camera_link" reason="Never" />
     <disable_collisions link1="finger_left_knuckle_1_link" link2="lower_arm_link" reason="Never" />
     <disable_collisions link1="finger_left_knuckle_1_link" link2="palm_link" reason="Adjacent" />
@@ -136,6 +137,8 @@
     <disable_collisions link1="finger_left_knuckle_2_link" link2="palm_link" reason="Never" />
     <disable_collisions link1="finger_left_knuckle_2_link" link2="upper_arm_link" reason="Never" />
     <disable_collisions link1="finger_left_knuckle_2_link" link2="wrist_link" reason="Never" />
+    <disable_collisions link1="finger_left_knuckle_2_link" link2="finger_right_knuckle_1_link" reason="Default" />
+    <disable_collisions link1="finger_left_knuckle_2_link" link2="finger_right_knuckle_2_link" reason="Default" />
     <disable_collisions link1="finger_right_knuckle_1_link" link2="finger_right_knuckle_2_link" reason="Adjacent" />
     <disable_collisions link1="finger_right_knuckle_1_link" link2="gripper_camera_link" reason="Never" />
     <disable_collisions link1="finger_right_knuckle_1_link" link2="lower_arm_link" reason="Never" />

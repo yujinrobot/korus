@@ -5,7 +5,7 @@ sensors:
     max_range: 5.0
     frame_subsample: 1
     point_subsample: 1
-    shape_padding: 0.01
+    shape_padding: 0.05
     shape_scale: 1.0
     self_mask:
       min_sensor_dist: .5
@@ -13,3 +13,12 @@ sensors:
       self_see_default_scale: 1.0
       self_see_links:
        - name: base_link
+       - name: shoulder_link
+       - name: upper_arm_link
+       - name: lower_arm_link
+       - name: wrist_link
+       - name: palm_link
+       - name: finger_left_knuckle_1
+       - name: finger_left_knuckle_2
+       - name: finger_right_knuckle_1
+       - name: finger_right_knuckle_2

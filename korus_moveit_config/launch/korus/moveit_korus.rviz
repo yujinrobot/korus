@@ -67,17 +67,14 @@ Visualization Manager:
             Alpha: 1
             Show Axes: false
             Show Trail: false
-            Value: true
           caster_back_right_link:
             Alpha: 1
             Show Axes: false
             Show Trail: false
-            Value: true
           caster_front_link:
             Alpha: 1
             Show Axes: false
             Show Trail: false
-            Value: true
           finger_left_knuckle_1_link:
             Alpha: 1
             Show Axes: false
@@ -127,16 +124,11 @@ Visualization Manager:
             Alpha: 1
             Show Axes: false
             Show Trail: false
-            Value: true
           head_pan_link:
             Alpha: 1
             Show Axes: false
             Show Trail: false
             Value: true
-          head_tilt_fixed_link:
-            Alpha: 1
-            Show Axes: false
-            Show Trail: false
           head_tilt_link:
             Alpha: 1
             Show Axes: false
@@ -145,7 +137,6 @@ Visualization Manager:
             Alpha: 1
             Show Axes: false
             Show Trail: false
-            Value: true
           lower_arm_link:
             Alpha: 1
             Show Axes: false
@@ -155,7 +146,6 @@ Visualization Manager:
             Alpha: 1
             Show Axes: false
             Show Trail: false
-            Value: true
           palm_link:
             Alpha: 1
             Show Axes: false
@@ -215,12 +205,10 @@ Visualization Manager:
             Alpha: 1
             Show Axes: false
             Show Trail: false
-            Value: true
           tablet_link:
             Alpha: 1
             Show Axes: false
             Show Trail: false
-            Value: true
           torso_lift_link:
             Alpha: 1
             Show Axes: false
@@ -238,7 +226,6 @@ Visualization Manager:
             Alpha: 1
             Show Axes: false
             Show Trail: false
-            Value: true
           upper_arm_link:
             Alpha: 1
             Show Axes: false
@@ -258,7 +245,6 @@ Visualization Manager:
             Alpha: 1
             Show Axes: false
             Show Trail: false
-            Value: true
         Loop Animation: true
         Robot Alpha: 0.5
         Show Robot Collision: false
@@ -315,17 +301,14 @@ Visualization Manager:
             Alpha: 1
             Show Axes: false
             Show Trail: false
-            Value: true
           caster_back_right_link:
             Alpha: 1
             Show Axes: false
             Show Trail: false
-            Value: true
           caster_front_link:
             Alpha: 1
             Show Axes: false
             Show Trail: false
-            Value: true
           finger_left_knuckle_1_link:
             Alpha: 1
             Show Axes: false
@@ -375,16 +358,11 @@ Visualization Manager:
             Alpha: 1
             Show Axes: false
             Show Trail: false
-            Value: true
           head_pan_link:
             Alpha: 1
             Show Axes: false
             Show Trail: false
             Value: true
-          head_tilt_fixed_link:
-            Alpha: 1
-            Show Axes: false
-            Show Trail: false
           head_tilt_link:
             Alpha: 1
             Show Axes: false
@@ -393,7 +371,6 @@ Visualization Manager:
             Alpha: 1
             Show Axes: false
             Show Trail: false
-            Value: true
           lower_arm_link:
             Alpha: 1
             Show Axes: false
@@ -403,7 +380,6 @@ Visualization Manager:
             Alpha: 1
             Show Axes: false
             Show Trail: false
-            Value: true
           palm_link:
             Alpha: 1
             Show Axes: false
@@ -463,12 +439,10 @@ Visualization Manager:
             Alpha: 1
             Show Axes: false
             Show Trail: false
-            Value: true
           tablet_link:
             Alpha: 1
             Show Axes: false
             Show Trail: false
-            Value: true
           torso_lift_link:
             Alpha: 1
             Show Axes: false
@@ -486,7 +460,6 @@ Visualization Manager:
             Alpha: 1
             Show Axes: false
             Show Trail: false
-            Value: true
           upper_arm_link:
             Alpha: 1
             Show Axes: false
@@ -506,7 +479,6 @@ Visualization Manager:
             Alpha: 1
             Show Axes: false
             Show Trail: false
-            Value: true
         Robot Alpha: 0.5
         Show Scene Robot: true
       Value: true
@@ -552,17 +524,17 @@ Visualization Manager:
   Views:
     Current:
       Class: rviz/XYOrbit
-      Distance: 5.10674
+      Distance: 2.96226
       Focal Point:
-        X: 1.0394
-        Y: -1.10686
-        Z: 8.19564e-07
+        X: 0.233021
+        Y: 0.0653988
+        Z: 7.00355e-07
       Name: Current View
       Near Clip Distance: 0.01
-      Pitch: 0.509796
+      Pitch: 0.514796
       Target Frame: /base_footprint
       Value: XYOrbit (rviz)
-      Yaw: 4.26995
+      Yaw: 1.80995
     Saved: ~
 Window Geometry:
   Displays:
@@ -574,9 +546,9 @@ Window Geometry:
   Hide Right Dock: false
   Motion Planning:
     collapsed: false
-  QMainWindow State: 000000ff00000000fd0000000100000000000002ea00000389fc0200000005fb000000100044006900730070006c00610079007301000000320000022e000000d701000005fb0000000800480065006c00700000000342000000bb0000007101000005fb0000000a0056006900650077007300000003b0000000b0000000a901000005fb0000000c00430061006d00650072006100000002ff000001610000000000000000fb0000001e004d006f00740069006f006e00200050006c0061006e006e0069006e00670100000263000001580000014f01000005000004370000038900000001000000020000000100000002fc0000000100000002000000010000000a0054006f006f006c00730100000000ffffffff0000000000000000
+  QMainWindow State: 000000ff00000000fd00000001000000000000021000000389fc0200000005fb000000100044006900730070006c00610079007301000000320000022e000000d701000005fb0000000800480065006c00700000000342000000bb0000007101000005fb0000000a0056006900650077007300000003b0000000b0000000a901000005fb0000000c00430061006d00650072006100000002ff000001610000000000000000fb0000001e004d006f00740069006f006e00200050006c0061006e006e0069006e00670100000263000001580000014f01000005000002e90000038900000001000000020000000100000002fc0000000100000002000000010000000a0054006f006f006c00730100000000ffffffff0000000000000000
   Views:
     collapsed: false
-  Width: 1828
-  X: 459
+  Width: 1276
+  X: 0
   Y: 35
