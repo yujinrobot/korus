@@ -1,0 +1,21 @@
+<?xml version="1.0"?>
+<package>
+  <name>korus_stage</name>
+  <version>0.1.0</version>
+  <description>The korus_stage package</description>
+
+  <author email="jorge@yujinrobot.com">Jorge Santos</author>
+  <maintainer email="jorge@yujinrobot.com">Jorge Santos</maintainer>
+  <license>Yujin</license>
+  <url type="website">http://bitbucket.org/yujinrobot/korus</url>
+  <url type="repository">http://bitbucket.org/yujinrobot/korus</url>
+  <url type="bugtracker">http://bitbucket.org/yujinrobot/korus/issues</url>
+
+  <buildtool_depend>catkin</buildtool_depend>
+
+  <run_depend>stage</run_depend>
+  <run_depend>korus_meta</run_depend>
+
+  <export>
+  </export>
+</package>

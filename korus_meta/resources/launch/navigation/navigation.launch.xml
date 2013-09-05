@@ -5,6 +5,8 @@
     launch_<sensor name> argument as true.
  -->
 <launch>
+  <arg name="simulation"      default="false"/>
+
   <!-- Parameters for move base -->
   <arg name="costmap_sensors" default="hokuyo"/>
 
@@ -49,7 +51,8 @@
     <include file="$(find korus_meta)/resources/launch/components/stargz_map.launch">
       <arg name="landmarks_file_path" value="$(arg map_name).stgz"/>
       <arg name="operation_mode" value="1"/>
-    </include>
+      <arg name="simulation" value="$(arg simulation)"/>
+      </include>
 
     <!--  *********** rapi launch: hce, navi ************  deprecated
     <include file="$(find korus_meta)/resources/launch/components/rapi.launch"/>-->    

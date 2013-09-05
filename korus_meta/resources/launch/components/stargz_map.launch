@@ -17,6 +17,9 @@
   <arg name="initial_pose_y" default="0.0"/>
   <arg name="initial_pose_a" default="0.0"/>
 
+  <!-- On simulation the stargazer driver is not launched, so we launch map in its own manager -->
+  <node if="$(arg simulation)" pkg="nodelet" type="nodelet" name="stargazer_manager" args="manager"/>
+
   <node pkg="nodelet" type="nodelet" name="stargazer_map" args="load ycs_stargazer_map/StargazerMapNodelet stargazer_manager">
     <!--    Parameters   -->
     <rosparam file="$(find ycs_stargazer_map)/resources/yaml/parameters.yaml" command="load"/>
