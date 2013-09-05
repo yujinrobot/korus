@@ -48,7 +48,13 @@
     local-name: ycs_remocon
     uri: git@bitbucket.org:yujinrobot/ycs_remocon.git
     version: groovy-devel
-    
+
+# Open YCS
+- git:
+    local-name: yujin_ocs
+    uri: 'https://github.com/yujinrobot/yujin_ocs.git'
+    version: hydro-devel
+
 # ECL (just overlay a few more recent versions)
 - git: 
     local-name: ecl_manipulation
