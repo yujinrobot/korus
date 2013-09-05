@@ -116,6 +116,7 @@ private:
   bool lock_joystick;
   bool joystick_input;
   bool navstack_input;
+  bool motors_enabled;
   bool have_nav_goal;
   uint16_t collision;
   uint16_t drop_risk;
@@ -147,6 +148,8 @@ private:
   ros::Publisher cmd_vel_pub;
   ros::Publisher init_pose_pub;
   ros::Publisher cancel_goal_pub;
+  ros::Publisher motor_enable_pub;
+  ros::Publisher motor_disable_pub;
 
   void sonarsMsgCB(const sensor_board_msgs::Sonar::ConstPtr& msg);
   void newGoalMsgCB(const geometry_msgs::PoseStamped::ConstPtr& msg);

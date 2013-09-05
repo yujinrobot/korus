@@ -82,6 +82,8 @@ NavigationMng::NavigationMng() {
   lock_joystick  = false;
   joystick_input = false;
   navstack_input = false;
+  motors_enabled = false;
+  have_nav_goal  = false;
 
   // Switches initial positions:
   //  - on simulations, these are appropriated values
@@ -378,6 +380,15 @@ void NavigationMng::newGoalMsgCB(const geometry_msgs::PoseStamped::ConstPtr& msg
               msg->pose.position.x, msg->pose.position.y, yaw(msg->pose.orientation));
   }
 
+  if (motors_enabled == false)
+  {
+    std_msgs::String power_cmd;
+    power_cmd.data = "all";
+    motor_enable_pub.publish(power_cmd);
+    ROS_INFO("Motors enabled");
+    motors_enabled = true;
+  }
+
   have_nav_goal = true;
 }
 
@@ -659,9 +670,11 @@ int NavigationMng::init(ros::NodeHandle& nh)
   nav_vel_sub = nh.subscribe("nav_cmd_vel", 1, &NavigationMng::navVelCmdCB,   this);
   n_goal_sub  = nh.subscribe("new_goal",    1, &NavigationMng::newGoalMsgCB,  this);
 
-  cmd_vel_pub     = nh.advertise <geometry_msgs::Twist>                     ("mng_cmd_vel",  1);
-  init_pose_pub   = nh.advertise <geometry_msgs::PoseWithCovarianceStamped> ("initial_pose", 1);
-  cancel_goal_pub = nh.advertise <actionlib_msgs::GoalID>                   ("cancel_goal",  1);
+  cmd_vel_pub       = nh.advertise <geometry_msgs::Twist>                     ("mng_cmd_vel",  1);
+  init_pose_pub     = nh.advertise <geometry_msgs::PoseWithCovarianceStamped> ("initial_pose", 1);
+  cancel_goal_pub   = nh.advertise <actionlib_msgs::GoalID>                   ("cancel_goal",  1);
+  motor_enable_pub  = nh.advertise <std_msgs::String>                         ("enable", 1);
+  motor_disable_pub = nh.advertise <std_msgs::String>                         ("disable", 1);
 
   ROS_INFO("Navigation manager node successfully initialized");
 
