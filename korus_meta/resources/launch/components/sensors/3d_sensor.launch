@@ -1,12 +1,9 @@
 <!--
   For Korus's 3D sensor; it launches:
    - openni driver
-   - pointcloud throttle (to reduce CPU load)
-  The "exotic" namespaces are imposed by the particular arrangements on openni launch files.
  -->
 
 <launch>
-  <!-- Load standard constellation of processing nodelets -->
   <include file="$(find openni_launch)/launch/openni.launch">
     <arg name="camera"                          value="sensor_3d"/>
     <arg name="num_worker_threads"              value="4"/>
@@ -19,18 +16,4 @@
     <arg name="disparity_processing"            value="false"/>
     <arg name="disparity_registered_processing" value="false"/>
   </include>
-
-
-  <!--  ************ Point cloud throttling ******** 
-  <node pkg="nodelet" type="nodelet" name="pointcloud_throttle"
-        args="load pointcloud_to_laserscan/CloudThrottle sensor_3d_nodelet_manager" respawn="false">
-    <param name="max_rate" value="5.0"/>
-    <remap from="cloud_in"  to="sensor_3d/depth_registered/points"/>
-    <remap from="cloud_out" to="sensor_3d_pc"/>
-  </node> 
-  
-  
-  <node pkg="topic_tools" type="throttle" name="pointcloud_throttle"
-        args="messages sensor_3d/depth_registered/points 5.0 sensor_3d">
-  </node> -->
 </launch>

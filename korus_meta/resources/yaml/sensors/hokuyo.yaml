@@ -12,5 +12,5 @@ intensity: false
 calibrate_time: true
 
 # Theoric values look almost ok for Korus 2, but for Korus 1 we must restrict a bit the min angle
-min_ang: -1.72  # theoric -1.7617 (-100.94*π/180)
-max_ang: +1.718  # theoric +1.7617 (+100.94*π/180)
+min_ang: -1.71  # theoric -1.7617 (-100.94*π/180)
+max_ang: +1.71  # theoric +1.7617 (+100.94*π/180)
