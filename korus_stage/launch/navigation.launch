@@ -1,0 +1,77 @@
+<!--
+  Global navigation simulation:
+  
+  - stage
+  - map_server
+  - move_base
+  - static map
+  - amcl
+  - stargazer map (with stargazer emulation)
+  - localization fusion (amcl + stargazer)
+  - rviz view
+  
+  Argument costmap_sensors should not be changed, as hokuyo is by now the only korus sensor
+  supported on stage.
+
+  Use keyop.launch or set navigation goals to drive the robot around.
+ -->
+<launch>
+  <!-- Parameters for move base -->
+  <arg name="costmap_sensors" value="hokuyo"/>
+
+  <!-- Name of the map to use (without extension) and initial position -->
+  <arg name="map_name"        default="6th_floor_plan"/>
+  <arg name="map_path"        default="$(find yujin_maps)/maps/$(arg map_name)"/>
+  <arg name="initial_pose_x"  default="3.0"/>
+  <arg name="initial_pose_y"  default="1.0"/>
+  <arg name="initial_pose_a"  default="0.0"/>
+
+  <param name="/use_sim_time" value="true"/>
+
+  <group ns="korus">
+    <!--  ******************** Stage ********************  -->
+    <!-- 
+          Publishes transforms:
+            /base_link -> /base_laser
+            /base_footprint -> /base_link (identity)
+            /odom -> base_footprint
+          Publishes topics:
+            /odom : odometry data from the simulated odometry
+            /base_scan : laser data from the simulated laser
+            /base_pose_ground_truth : the ground truth pose
+          Parameters:
+            base_watchdog_timeout : time (s) after receiving the last command on cmd_vel before stopping the robot
+          Args:
+            -g : run in headless mode.
+    --> 
+    <node pkg="stage" type="stageros" name="stageros" args="$(find korus_stage)/worlds/$(arg map_name).world">
+      <param name="base_watchdog_timeout" value="0.5"/>
+    </node>
+
+    <!--  ******* Velocity commands multiplexer *******  -->
+    <!-- Nodelet manager name must be robot_core as vel smoother will be loaded there -->
+    <node pkg="nodelet" type="nodelet" name="robot_core" args="manager"/>
+    <node pkg="nodelet" type="nodelet" name="cmd_vel_mux" args="load cmd_vel_mux/CmdVelMuxNodelet robot_core">
+      <param name="yaml_cfg_file" value="$(find korus_meta)/resources/yaml/mobile_base/vel_multiplexer.yaml"/>
+      <remap from="cmd_vel_mux/output/cmd_vel" to="cmd_vel"/>
+    </node>
+
+    <!--  ************** Simulated Korus **************  -->
+    <param name="robot_description" command="$(find xacro)/xacro.py '$(find korus_meta)/resources/urdf/korus_diff_drive.urdf.xacro'"/>
+    <node name="robot_state_publisher" pkg="robot_state_publisher" type="robot_state_publisher"/>
+    <node name="joint_state_publisher" pkg="joint_state_publisher" type="joint_state_publisher"/>
+  </group>
+
+  <!--  ************** Navigation system **************  -->
+  <include file="$(find korus_meta)/resources/launch/navigation/navigation.launch.xml">
+    <arg name="simulation"      value="true"/>
+    <arg name="costmap_sensors" value="$(arg costmap_sensors)"/>
+    <arg name="map_name"        value="$(arg map_path)"/>
+    <arg name="initial_pose_x"  value="$(arg initial_pose_x)"/>
+    <arg name="initial_pose_y"  value="$(arg initial_pose_y)"/>
+    <arg name="initial_pose_a"  value="$(arg initial_pose_a)"/>
+  </include>
+  
+  <!--  ************** RViz visualization *************  -->
+  <include file="$(find korus_meta)/resources/launch/debugging/view_navigation.launch"/>
+</launch>

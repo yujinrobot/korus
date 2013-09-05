@@ -6,7 +6,7 @@
   <arg name="simulation"/>
   
   <node if="$(arg simulation)" pkg="nodelet" type="nodelet" name="mobile_base" args="load diff_drive_base/DiffDriveBase robot_core">
-    <rosparam file="$(find korus_meta)/resources/yaml/mobile_base/korus_v3_diff_drive_base.yaml" command="load"/>
+    <rosparam file="$(find korus_meta)/resources/yaml/mobile_base/diff_drive_base.yaml" command="load"/>
     <remap from="mobile_base/joint_command/wheel_left" to="joint_command/wheel_left"/>
     <remap from="mobile_base/joint_state/wheel_left" to="joint_state/wheel_left"/>
     <remap from="mobile_base/joint_command/wheel_right" to="joint_command/wheel_right"/>
@@ -18,7 +18,7 @@
   </node>
   
   <node unless="$(arg simulation)" pkg="nodelet" type="nodelet" name="mobile_base" args="load diff_drive_gyro_base/DiffDriveGyroBase robot_core">
-    <rosparam file="$(find korus_meta)/resources/yaml/mobile_base/korus_v3_diff_drive_base.yaml" command="load"/>
+    <rosparam file="$(find korus_meta)/resources/yaml/mobile_base/diff_drive_base.yaml" command="load"/>
     <remap from="mobile_base/joint_command/wheel_left" to="joint_command/wheel_left"/>
     <remap from="mobile_base/joint_state/wheel_left" to="joint_state/wheel_left"/>
     <remap from="mobile_base/joint_command/wheel_right" to="joint_command/wheel_right"/>
