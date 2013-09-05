@@ -144,6 +144,7 @@ private:
   ros::Subscriber joy_vel_sub;
   ros::Subscriber nav_vel_sub;
   ros::Subscriber cur_vel_sub;
+  ros::Subscriber act_goal_sub;
 
   ros::Publisher cmd_vel_pub;
   ros::Publisher init_pose_pub;
@@ -160,6 +161,7 @@ private:
 //  void feedbackMsgCB(const move_base_msgs::MoveBaseActionFeedback::ConstPtr& msg);
 //  void glResultMsgCB(const move_base_msgs::MoveBaseActionResult::ConstPtr& msg);
   void glStatusMsgCB(const actionlib_msgs::GoalStatusArray::ConstPtr& msg);
+  void newGoalActionCB(const move_base_msgs::MoveBaseActionGoal::ConstPtr& msg);
 
   void curVelMsgCB(const nav_msgs::Odometry::ConstPtr& msg);
   void joyVelCmdCB(const geometry_msgs::Twist::ConstPtr& msg);

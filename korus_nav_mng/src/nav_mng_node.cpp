@@ -11,6 +11,8 @@
 
 #include <boost/thread.hpp>
 
+#include <move_base_msgs/MoveBaseAction.h>
+
 #include "nav_mng_node.h"
 
 #define SONAR_BUFFER_SIZE  3
@@ -413,6 +415,25 @@ void NavigationMng::glStatusMsgCB(const actionlib_msgs::GoalStatusArray::ConstPt
 
 }
 
+void NavigationMng::newGoalActionCB(const move_base_msgs::MoveBaseActionGoal::ConstPtr& msg)
+{
+        ROS_INFO("New goal designated: %.2f, %.2f, %.2f",
+                 msg->goal.target_pose.pose.position.x, msg->goal.target_pose.pose.position.y, yaw(msg->goal.target_pose.pose.orientation));
+
+
+      if (motors_enabled == false)
+      {
+        std_msgs::String power_cmd;
+        power_cmd.data = "all";
+        motor_enable_pub.publish(power_cmd);
+        ROS_INFO("Motors enabled");
+        motors_enabled = true;
+      }
+
+      have_nav_goal = true;
+
+}
+
 bool NavigationMng::speedCommand(geometry_msgs::Twist cmd_vel, double cmd_freq)
 {
   // Check for obstacles ahead; only bound speed if the way is clear
@@ -669,6 +690,8 @@ int NavigationMng::init(ros::NodeHandle& nh)
   joy_vel_sub = nh.subscribe("joy_cmd_vel", 1, &NavigationMng::joyVelCmdCB,   this);
   nav_vel_sub = nh.subscribe("nav_cmd_vel", 1, &NavigationMng::navVelCmdCB,   this);
   n_goal_sub  = nh.subscribe("new_goal",    1, &NavigationMng::newGoalMsgCB,  this);
+  act_goal_sub = nh.subscribe("action_goal",    1, &NavigationMng::newGoalActionCB,  this);
+
 
   cmd_vel_pub       = nh.advertise <geometry_msgs::Twist>                     ("mng_cmd_vel",  1);
   init_pose_pub     = nh.advertise <geometry_msgs::PoseWithCovarianceStamped> ("initial_pose", 1);
