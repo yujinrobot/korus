@@ -2,11 +2,11 @@ sensors:
   - sensor_plugin: occupancy_map_monitor/PointCloudOctomapUpdater
     point_cloud_topic: /korus/sensor_3d/depth_registered/points
     filtered_cloud_topic: filtered_cloud
-    max_range: 5.0
+    max_range: 2.0
     frame_subsample: 1
     point_subsample: 1
-    shape_padding: 0.05
-    shape_scale: 1.0
+    shape_padding: 0.10
+    shape_scale: 1.1
     self_mask:
       min_sensor_dist: .5
       self_see_default_padding: .04
