@@ -6,7 +6,7 @@
     * sensors (3D sensor)
     * MoveIt! (configured for Korus)
     * ORK (tabletop)
-    * SMACH user interface
+    * SMACH user interfaces
  -->
 <launch>
   <!-- Parameters for minimal configuration -->
@@ -49,14 +49,6 @@
     <arg name="initial_pose_a"        value="$(arg initial_pose_a)"/>
   </include>
 
-  <!--  ************** Korus' MoveIt! configuration **************  -->
-  <include file="$(find korus_moveit_config)/launch/korus/moveit_korus.launch"/>
-  
-  <!--  ************** ORK tabletop **************  -->
-  <include file="$(find korus_meta)/resources/launch/object_recognition/or_tabletop.launch"/>
-  
-  <!--  ************** SMACH user interfaces **************  -->
-  <include file="$(find korus_smach)/launch/find_object.launch"/>
-  <include file="$(find korus_smach)/launch/pick_object.launch"/>
-  <include file="$(find korus_smach)/launch/place_object.launch"/>
+  <!--  ************** Korus' object manipulation pipeline **************  -->
+  <include file="$(find korus_meta)/resources/launch/manipulation/object_manipulation.launch.xml"/>
 </launch>

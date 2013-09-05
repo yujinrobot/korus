@@ -1,12 +1,9 @@
 <!--
-  Object manipulation setup for Korus
+  Standalone launcher for object manipulation
   
   In detail:
-    * robot core (Goo, mechanism model, joint trajectory controller, ...)
-    * sensors (3D sensor)
-    * MoveIt! (configured for Korus)
-    * ORK (tabletop)
-    * SMACH user interface
+    * minimal setup
+    * object manipulation pipeline
  -->
 <launch>
   <!-- Parameters for minimal configuration -->
@@ -31,13 +28,4 @@
     <arg name="launch_sensor_board"       value="$(arg launch_sensor_board)"/>
     <arg name="launch_remocon"            value="$(arg launch_remocon)"/>
   </include>
-  
-  <!--  ************** Korus' MoveIt! configuration **************  -->
-<!--   <include file="$(find korus_moveit_config)/launch/korus/moveit_korus.launch"/> -->
-  
-  <!--  ************** ORK tabletop **************  -->
-<!--   <include file="$(find korus_meta)/resources/launch/object_recognition/or_tabletop.launch"/> -->
-  
-  <!--  ************** SMACH user interface for ORK **************  -->
-<!--   <include file="$(find korus_smach)/launch/find_object.launch"/> -->
 </launch>
