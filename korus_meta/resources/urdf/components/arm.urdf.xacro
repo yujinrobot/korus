@@ -53,7 +53,8 @@
 	    <child link="lower_arm_link"/>
 	    <origin xyz="0.283 0.0 0.055" rpy="0 0 0"/>
 	    <axis xyz="0 0 1"/>
-	    <limit effort="200.0" lower="${-200*rad}" upper="${92*rad}" velocity="${91*rad}"/>
+<!--       <limit effort="200.0" lower="${-200*rad}" upper="${92*rad}" velocity="${91*rad}"/> -->
+	    <limit effort="200.0" lower="${-190*rad}" upper="${92*rad}" velocity="${91*rad}"/>
 	  </joint>  
 	  <link name="lower_arm_link">
 	    <visual>
