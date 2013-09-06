@@ -33,7 +33,7 @@ ignore = Name .project
 ignore = Name .cproject
 ignore = Name .pydefproject
 # VCS
-ignore = Path .git
+ignore = Name .git
 ignore = Name .svn
 # Custom
 ignore = Name eclipse
