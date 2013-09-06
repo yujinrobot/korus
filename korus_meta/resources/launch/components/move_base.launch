@@ -4,13 +4,13 @@
 -->
 <launch>
   <arg name="costmap_sensors"/>
-  
+
   <node pkg="move_base" type="move_base" respawn="false" name="move_base_node">
 
     <!--  Remappings -->
-    <remap from="odom" to="/korus/odom"/>
-    <remap from="cmd_vel" to="/korus/nav_cmd_vel"/>
-    <remap from="base_scan" to="/korus/base_scan"/>
+    <!-- <remap from="odom" to="/korus/odom"/> -->
+    <remap from="cmd_vel" to="navigation_vel_smoother/raw_cmd_vel"/>
+    <!-- <remap from="base_scan" to="/korus/base_scan"/> -->
     
     <!--  Parameters -->
     <rosparam file="$(find korus_meta)/resources/yaml/move_base/move_base.yaml" command="load"/>
@@ -26,5 +26,21 @@
     -->
     <param name="local_costmap/observation_sources" value="$(arg costmap_sensors)"/>
     <param name="global_costmap/observation_sources" value="$(arg costmap_sensors)"/>
+  </node>
+
+  <!-- Navigation velocity smoother -->
+  <node pkg="nodelet" type="nodelet" name="navigation_vel_smoother"
+       args="load yocs_velocity_smoother/VelocitySmootherNodelet robot_core">
+
+    <!-- Load default parameters but restrict additionally max speed on automatic navigation -->
+    <rosparam file="$(find korus_meta)/resources/yaml/mobile_base/vel_smoother.yaml" command="load"/>
+    <param name="speed_lim_v" value="0.35"/>
+    <param name="speed_lim_w" value="0.85"/>
+    
+    <remap from="navigation_vel_smoother/smooth_cmd_vel" to="cmd_vel_mux/input/navigation"/>
+
+    <!-- Robot velocity feedbacks; use the default base configuration -->
+    <remap from="navigation_vel_smoother/odometry" to="odom"/>
+    <remap from="navigation_vel_smoother/robot_cmd_vel" to="cmd_vel"/>
   </node>
 </launch>

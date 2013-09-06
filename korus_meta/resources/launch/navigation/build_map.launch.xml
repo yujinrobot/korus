@@ -53,7 +53,7 @@
     <param name="move_base_node/planner_frequency" value="0.2"/>
 
     <!--  ************* Navigation manager *************  -->
-    <include file="$(find korus_nav_mng)/resources/launch/nav_mng.launch"/>
+    <include file="$(find korus_meta)/resources/launch/components/nav_mng.launch"/>
 
     <!--  *************** SLAM mapping *****************  -->
     <include if="$(arg build_laser_map)" file="$(find korus_meta)/resources/launch/components/gmapping.launch"/>

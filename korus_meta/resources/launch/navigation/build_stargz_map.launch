@@ -46,7 +46,7 @@
     </include>
 
     <!--  ************* Navigation manager *************  -->
-    <include file="$(find korus_nav_mng)/resources/launch/nav_mng.launch"/>
+    <include file="$(find korus_meta)/resources/launch/components/nav_mng.launch"/>
 
     <!--  ***************** Map Server *****************  -->
     <node name="map_server" pkg="map_server" type="map_server" args="$(arg map_name).yaml">

@@ -3,13 +3,26 @@
     <node pkg="keyop_core" type="keyop" name="keyop" output="screen">
       <remap from="keyop/enable"  to="enable"/>
       <remap from="keyop/disable" to="disable"/>
-      <remap from="keyop/cmd_vel" to="rem_cmd_vel"/>
-<!--         <remap from="keyop/reset_odometry" to="/robot_core/mobile_base/reset_odometry"/> -->
-      <param name="linear_vel_step"  value="0.005" type="double"/>
-      <param name="linear_vel_max"   value="0.5"  type="double"/>
-      <param name="angular_vel_step" value="0.0222" type="double"/>
-      <param name="angular_vel_max"  value="2.22" type="double"/>
-      <param name="mode"  value="simple" type="string"/>
+      <remap from="keyop/cmd_vel" to="teleoperation_vel_smoother/raw_cmd_vel"/>
+
+      <param name="linear_vel_step"  value="0.025"  type="double"/>
+      <param name="linear_vel_max"   value="0.5"    type="double"/>
+      <param name="angular_vel_step" value="0.125"  type="double"/>
+      <param name="angular_vel_max"  value="2.22"   type="double"/>
+      <param name="mode"             value="simple" type="string"/>
+    </node>
+
+    <!-- Teleoperation velocity smoother -->
+    <node pkg="nodelet" type="nodelet" name="teleoperation_vel_smoother"
+         args="load yocs_velocity_smoother/VelocitySmootherNodelet robot_core">
+  
+      <rosparam file="$(find korus_meta)/resources/yaml/mobile_base/vel_smoother.yaml" command="load"/>
+      
+      <remap from="teleoperation_vel_smoother/smooth_cmd_vel" to="cmd_vel_mux/input/teleoperation"/>
+  
+      <!-- Robot velocity feedbacks; use the default base configuration -->
+      <remap from="teleoperation_vel_smoother/odometry" to="odom"/>
+      <remap from="teleoperation_vel_smoother/robot_cmd_vel" to="cmd_vel_mux/input/teleoperation"/>
     </node>
   </group>
 </launch>

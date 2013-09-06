@@ -1,0 +1,31 @@
+<!--
+  Navigation manager for Korus robot. Current version 0.2.0 do the following tasks:
+   - Initialize/reinitialize amcl with stargazer localization
+   - Cancel current goal when robot is teleoperated
+   - Enable/disable motors when a goal is requested/completed
+ -->
+<launch>
+  <arg name="check_localized" default="true"/>
+
+  <node pkg="ycs_navigation_mng" type="nav_mng" name="nav_mng">
+    <!--    Parameters   -->
+    <param name="check_localized" value="$(arg check_localized)"/>
+    
+    <!-- Incoming remaps -->
+    <remap from="active_ctrl"   to="cmd_vel_mux/active"/>
+    <remap from="stargazer"     to="stargazer/pose"/>
+    <remap from="simple_goal"   to="move_base_simple/goal"/>
+    <remap from="amcl_init"     to="initialpose"/>
+    <remap from="amcl_pose"     to="amcl/pose"/>
+    <remap from="mvas_new_goal" to="move_base/goal"/>
+    <remap from="mvas_feedback" to="move_base/feedback"/>
+    <remap from="mvas_status"   to="move_base/status"/>
+    <remap from="mvas_result"   to="move_base/result"/>
+    
+    <!-- Outgoing remaps -->
+    <remap from="cancel_goal"   to="move_base/cancel"/>
+    <remap from="initial_pose"  to="initialpose"/>
+    <remap from="motor_enable"  to="enable"/>
+    <remap from="motor_disable" to="disable"/>
+  </node>
+</launch>
