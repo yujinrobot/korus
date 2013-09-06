@@ -1,10 +1,28 @@
 <launch>
+  <group ns="korus">
+    <node pkg="keyop_core" type="keyop" name="keyop" output="screen">
+      <remap from="keyop/enable"  to="enable"/>
+      <remap from="keyop/disable" to="disable"/>
+      <remap from="keyop/cmd_vel" to="teleoperation_vel_smoother/raw_cmd_vel"/>
 
-  <node pkg="kobuki_teleop" type="kobuki_teleop_key" name="kobuki_teleop_keyboard"  output="screen">
-    <!--kobuki teleop does not require these parameters, who use it?-->
-    <!--param name="scale_linear" value="0.5" type="double"/>
-    <param name="scale_angular" value="1.5" type="double"/-->
-		    <remap from="cmd_vel" to="/korus/cmd_vel"/>
-  </node>
+      <param name="linear_vel_step"  value="0.025"  type="double"/>
+      <param name="linear_vel_max"   value="0.5"    type="double"/>
+      <param name="angular_vel_step" value="0.125"  type="double"/>
+      <param name="angular_vel_max"  value="2.22"   type="double"/>
+      <param name="mode"             value="simple" type="string"/>
+    </node>
 
+    <!-- Teleoperation velocity smoother -->
+    <node pkg="nodelet" type="nodelet" name="teleoperation_vel_smoother"
+         args="load yocs_velocity_smoother/VelocitySmootherNodelet robot_core">
+  
+      <rosparam file="$(find korus_meta)/resources/yaml/mobile_base/vel_smoother.yaml" command="load"/>
+      
+      <remap from="teleoperation_vel_smoother/smooth_cmd_vel" to="cmd_vel_mux/input/teleoperation"/>
+  
+      <!-- Robot velocity feedbacks; use the default base configuration -->
+      <remap from="teleoperation_vel_smoother/odometry" to="odom"/>
+      <remap from="teleoperation_vel_smoother/robot_cmd_vel" to="cmd_vel"/>
+    </node>
+  </group>
 </launch>
