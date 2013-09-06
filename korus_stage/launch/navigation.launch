@@ -44,7 +44,7 @@
           Args:
             -g : run in headless mode.
     --> 
-    <node pkg="stage" type="stageros" name="stageros" args="$(find korus_stage)/worlds/$(arg map_name).world">
+    <node pkg="stage_ros" type="stageros" name="stageros" args="$(find korus_stage)/worlds/$(arg map_name).world">
       <param name="base_watchdog_timeout" value="0.5"/>
     </node>
 
