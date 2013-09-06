@@ -1,0 +1,54 @@
+<?xml version="1.0"?>
+<package>
+  <name>korus_smach</name>
+  <version>0.2.0</version>
+  <description>
+    SMACH state machines for simple UIs (e.g. move arm)
+    and complex applications (e.g. pick and place)
+  </description>
+  <maintainer email="marcus.liebhardt@yujinrobot.com">Marcus Liebhardt</maintainer>
+  <license>Yujin</license>
+  <url type="website">https://bitbucket.org/yujinrobot/korus/</url>
+  <author email="marcus.liebhardt@yujinrobot.com">Marcus Liebhardt</author>
+
+  <buildtool_depend>catkin</buildtool_depend>
+  <build_depend>actionlib</build_depend>
+  <build_depend>actionlib_msgs</build_depend>
+  <build_depend>control_msgs</build_depend>
+  <build_depend>device_msgs</build_depend>
+  <build_depend>geometry_msgs</build_depend>
+  <build_depend>goo_msgs</build_depend>
+  <build_depend>manipulation_msgs</build_depend>
+  <build_depend>moveit_msgs</build_depend>
+  <build_depend>object_recognition_msgs</build_depend>
+  <build_depend>pick_and_place_msgs</build_depend>
+  <build_depend>rospy</build_depend>
+  <build_depend>sensor_msgs</build_depend>
+  <build_depend>shape_msgs</build_depend>
+  <build_depend>smach</build_depend>
+  <build_depend>smach_ros</build_depend>
+  <build_depend>std_msgs</build_depend>
+  <build_depend>std_srvs</build_depend>
+  <build_depend>tf</build_depend>
+  <build_depend>trajectory_msgs</build_depend>
+  
+  <run_depend>actionlib</run_depend>
+  <run_depend>actionlib_msgs</run_depend>
+  <run_depend>control_msgs</run_depend>
+  <run_depend>device_msgs</run_depend>
+  <run_depend>geometry_msgs</run_depend>
+  <run_depend>goo_msgs</run_depend>
+  <run_depend>manipulation_msgs</run_depend>
+  <run_depend>moveit_msgs</run_depend>
+  <run_depend>object_recognition_msgs</run_depend>
+  <run_depend>pick_and_place_msgs</run_depend>
+  <run_depend>rospy</run_depend>
+  <run_depend>sensor_msgs</run_depend>
+  <run_depend>shape_msgs</run_depend>
+  <run_depend>smach</run_depend>
+  <run_depend>smach_ros</run_depend>
+  <run_depend>std_msgs</run_depend>
+  <run_depend>std_srvs</run_depend>
+  <run_depend>tf</run_depend>
+  <run_depend>trajectory_msgs</run_depend>
+</package>
