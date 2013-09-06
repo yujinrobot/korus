@@ -28,4 +28,10 @@
     <remap from="mobile_base/enable" to="enable"/>
     <remap from="mobile_base/disable" to="disable"/>
   </node>
+
+  <!-- Velocity commands multiplexer -->
+  <node pkg="nodelet" type="nodelet" name="cmd_vel_mux" args="load cmd_vel_mux/CmdVelMuxNodelet robot_core">
+    <param name="yaml_cfg_file" value="$(find korus_meta)/resources/yaml/mobile_base/vel_multiplexer.yaml"/>
+    <remap from="cmd_vel_mux/output/cmd_vel" to="cmd_vel"/>
+  </node>
 </launch>
