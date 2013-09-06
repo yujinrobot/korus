@@ -20,28 +20,29 @@
   <run_depend>diff_drive_gyro_base</run_depend>
   <run_depend>sensor_board</run_depend>
   <run_depend>ycs_joint_trajectory_controller</run_depend>
-<!--   <run_depend>ycs_localization_ekf</run_depend> -->
-<!--   <run_depend>ycs_stargazer_map</run_depend> -->
-<!--   <run_depend>yujin_maps</run_depend> -->
-<!--   <run_depend>irobi_rf_remocon</run_depend> -->
+  <run_depend>ycs_localization_ekf</run_depend>
+  <run_depend>ycs_stargazer_map</run_depend>
+  <run_depend>yujin_maps</run_depend>
+  <run_depend>irobi_rf_remocon</run_depend>
   <run_depend>keyop_core</run_depend>
   <run_depend>qgoo</run_depend>
   <run_depend>ecl_core_apps</run_depend>
+  <run_depend>remop_core</run_depend>
 
-<!-- deprecated? -->
+<!-- deprecated? or to be catkinized? -->
 <!--   <depend package="hce_rapi"/>  -->
 <!--   <depend package="navi_rapi"/>  -->
 <!--   <depend package="korus_rapi"/>  -->
-<!--   <depend package="remop_core"/>  -->
- 
+
   <!-- ROS -->
   <run_depend>std_msgs</run_depend>
   <run_depend>control_msgs</run_depend>
+  <run_depend>hokuyo_node</run_depend>
   <run_depend>joint_state_publisher</run_depend>
   <run_depend>robot_state_publisher</run_depend>
   <run_depend>navigation</run_depend>
-  <run_depend>hokuyo_node</run_depend>
-
+  <run_depend>gmapping</run_depend>
+  
   <!-- System dependencies -->
   <run_depend>unison</run_depend>
   <run_depend>unison-gui</run_depend>
