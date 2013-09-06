@@ -47,7 +47,7 @@ else
 fi
 
 # check MAP_NAME; it isn't mandatory, as launch files provide a default value
-if [ -z "$MAP_NAME ]; then
+if [ -z "$MAP_NAME" ]; then
   echo "WARNING: map name not provided; using default map specified on navigation_standalone.launch"
   roslaunch --screen korus_meta navigation_standalone.launch
 else
