@@ -1,4 +1,9 @@
 <!-- Visualise the Korus robot in action -->
 <launch>
-  <node name="rviz" pkg="rviz" type="rviz" args="-d $(find korus_meta)/resources/rviz/view_mobile_manipulation.rviz" />
+  <group ns="korus">
+    <arg name="rviz_args" value="-d $(find korus_meta)/resources/rviz/view_mobile_manipulation.rviz" />
+    <node name="rviz" pkg="rviz" type="rviz" args="$(arg rviz_args)">
+      <rosparam command="load" file="$(find korus_moveit_config)/config/kinematics.yaml"/>
+    </node>
+  </group>
 </launch>

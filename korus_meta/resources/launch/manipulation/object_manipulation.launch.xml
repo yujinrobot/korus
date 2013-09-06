@@ -11,9 +11,11 @@
   <include file="$(find korus_moveit_config)/launch/korus/moveit_korus.launch"/>
   
   <!--  ************** ORK tabletop **************  -->
-  <include file="$(find korus_meta)/resources/launch/object_recognition/or_tabletop.launch"/>
+<!--   <include file="$(find korus_meta)/resources/launch/object_recognition/or_tabletop.launch"/> -->
   
   <!--  ************** SMACH user interfaces **************  -->
+  <include file="$(find korus_smach)/launch/move_arm_planner.launch"/>
+<!--   <include file="$(find korus_smach)/launch/move_arm_ik.launch"/> -->
   <include file="$(find korus_smach)/launch/find_object.launch"/>
   <include file="$(find korus_smach)/launch/pick_object.launch"/>
   <include file="$(find korus_smach)/launch/place_object.launch"/>
