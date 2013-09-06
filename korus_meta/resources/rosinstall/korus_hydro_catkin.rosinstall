@@ -64,10 +64,10 @@
 # ROS
 
 # Marcus' hacks
-#- git:
-#    local-name: geometric_shapes
-#    uri: 'https://github.com/bit-pirate/geometric_shapes.git'
-#    version: demo_hacks
+- git:
+    local-name: geometric_shapes
+    uri: 'https://github.com/bit-pirate/geometric_shapes.git'
+    version: demo_hacks_hydro
 ## ORK
 #- git:
 #    local-name: object_recognition_core
@@ -77,10 +77,10 @@
 #    local-name: object_recognition_ros
 #    uri: 'https://github.com/bit-pirate/object_recognition_ros.git'
 #    version: demo_hacks
-#- git:
-#    local-name: object_recognition_tabletop
-#    uri: 'https://github.com/bit-pirate/tabletop.git'
-#    version: demo_hacks
+- git:
+    local-name: object_recognition_tabletop
+    uri: 'https://github.com/bit-pirate/tabletop.git'
+    version: demo_hacks
 ## MoveIt
 #- git:
 #    local-name: moveit_core
