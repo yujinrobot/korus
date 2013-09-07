@@ -1,0 +1,34 @@
+# Before using this rosinstaller, make sure you have the following installed:
+# 
+# ROS basics:
+#   sudo apt-get install ros-hydro-desktop
+
+
+# MoveIt's default sources installer to get the latest in development
+- git:
+    local-name: moveit_msgs
+    uri: 'https://github.com/ros-planning/moveit_msgs.git'
+    version: hydro-devel
+- git:
+    local-name: moveit_planners
+    uri: 'https://github.com/ros-planning/moveit_planners.git'
+    version: hydro-devel
+
+# Marcus' hacks
+- git:
+    local-name: geometric_shapes
+    uri: 'https://github.com/bit-pirate/geometric_shapes.git'
+    version: demo_hacks_0.5.1
+- git:
+    local-name: moveit_core
+    uri: 'https://github.com/bit-pirate/moveit_core.git'
+    version: demo_hacks_hydro
+- git:
+    local-name: moveit_ros
+    uri: 'https://github.com/bit-pirate/moveit_ros.git'
+    version: demo_hacks_hydro
+#- git:
+#    local-name: moveit_planners
+#    uri: 'https://github.com/bit-pirate/moveit_planners.git'
+#    version: demo_hacks_hydro
+
