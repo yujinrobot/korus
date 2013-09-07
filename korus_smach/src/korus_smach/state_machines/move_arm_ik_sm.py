@@ -1,6 +1,4 @@
 #!/usr/bin/env python
-
-import roslib; roslib.load_manifest('korus_smach')
 from state_machines_imports import *
 from korus_smach.pick_and_place_tools import trajectory_control, move_arm, ik, misc_tools
 from korus_smach.pick_and_place_tools.msg_imports import *
@@ -54,12 +52,6 @@ def createSM():
         sm_move_arm.userdata.avoid_collisions = True
         compute_ik_topic = "compute_ik"
 
-#        smach.StateMachine.add('ResetCollisionMap',
-#                               ServiceState('/korus/octomap_server/reset',
-#                                            std_srvs.srv.Empty()),
-#                                            transitions={'succeeded':'MoveArm',
-#                                                         'preempted':'preempted',
-#                                                         'aborted':'error'})
         smach.StateMachine.add('GetRobotState',
                                misc_tools.GetRobotState(),
                                remapping={'robot_state':'robot_seed_state'},

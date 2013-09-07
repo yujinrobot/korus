@@ -54,7 +54,7 @@
       <arg name="simulation" value="$(arg simulation)"/>
       </include>
 
-    <!--  *********** rapi launch: hce, navi ************  deprecated
-    <include file="$(find korus_meta)/resources/launch/components/rapi.launch"/>-->    
+    <!--  *************** Remote control ****************  -->
+    <include file="$(find korus_meta)/resources/launch/components/remote_ctrl.launch"/>
   </group>
 </launch>

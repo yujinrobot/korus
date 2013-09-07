@@ -1,4 +1,0 @@
-- git:
-    local-name: korus_smach
-    uri: 'https://bitbucket.org/yujinrobot/korus_smach'
-    version: groovy-devel

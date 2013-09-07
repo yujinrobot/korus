@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <package>
   <name>korus_meta</name>
-  <version>0.1.0</version>
+  <version>0.2.0</version>
   <description>Meta-package for the Korus software stack</description>
   <maintainer email="marcus.liebhardt@yujinrobot.com">Marcus Liebhardt</maintainer>
   <license>Yujin</license>
@@ -31,15 +31,17 @@
   <run_depend>navi_rapi</run_depend>
   <run_depend>korus_rapi</run_depend>
   <run_depend>remop_core</run_depend>
- 
-  <!-- ROS -->
-  <run_depend>openni_launch</run_depend>
-  <run_depend>std_msgs</run_depend>
-  <run_depend>control_msgs</run_depend>
-  <run_depend>joint_state_publisher</run_depend>
-  <run_depend>robot_state_publisher</run_depend>
-  <run_depend>hokuyo_node</run_depend> <!-- formerly laser_drivers, see issue #1 for details -->
 
+  <!-- ROS -->
+  <run_depend>control_msgs</run_depend>
+  <run_depend>gmapping</run_depend>
+  <run_depend>hokuyo_node</run_depend> <!-- formerly laser_drivers, see issue #1 for details -->
+  <run_depend>joint_state_publisher</run_depend>
+  <run_depend>navigation</run_depend>
+  <run_depend>openni_launch</run_depend>
+  <run_depend>robot_state_publisher</run_depend>
+  <run_depend>std_msgs</run_depend>
+  
   <!-- System dependencies -->
   <run_depend>unison</run_depend>
   <run_depend>unison-gui</run_depend>

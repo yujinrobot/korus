@@ -10,7 +10,6 @@
 import sys
 import math
 # ros basics& smach
-import roslib; roslib.load_manifest('korus_smach')
 import rospy
 import smach
 from smach import StateMachine
@@ -56,6 +55,7 @@ class Prepare(smach.State):
         userdata.look_around = userdata.goal.look_around
         if not userdata.goal.min_confidence == 0.0:
              userdata.min_confidence = userdata.goal.min_confidence
+        print userdata.min_confidence
         userdata.feedback.process_state = "FindObject input prepared."
         return 'prepared'
 

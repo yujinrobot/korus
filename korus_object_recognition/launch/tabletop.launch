@@ -4,7 +4,7 @@
 	  <arg     if="$(arg debug)" name="launch_prefix" value="gdb --ex run --args" />
 	  
 	  <arg name="recognition_config_file"
-	       default="$(find korus_object_recognition)/conf/tabletop/detection.object.ros.ork"/>
+	       default="$(find korus_object_recognition)/config/tabletop/korus.detection.object.ros.ork"/>
 	  <arg name="robot_frame"              default="base_footprint"/>
     <arg name="sensor_frame"             default="sensor_3d_rgb_optical_frame"/>
 	

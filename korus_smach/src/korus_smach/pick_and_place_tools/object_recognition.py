@@ -58,8 +58,9 @@ def objectRecognitionResultCb(userdata, status, result):
             if object.confidence >= userdata.min_confidence:
                 if object.type.key in reduced_model_set_dict:
                     userdata.object_names.append(reduced_model_set_dict[object.type.key])
-                    rospy.logdebug("Name of object ID '" + object.type.key + "': " 
-                                   + reduced_model_set_dict[object.type.key])
+                    rospy.loginfo("Added recognised object '" + reduced_model_set_dict[object.type.key] + "' (" 
+                                   + object.type.key + ") with confidence " 
+                                   + str(object.confidence))
                     ''' convert poses to robot_root since 3d sensor pose keeps changing '''
                     try:
                         print"pose before"
@@ -84,7 +85,14 @@ def objectRecognitionResultCb(userdata, status, result):
                     return 'aborted'
             else:
                 unreliable_recognition += 1
-        if unreliable_recognition == len(result.recognized_objects.objects):
+                rospy.loginfo("Recognised object '" + reduced_model_set_dict[object.type.key] + "' (" 
+                                   + object.type.key + "), but confidence is too low (" 
+                                   + str(reduced_model_set_dict[object.type.key]) + ").")
+        if len(result.recognized_objects.objects) == 0:
+            userdata.error_message = "No objects found"
+            rospy.loginfo(userdata.error_message)
+            return 'no_objects_found'
+        elif unreliable_recognition == len(result.recognized_objects.objects):
             userdata.error_message = "Objects found, but recognition was not reliable."
             rospy.loginfo(userdata.error_message)
             return 'no_objects_found'

@@ -6,8 +6,6 @@ Panels:
       Expanded:
         - /Global Options1
         - /Status1
-        - /OrkObjectDisplay1
-        - /Table Origins (MarkerArray)1/Status1
         - /Table Origins (MarkerArray)1/Namespaces1
       Splitter Ratio: 0.437624
     Tree Height: 565
@@ -270,7 +268,8 @@ Visualization Manager:
       Color: 255; 255; 255
       Color Transformer: RGB8
       Decay Time: 0
-      Enabled: true
+      Enabled: false
+      Invert Rainbow: false
       Max Color: 255; 255; 255
       Max Intensity: 4096
       Min Color: 0; 0; 0
@@ -285,7 +284,7 @@ Visualization Manager:
       Topic: /korus/sensor_3d/depth_registered/points
       Use Fixed Frame: true
       Use rainbow: true
-      Value: true
+      Value: false
     - Class: rviz/TF
       Enabled: false
       Frame Timeout: 15
@@ -300,17 +299,12 @@ Visualization Manager:
         {}
       Update Interval: 0
       Value: false
-    - Class: object_recognition_ros/OrkObjectDisplay
-      Enabled: true
-      Name: OrkObjectDisplay
-      Topic: /korus/recognized_object_array
-      Value: true
     - Class: rviz/MarkerArray
       Enabled: true
       Marker Topic: /korus/marker_table_origins
       Name: Table Origins (MarkerArray)
       Namespaces:
-        tabletop_node: true
+        {}
       Queue Size: 100
       Value: true
     - Class: rviz/MarkerArray
@@ -337,10 +331,16 @@ Visualization Manager:
         {}
       Queue Size: 100
       Value: true
+    - Class: object_recognition_ros/OrkObjectDisplay
+      Enabled: true
+      Name: OrkObjectDisplay
+      Topic: /korus/recognized_object_array
+      Value: true
   Enabled: true
   Global Options:
     Background Color: 48; 48; 48
-    Fixed Frame: /base_footprint
+    Fixed Frame: base_footprint
+    Frame Rate: 30
   Name: root
   Tools:
     - Class: rviz/Interact

@@ -1,0 +1,28 @@
+<launch>
+  <!--- Remote_control -->
+  <node pkg="remop_core" type="remop_core" name="remop_core" output="screen">
+    <remap from="remop_core/cmd_vel"      to="remote_control_vel_smoother/raw_cmd_vel"/>
+	<remap from="remop_core/remocon_data" to="remocon/remocon_data"/>
+    <remap from="remop_core/enable"       to="enable"/>
+    <remap from="remop_core/disable"      to="disable"/>  
+
+    <param name="lin_max_vel"             value="0.4"/>   <!-- 0.5, 0.05 -->
+    <param name="lin_max_vel_backward"    value="0.2"/>   <!-- 0.5, 0.05 -->
+    <param name="ang_max_vel"             value="0.8"/>   <!-- 1.2, 0.5  -->
+    <param name="lin_delta_vel"           value="0.05"/>  <!-- 0.01 -->
+    <param name="ang_delta_vel"           value="0.20"/>  <!-- 0.04 -->
+  </node>
+    
+  <!-- Remote control velocity smoother -->
+  <node pkg="nodelet" type="nodelet" name="remote_control_vel_smoother"
+       args="load yocs_velocity_smoother/VelocitySmootherNodelet robot_core">
+
+    <rosparam file="$(find korus_meta)/resources/yaml/mobile_base/vel_smoother.yaml" command="load"/>
+    
+    <remap from="remote_control_vel_smoother/smooth_cmd_vel" to="cmd_vel_mux/input/remote_ctrl"/>
+
+    <!-- Robot velocity feedbacks; use the default base configuration -->
+    <remap from="remote_control_vel_smoother/odometry" to="odom"/>
+    <remap from="remote_control_vel_smoother/robot_cmd_vel" to="cmd_vel"/>
+  </node>
+</launch>

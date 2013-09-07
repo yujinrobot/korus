@@ -4,7 +4,6 @@ Panels:
     Name: Displays
     Property Tree Widget:
       Expanded:
-        - /RobotModel1/Status1
         - /TF1/Tree1
       Splitter Ratio: 0.403101
     Tree Height: 704
@@ -26,7 +25,7 @@ Panels:
     Experimental: false
     Name: Time
     SyncMode: 0
-    SyncSource: ""
+    SyncSource: Laser scan
 Visualization Manager:
   Class: ""
   Displays:
@@ -48,7 +47,7 @@ Visualization Manager:
       Plane Cell Count: 10
       Reference Frame: <Fixed Frame>
       Value: true
-    - Alpha: 0.6
+    - Alpha: 0.8
       Class: rviz/RobotModel
       Collision Enabled: false
       Enabled: true
@@ -71,17 +70,14 @@ Visualization Manager:
           Alpha: 1
           Show Axes: false
           Show Trail: false
-          Value: true
         caster_back_right_link:
           Alpha: 1
           Show Axes: false
           Show Trail: false
-          Value: true
         caster_front_link:
           Alpha: 1
           Show Axes: false
           Show Trail: false
-          Value: true
         finger_left_knuckle_1_link:
           Alpha: 1
           Show Axes: false
@@ -131,16 +127,11 @@ Visualization Manager:
           Alpha: 1
           Show Axes: false
           Show Trail: false
-          Value: true
         head_pan_link:
           Alpha: 1
           Show Axes: false
           Show Trail: false
           Value: true
-        head_tilt_fixed_link:
-          Alpha: 1
-          Show Axes: false
-          Show Trail: false
         head_tilt_link:
           Alpha: 1
           Show Axes: false
@@ -149,7 +140,6 @@ Visualization Manager:
           Alpha: 1
           Show Axes: false
           Show Trail: false
-          Value: true
         lower_arm_link:
           Alpha: 1
           Show Axes: false
@@ -159,7 +149,6 @@ Visualization Manager:
           Alpha: 1
           Show Axes: false
           Show Trail: false
-          Value: true
         palm_link:
           Alpha: 1
           Show Axes: false
@@ -219,12 +208,10 @@ Visualization Manager:
           Alpha: 1
           Show Axes: false
           Show Trail: false
-          Value: true
         tablet_link:
           Alpha: 1
           Show Axes: false
           Show Trail: false
-          Value: true
         torso_lift_link:
           Alpha: 1
           Show Axes: false
@@ -242,7 +229,6 @@ Visualization Manager:
           Alpha: 1
           Show Axes: false
           Show Trail: false
-          Value: true
         upper_arm_link:
           Alpha: 1
           Show Axes: false
@@ -262,8 +248,7 @@ Visualization Manager:
           Alpha: 1
           Show Axes: false
           Show Trail: false
-          Value: true
-      Name: RobotModel
+      Name: Robot model
       Robot Description: /korus/robot_description
       TF Prefix: ""
       Update Interval: 0
@@ -313,8 +298,6 @@ Visualization Manager:
         /head_link:
           Value: true
         /head_pan_link:
-          Value: true
-        /head_tilt_fixed_link:
           Value: true
         /head_tilt_link:
           Value: true
@@ -420,8 +403,6 @@ Visualization Manager:
                               /sensor_3d_rgb_frame:
                                 /sensor_3d_rgb_optical_frame:
                                   {}
-                        /head_tilt_fixed_link:
-                          {}
                         /stargazer_link:
                           {}
                       /tablet_link:
@@ -454,20 +435,6 @@ Visualization Manager:
       Update Interval: 0
       Value: true
     - Alpha: 1
-      Class: rviz/GridCells
-      Color: 25; 255; 0
-      Enabled: true
-      Name: GridCells
-      Topic: /korus/move_base_node/global_costmap/inflated_obstacles
-      Value: true
-    - Alpha: 1
-      Class: rviz/GridCells
-      Color: 255; 128; 85
-      Enabled: true
-      Name: GridCells
-      Topic: /korus/move_base_node/local_costmap/inflated_obstacles
-      Value: true
-    - Alpha: 1
       Autocompute Intensity Bounds: true
       Autocompute Value Bounds:
         Max Value: 10
@@ -484,7 +451,7 @@ Visualization Manager:
       Max Intensity: 4096
       Min Color: 0; 0; 0
       Min Intensity: 0
-      Name: LaserScan
+      Name: Laser scan
       Position Transformer: XYZ
       Queue Size: 10
       Selectable: true
@@ -500,16 +467,30 @@ Visualization Manager:
       Class: rviz/Path
       Color: 255; 252; 69
       Enabled: true
-      Name: Path
+      Name: Local plan
       Topic: /korus/move_base_node/TrajectoryPlannerROS/local_plan
+      Value: true
+    - Alpha: 0.7
+      Class: rviz/Map
+      Draw Behind: false
+      Enabled: true
+      Name: Local costmap
+      Topic: /korus/move_base_node/local_costmap/costmap
       Value: true
     - Alpha: 1
       Buffer Length: 1
       Class: rviz/Path
       Color: 25; 255; 0
       Enabled: true
-      Name: Path
+      Name: Global plan
       Topic: /korus/move_base_node/NavfnROS/plan
+      Value: true
+    - Alpha: 0.7
+      Class: rviz/Map
+      Draw Behind: false
+      Enabled: true
+      Name: Global costmap
+      Topic: /korus/move_base_node/global_costmap/costmap
       Value: true
     - Alpha: 1
       Axes Length: 1
@@ -519,7 +500,7 @@ Visualization Manager:
       Enabled: true
       Head Length: 0.3
       Head Radius: 0.1
-      Name: Pose
+      Name: Goal pose
       Shaft Length: 1
       Shaft Radius: 0.05
       Shape: Axes
@@ -528,16 +509,22 @@ Visualization Manager:
     - Class: rviz/MarkerArray
       Enabled: true
       Marker Topic: /korus/stargazer/landmarks
-      Name: MarkerArray
+      Name: Stargazer landmarks
       Namespaces:
-        {}
+        landmark 1040: true
+        landmark 10672: true
+        landmark 11412: true
+        landmark 11426: true
+        landmark 16688: true
+        landmark 16690: true
+        landmark 3284: true
       Queue Size: 100
       Value: true
     - Arrow Length: 0.3
       Class: rviz/PoseArray
       Color: 255; 25; 0
       Enabled: true
-      Name: PoseArray
+      Name: Amcl particles
       Topic: /korus/amcl/particlecloud
       Value: true
     - Alpha: 1
@@ -600,17 +587,17 @@ Visualization Manager:
   Views:
     Current:
       Class: rviz/Orbit
-      Distance: 7.49177
+      Distance: 11.5559
       Focal Point:
-        X: 2.75501
-        Y: 0.700328
-        Z: 0.243461
+        X: 0.146409
+        Y: 0.965214
+        Z: 0.24308
       Name: Current View
       Near Clip Distance: 0.01
       Pitch: 1.5698
       Target Frame: <Fixed Frame>
       Value: Orbit (rviz)
-      Yaw: 4.46543
+      Yaw: 4.70043
     Saved: ~
 Window Geometry:
   Displays:

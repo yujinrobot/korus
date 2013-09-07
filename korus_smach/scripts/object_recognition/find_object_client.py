@@ -27,7 +27,7 @@ def main():
     parser.add_argument('pos_x', type = float, help='X value of the table position')
     parser.add_argument('pos_y', type = float, help='Y value of the table position')
     parser.add_argument('pos_z', type = float, help='Z value of the table position')
-    parser.add_argument('look_around', type = bool, help='look around to find object?')
+    parser.add_argument('--look_around', dest='look_around', action='store_true', default=False, help='Look around to find object')
     args=parser.parse_args()
     
     table_position = PointStamped()
@@ -45,7 +45,7 @@ def main():
     rospy.loginfo("Action server available.")
     goal = pick_and_place_msgs.FindObjectGoal()
     goal.table_position = table_position
-    goal.min_confidence = 0.8
+    goal.min_confidence = 0.001
     goal.look_around = args.look_around
     rospy.loginfo("Sending action goal ...")
     client.send_goal(goal, doneCb, activeCb, feedbackCb)

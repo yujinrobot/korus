@@ -78,5 +78,8 @@
       <arg name="initial_pose_y" value="$(arg initial_pose_y)"/>
       <arg name="initial_pose_a" value="$(arg initial_pose_a)"/>
     </include>
+
+    <!--  *************** Remote control ****************  -->
+    <include file="$(find korus_meta)/resources/launch/components/remote_ctrl.launch"/>
   </group>
 </launch>

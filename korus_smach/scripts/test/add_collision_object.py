@@ -1,6 +1,5 @@
 #!/usr/bin/env python
 import argparse
-import roslib; roslib.load_manifest('korus_smach')
 import rospy
 import actionlib
 import moveit_msgs.msg as moveit_msgs

@@ -8,7 +8,6 @@
 import sys
 import math
 # ros basics & smach
-import roslib; roslib.load_manifest('korus_smach')
 from korus_smach.state_machines.state_machines_imports import *
 from korus_smach.pick_and_place_tools.msg_imports import *
 from korus_smach.pick_and_place_tools import ik, trajectory_control, misc_tools

@@ -7,7 +7,6 @@ App for picking objects up from a table in one place and placing them on a table
 '''
 
 import math
-import roslib; roslib.load_manifest('korus_smach')
 import rospy
 import smach
 from smach import StateMachine
@@ -124,7 +123,7 @@ def main():
         sm.userdata.pose_tabletop_a = geometry_msgs.PoseStamped()
         sm.userdata.pose_tabletop_a.header.stamp = rospy.Time.now()
         sm.userdata.pose_tabletop_a.header.frame_id = "/base_footprint"
-        sm.userdata.pose_tabletop_a.pose.position.x = 0.1
+        sm.userdata.pose_tabletop_a.pose.position.x = 0.0
         sm.userdata.pose_tabletop_a.pose.position.y = 0.0
         sm.userdata.pose_tabletop_a.pose.position.z = 0.0
         sm.userdata.pose_tabletop_a.pose.orientation.x = 0.0
@@ -133,9 +132,9 @@ def main():
         sm.userdata.pose_tabletop_a.pose.orientation.w = 1.0
         sm.userdata.pose_tabletop_b = geometry_msgs.PoseStamped()
         sm.userdata.pose_tabletop_b.header = sm.userdata.pose_tabletop_a.header
-        sm.userdata.pose_tabletop_b.pose.position.x = 0.7
+        sm.userdata.pose_tabletop_b.pose.position.x = 0.0
         sm.userdata.pose_tabletop_b.pose.position.y = 0.0
-        sm.userdata.pose_tabletop_b.pose.position.z = 0.8
+        sm.userdata.pose_tabletop_b.pose.position.z = 0.0
         sm.userdata.pose_tabletop_b.pose.orientation.x = 0.0
         sm.userdata.pose_tabletop_b.pose.orientation.y = 0.0
         sm.userdata.pose_tabletop_b.pose.orientation.z = 0.0
@@ -209,7 +208,7 @@ def main():
 #                               transitions={'succeeded':'MoveToTableA',
 #                                            'aborted':'aborted',
 #                                            'preempted':'preempted'})
-#        
+        
 #        sm_place = place_sm.createSM()
 #        smach.StateMachine.add('PlaceObject',
 #                               sm_place,

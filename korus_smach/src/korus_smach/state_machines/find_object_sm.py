@@ -323,7 +323,7 @@ def createSM():
                                             'top_right':'MoveHeadTopRight',
                                             'top_centre':'MoveHeadTopCentre',
                                             'top_left':'MoveHeadTopLeft',
-                                            'done':'MoveHeadCentreNothingFound'})
+                                            'done':'no_objects_found'})
         
         smach.StateMachine.add('GetObjectMeshes',
                                object_recognition.GetObjectInformation(),
@@ -344,36 +344,36 @@ def createSM():
         
         smach.StateMachine.add('WaitForObjectsAdded', misc_tools.Wait(),
                                remapping={'duration':'wait_5sec'},
-                               transitions={'done':'MoveHeadCentreObjectsFound'})
+                               transitions={'done':'object_found'})
         
-        smach.StateMachine.add('MoveHeadCentreObjectsFound',
-                               SimpleActionState('head_controller',
-                                                 control_msgs.msg.FollowJointTrajectoryAction,
-                                                 goal_cb=trajectory_control.headControlRequestCb,
-                                                 result_cb=trajectory_control.generalResponseCb,
-                                                 input_keys=['tf_listener',
-                                                             'goal_pose'],
-                                                 output_keys=['error_code']),
-                               remapping={'tf_listener':'tf_listener',
-                                          'goal_pose':'pose_centre',
-                                          'error_code':'error_code'},
-                               transitions={'succeeded':'object_found',
-                                            'aborted':'aborted',
-                                            'preempted':'preempted'})
-        
-        smach.StateMachine.add('MoveHeadCentreNothingFound',
-                               SimpleActionState('head_controller',
-                                                 control_msgs.msg.FollowJointTrajectoryAction,
-                                                 goal_cb=trajectory_control.headControlRequestCb,
-                                                 result_cb=trajectory_control.generalResponseCb,
-                                                 input_keys=['tf_listener',
-                                                             'goal_pose'],
-                                                 output_keys=['error_code']),
-                               remapping={'tf_listener':'tf_listener',
-                                          'goal_pose':'pose_centre',
-                                          'error_code':'error_code'},
-                               transitions={'succeeded':'no_objects_found',
-                                            'aborted':'aborted',
-                                            'preempted':'preempted'})
+#        smach.StateMachine.add('MoveHeadCentreObjectsFound',
+#                               SimpleActionState('head_controller',
+#                                                 control_msgs.msg.FollowJointTrajectoryAction,
+#                                                 goal_cb=trajectory_control.headControlRequestCb,
+#                                                 result_cb=trajectory_control.generalResponseCb,
+#                                                 input_keys=['tf_listener',
+#                                                             'goal_pose'],
+#                                                 output_keys=['error_code']),
+#                               remapping={'tf_listener':'tf_listener',
+#                                          'goal_pose':'pose_centre',
+#                                          'error_code':'error_code'},
+#                               transitions={'succeeded':'object_found',
+#                                            'aborted':'aborted',
+#                                            'preempted':'preempted'})
+#        
+#        smach.StateMachine.add('MoveHeadCentreNothingFound',
+#                               SimpleActionState('head_controller',
+#                                                 control_msgs.msg.FollowJointTrajectoryAction,
+#                                                 goal_cb=trajectory_control.headControlRequestCb,
+#                                                 result_cb=trajectory_control.generalResponseCb,
+#                                                 input_keys=['tf_listener',
+#                                                             'goal_pose'],
+#                                                 output_keys=['error_code']),
+#                               remapping={'tf_listener':'tf_listener',
+#                                          'goal_pose':'pose_centre',
+#                                          'error_code':'error_code'},
+#                               transitions={'succeeded':'no_objects_found',
+#                                            'aborted':'aborted',
+#                                            'preempted':'preempted'})
         
     return sm_find_object
