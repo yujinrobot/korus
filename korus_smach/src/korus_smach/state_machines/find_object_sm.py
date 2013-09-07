@@ -343,7 +343,7 @@ def createSM():
                                transitions={'done':'WaitForObjectsAdded'})
         
         smach.StateMachine.add('WaitForObjectsAdded', misc_tools.Wait(),
-                               remapping={'duration':'wait_5sec'},
+                               remapping={'duration':'wait_1sec'},
                                transitions={'done':'object_found'})
         
 #        smach.StateMachine.add('MoveHeadCentreObjectsFound',

@@ -19,7 +19,7 @@ from tf import TransformListener
 import geometry_msgs.msg as geometry_msgs
 #import control_msgs
 
-from korus_smach.state_machines import find_object_sm, pick_object_sm, place_object_sm
+from korus_smach.state_machines import find_object_sm, pick_object_sm, pick_object_manual_sm, place_object_sm
 
 import move_base_msgs.msg as move_base_msgs
 
@@ -132,15 +132,28 @@ def main():
         sm.userdata.pose_tabletop_a.pose.orientation.w = 1.0
         sm.userdata.pose_tabletop_b = geometry_msgs.PoseStamped()
         sm.userdata.pose_tabletop_b.header = sm.userdata.pose_tabletop_a.header
-        sm.userdata.pose_tabletop_b.pose.position.x = 0.0
+        sm.userdata.pose_tabletop_b.pose.position.x = 1.0
         sm.userdata.pose_tabletop_b.pose.position.y = 0.0
         sm.userdata.pose_tabletop_b.pose.position.z = 0.0
-        sm.userdata.pose_tabletop_b.pose.orientation.x = 0.0
-        sm.userdata.pose_tabletop_b.pose.orientation.y = 0.0
-        sm.userdata.pose_tabletop_b.pose.orientation.z = 0.0
-        sm.userdata.pose_tabletop_b.pose.orientation.w = 1.0
+        sm.userdata.pose_tabletop_b.pose.orientation = sm.userdata.pose_tabletop_a.pose.orientation
         ''' find object'''
         sm.userdata.look_around_false = False
+        sm.userdata.min_confidence = 0.8
+        sm.userdata.object_names = list()
+        sm.userdata.tf_listener = tf.TransformListener()
+        ''' pick object'''
+        sm.userdata.pre_grasp_dist = 0.15
+        sm.userdata.pre_grasp_height = 0.05
+        sm.userdata.grasp_dist = 0.1
+        sm.userdata.post_grasp_height = 0.2
+        sm.userdata.angle_gripper_open = 1.3
+        sm.userdata.angle_gripper_closed = 0.2
+        sm.userdata.pose_arm_default = geometry_msgs.PoseStamped()
+        sm.userdata.pose_arm_default.header = sm.userdata.pose_tabletop_a.header
+        sm.userdata.pose_arm_default.pose.position.x = 0.1
+        sm.userdata.pose_arm_default.pose.position.y = 0.0
+        sm.userdata.pose_arm_default.pose.position.z = 0.5
+        sm.userdata.pose_arm_default.pose.orientation = sm.userdata.pose_tabletop_a.pose.orientation
         sm.userdata.min_confidence = 0.8
         sm.userdata.object_names = list()
         sm.userdata.tf_listener = tf.TransformListener()
@@ -188,14 +201,30 @@ def main():
                                transitions={'prepared':'PickObject',
                                             'error':'aborted'})
         
-        sm_pick_object = pick_object_sm.createSM()
+#        sm_pick_object = pick_object_sm.createSM()
+#        smach.StateMachine.add('PickObject',
+#                               sm_pick_object,
+#                               remapping={'object_pose':'pick_object_pose',
+#                                          'object_name':'pick_object_name',
+#                                          'pose_arm_default':'pose_arm_default'},
+#                               transitions={'picked':'Finalise',
+#                                            'pick_failed':'Finalise',
+#                                            'error':'aborted',
+#                                            'preempted':'preempted'})
+        sm_pick_object = pick_object_manual_sm.createSM()
         smach.StateMachine.add('PickObject',
                                sm_pick_object,
-                               remapping={'object_pose':'pick_object_pose',
-                                          'object_name':'pick_object_name'},
+                               remapping={'object_name':'pick_object_name',
+                                          'object_pose':'pick_object_pose',
+                                          'pre_grasp_dist':'pre_grasp_dist',
+                                          'pre_grasp_height':'pre_grasp_height',
+                                          'grasp_dist':'grasp_dist',
+                                          'post_grasp_height':'post_grasp_height',
+                                          'angle_gripper_open':'angle_gripper_open',
+                                          'angle_gripper_closed':'angle_gripper_closed',
+                                          'pose_arm_default':'pose_arm_default'},
                                transitions={'picked':'Finalise',
                                             'pick_failed':'Finalise',
-                                            'error':'aborted',
                                             'preempted':'preempted'})
         
 #        smach.StateMachine.add('MoveToTableB',

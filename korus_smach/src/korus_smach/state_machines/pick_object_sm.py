@@ -112,19 +112,12 @@ def createSM():
                                       'preempted',
                                       'error'],
                             input_keys=['object_name',
-                                        'object_pose'],
+                                        'object_pose',
+                                        'pose_arm_default'],
                             output_keys=['object_pose'])
 
     with sm:
-        
-        sm.userdata.pose_arm_default = geometry_msgs.PoseStamped()
-        sm.userdata.pose_arm_default.header.stamp = rospy.Time.now()
-        sm.userdata.pose_arm_default.header.frame_id = "/base_footprint"
-        sm.userdata.pose_arm_default.pose.position.x = 0.05
-        sm.userdata.pose_arm_default.pose.position.y = 0.0
-        sm.userdata.pose_arm_default.pose.position.z = 0.50
-        sm.userdata.pose_arm_default.pose.orientation.w = 1.0
-        
+
         smach.StateMachine.add('Prepare',
                                Prepare(),
                                remapping={'object_pose':'object_pose'},

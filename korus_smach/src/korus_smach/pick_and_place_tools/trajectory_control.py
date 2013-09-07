@@ -59,19 +59,18 @@ def gripperControlGoalCb(userdata, goal):
     rospy.loginfo('Gripper goal prepared.')
     return gripper_goal
 
+@smach.cb_interface(input_keys=['open_gripper',
+                                'close_gripper'])
 def gripperControlResultCb(userdata, status, result):
-    if result.error_code is 1: #something goes wrong here; should be control_msgs.msg.FollowJointTrajectoryResult.SUCCESSFUL = 0:
+    if result.error_code == control_msgs.msg.FollowJointTrajectoryResult.SUCCESSFUL:
         if userdata.open_gripper:
             rospy.loginfo("Gripper opened.")
             return 'succeeded'
+        elif userdata.close_gripper:
+            rospy.loginfo("Gripper closed.")
+            return 'succeeded'
         else:
-            if userdata.grasp_object:
-                userdata.object_grasped = True
-                rospy.loginfo("Object grasped.")
-                return 'object_grasped'
-            else:
-                rospy.loginfo("Gripper closed.")
-                return 'succeeded'
+            return 'succeeded'
     else:
         print 'error_code is ' + str(result.error_code)
         return 'aborted'
