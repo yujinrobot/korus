@@ -208,14 +208,15 @@
     <link name="finger_right_knuckle_2_link">
       <visual>
         <geometry>
-          <mesh filename="package://korus_meta/resources/meshes/finger02.dae" />
+<!--           <mesh filename="package://korus_meta/resources/meshes/finger02.dae" /> -->
+          <box size="0.065 0.0247 0.08"/>
         </geometry>
         <origin xyz="0.0325 0.0 0.0" rpy="0 0 0"/>
         <xacro:insert_block name="material_white"/>
       </visual>
       <collision>
         <geometry>
-          <box size="0.065 0.0247 0.0306"/>
+          <box size="0.065 0.0247 0.08"/>
         </geometry>
         <origin xyz="0.0325 0.0 0.0" rpy="0 0 0"/>
       </collision>
