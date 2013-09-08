@@ -174,13 +174,7 @@
       <parent link="sensor_3d_link" />
       <child link="sensor_3d_depth_frame" />
     </joint>
-    <link name="sensor_3d_depth_frame">
-      <inertial>
-        <mass value="0.01" />
-        <origin xyz="0 0 0" />
-        <inertia ixx="0.001" ixy="0.0" ixz="0.0"
-                 iyy="0.001" iyz="0.0" izz="0.001" />
-      </inertial>
+    <link name="sensor_3d_depth_frame"/>>
     </link>
 
     <joint name="sensor_3d_depth_optical_joint" type="fixed">
@@ -188,41 +182,20 @@
       <parent link="sensor_3d_depth_frame" />
       <child link="sensor_3d_depth_optical_frame" />
     </joint>
-    <link name="sensor_3d_depth_optical_frame">
-      <inertial>
-        <mass value="0.001" />
-        <origin xyz="0 0 0" />
-        <inertia ixx="0.0001" ixy="0.0" ixz="0.0"
-                 iyy="0.0001" iyz="0.0" izz="0.0001" />
-      </inertial>
-    </link>
+    <link name="sensor_3d_depth_optical_frame"/>
 
     <joint name="sensor_3d_rgb_joint" type="fixed">
-      <origin xyz="0.01 0.023 0.0315" rpy="0 -0.017 0" />
+      <origin xyz="0.01 0.005 0.0315" rpy="0 -0.017 0" />
       <parent link="sensor_3d_link" />
       <child link="sensor_3d_rgb_frame" />
     </joint>
-    <link name="sensor_3d_rgb_frame">
-      <inertial>
-        <mass value="0.001" />
-        <origin xyz="0 0 0" />
-        <inertia ixx="0.0001" ixy="0.0" ixz="0.0"
-                 iyy="0.0001" iyz="0.0" izz="0.0001" />
-      </inertial>
-    </link>
+    <link name="sensor_3d_rgb_frame"/>
 
     <joint name="sensor_3d_rgb_optical_joint" type="fixed">
       <origin xyz="0 0 0" rpy="${-pi/2} 0 ${-pi/2}" />
       <parent link="sensor_3d_rgb_frame" />
       <child link="sensor_3d_rgb_optical_frame" />
     </joint>
-    <link name="sensor_3d_rgb_optical_frame">
-      <inertial>
-        <mass value="0.001" />
-        <origin xyz="0 0 0" />
-        <inertia ixx="0.0001" ixy="0.0" ixz="0.0"
-                 iyy="0.0001" iyz="0.0" izz="0.0001" />
-      </inertial>
-    </link>
+    <link name="sensor_3d_rgb_optical_frame"/>
   </xacro:macro>
 </robot>
