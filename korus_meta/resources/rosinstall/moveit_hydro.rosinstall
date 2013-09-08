@@ -18,7 +18,7 @@
 - git:
     local-name: geometric_shapes
     uri: 'https://github.com/bit-pirate/geometric_shapes.git'
-    version: demo_hacks_0.5.1
+    version: demo_hacks_hydro
 - git:
     local-name: moveit_core
     uri: 'https://github.com/bit-pirate/moveit_core.git'
