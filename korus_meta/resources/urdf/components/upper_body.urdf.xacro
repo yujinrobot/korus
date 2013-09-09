@@ -174,8 +174,7 @@
       <parent link="sensor_3d_link" />
       <child link="sensor_3d_depth_frame" />
     </joint>
-    <link name="sensor_3d_depth_frame"/>>
-    </link>
+    <link name="sensor_3d_depth_frame"/>
 
     <joint name="sensor_3d_depth_optical_joint" type="fixed">
       <origin xyz="0 0 0" rpy="${-pi/2} 0 ${-pi/2}" />
