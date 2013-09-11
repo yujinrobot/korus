@@ -256,6 +256,7 @@ Visualization Manager:
       Visual Enabled: true
     - Alpha: 0.7
       Class: rviz/Map
+      Color Scheme: map
       Draw Behind: false
       Enabled: true
       Name: Map
@@ -265,172 +266,176 @@ Visualization Manager:
       Enabled: true
       Frame Timeout: 15
       Frames:
-        /base_footprint:
-          Value: true
-        /base_link:
-          Value: true
-        /caster_back_left_link:
-          Value: true
-        /caster_back_right_link:
-          Value: true
-        /caster_front_link:
-          Value: true
-        /finger_left_knuckle_1_link:
-          Value: true
-        /finger_left_knuckle_2_link:
-          Value: true
-        /finger_left_tip_link:
-          Value: true
-        /finger_right_knuckle_1_link:
-          Value: true
-        /finger_right_knuckle_2_link:
-          Value: true
-        /finger_right_tip_link:
-          Value: true
-        /gripper_camera_link:
-          Value: true
-        /gripper_center_link:
-          Value: true
-        /gripper_link:
-          Value: true
-        /gyro_link:
-          Value: true
-        /head_link:
-          Value: true
-        /head_pan_link:
-          Value: true
-        /head_tilt_link:
-          Value: true
-        /laser_link:
-          Value: true
-        /lower_arm_link:
-          Value: true
-        /map:
-          Value: true
-        /neck_link:
-          Value: true
-        /odom:
-          Value: true
-        /palm_link:
-          Value: true
-        /sensor_3d_depth_frame:
-          Value: true
-        /sensor_3d_depth_optical_frame:
-          Value: true
-        /sensor_3d_link:
-          Value: true
-        /sensor_3d_rgb_frame:
-          Value: true
-        /sensor_3d_rgb_optical_frame:
-          Value: true
-        /shoulder_link:
-          Value: true
-        /sonar_back_left_link:
-          Value: true
-        /sonar_back_middle_link:
-          Value: true
-        /sonar_back_right_link:
-          Value: true
-        /sonar_front_left_link:
-          Value: true
-        /sonar_front_middle_link:
-          Value: true
-        /sonar_front_right_link:
-          Value: true
-        /stargazer_link:
-          Value: true
-        /tablet_link:
-          Value: true
-        /torso_lift_link:
-          Value: true
-        /torso_lift_offset_link:
-          Value: true
-        /torso_link:
-          Value: true
-        /turret_link:
-          Value: true
-        /upper_arm_link:
-          Value: true
-        /wheel_left_link:
-          Value: true
-        /wheel_right_link:
-          Value: true
-        /wrist_link:
-          Value: true
         All Enabled: true
+        base_footprint:
+          Value: true
+        base_laser_link:
+          Value: true
+        base_link:
+          Value: true
+        caster_back_left_link:
+          Value: true
+        caster_back_right_link:
+          Value: true
+        caster_front_link:
+          Value: true
+        finger_left_knuckle_1_link:
+          Value: true
+        finger_left_knuckle_2_link:
+          Value: true
+        finger_left_tip_link:
+          Value: true
+        finger_right_knuckle_1_link:
+          Value: true
+        finger_right_knuckle_2_link:
+          Value: true
+        finger_right_tip_link:
+          Value: true
+        gripper_camera_link:
+          Value: true
+        gripper_center_link:
+          Value: true
+        gripper_link:
+          Value: true
+        gyro_link:
+          Value: true
+        head_link:
+          Value: true
+        head_pan_link:
+          Value: true
+        head_tilt_link:
+          Value: true
+        laser_link:
+          Value: true
+        lower_arm_link:
+          Value: true
+        map:
+          Value: true
+        neck_link:
+          Value: true
+        odom:
+          Value: true
+        palm_link:
+          Value: true
+        sensor_3d_depth_frame:
+          Value: true
+        sensor_3d_depth_optical_frame:
+          Value: true
+        sensor_3d_link:
+          Value: true
+        sensor_3d_rgb_frame:
+          Value: true
+        sensor_3d_rgb_optical_frame:
+          Value: true
+        shoulder_link:
+          Value: true
+        sonar_back_left_link:
+          Value: true
+        sonar_back_middle_link:
+          Value: true
+        sonar_back_right_link:
+          Value: true
+        sonar_front_left_link:
+          Value: true
+        sonar_front_middle_link:
+          Value: true
+        sonar_front_right_link:
+          Value: true
+        stargazer_link:
+          Value: true
+        tablet_link:
+          Value: true
+        torso_lift_link:
+          Value: true
+        torso_lift_offset_link:
+          Value: true
+        torso_link:
+          Value: true
+        turret_link:
+          Value: true
+        upper_arm_link:
+          Value: true
+        wheel_left_link:
+          Value: true
+        wheel_right_link:
+          Value: true
+        wrist_link:
+          Value: true
       Marker Scale: 1
       Name: TF
       Show Arrows: true
       Show Axes: true
       Show Names: true
       Tree:
-        /map:
-          /odom:
-            /base_footprint:
-              /base_link:
-                /caster_back_left_link:
+        map:
+          odom:
+            base_footprint:
+              base_link:
+                base_laser_link:
                   {}
-                /caster_back_right_link:
+                caster_back_left_link:
                   {}
-                /caster_front_link:
+                caster_back_right_link:
                   {}
-                /gyro_link:
+                caster_front_link:
                   {}
-                /laser_link:
+                gyro_link:
                   {}
-                /sonar_back_left_link:
+                laser_link:
                   {}
-                /sonar_back_middle_link:
+                sonar_back_left_link:
                   {}
-                /sonar_back_right_link:
+                sonar_back_middle_link:
                   {}
-                /sonar_front_left_link:
+                sonar_back_right_link:
                   {}
-                /sonar_front_middle_link:
+                sonar_front_left_link:
                   {}
-                /sonar_front_right_link:
+                sonar_front_middle_link:
                   {}
-                /torso_link:
-                  /turret_link:
-                    /neck_link:
-                      /head_link:
-                        /head_pan_link:
-                          /head_tilt_link:
-                            /sensor_3d_link:
-                              /sensor_3d_depth_frame:
-                                /sensor_3d_depth_optical_frame:
+                sonar_front_right_link:
+                  {}
+                torso_link:
+                  turret_link:
+                    neck_link:
+                      head_link:
+                        head_pan_link:
+                          head_tilt_link:
+                            sensor_3d_link:
+                              sensor_3d_depth_frame:
+                                sensor_3d_depth_optical_frame:
                                   {}
-                              /sensor_3d_rgb_frame:
-                                /sensor_3d_rgb_optical_frame:
+                              sensor_3d_rgb_frame:
+                                sensor_3d_rgb_optical_frame:
                                   {}
-                        /stargazer_link:
+                        stargazer_link:
                           {}
-                      /tablet_link:
+                      tablet_link:
                         {}
-                    /torso_lift_offset_link:
-                      /torso_lift_link:
-                        /shoulder_link:
-                          /upper_arm_link:
-                            /lower_arm_link:
-                              /wrist_link:
-                                /palm_link:
-                                  /finger_left_knuckle_1_link:
-                                    /finger_left_knuckle_2_link:
-                                      /finger_left_tip_link:
+                    torso_lift_offset_link:
+                      torso_lift_link:
+                        shoulder_link:
+                          upper_arm_link:
+                            lower_arm_link:
+                              wrist_link:
+                                palm_link:
+                                  finger_left_knuckle_1_link:
+                                    finger_left_knuckle_2_link:
+                                      finger_left_tip_link:
                                         {}
-                                  /finger_right_knuckle_1_link:
-                                    /finger_right_knuckle_2_link:
-                                      /finger_right_tip_link:
+                                  finger_right_knuckle_1_link:
+                                    finger_right_knuckle_2_link:
+                                      finger_right_tip_link:
                                         {}
-                                  /gripper_camera_link:
+                                  gripper_camera_link:
                                     {}
-                                  /gripper_center_link:
+                                  gripper_center_link:
                                     {}
-                                  /gripper_link:
+                                  gripper_link:
                                     {}
-                /wheel_left_link:
+                wheel_left_link:
                   {}
-                /wheel_right_link:
+                wheel_right_link:
                   {}
       Update Interval: 0
       Value: true
@@ -447,6 +452,7 @@ Visualization Manager:
       Color Transformer: FlatColor
       Decay Time: 0
       Enabled: true
+      Invert Rainbow: false
       Max Color: 255; 255; 255
       Max Intensity: 4096
       Min Color: 0; 0; 0
@@ -472,6 +478,7 @@ Visualization Manager:
       Value: true
     - Alpha: 0.7
       Class: rviz/Map
+      Color Scheme: costmap
       Draw Behind: false
       Enabled: true
       Name: Local costmap
@@ -487,7 +494,8 @@ Visualization Manager:
       Value: true
     - Alpha: 0.7
       Class: rviz/Map
-      Draw Behind: false
+      Color Scheme: costmap
+      Draw Behind: true
       Enabled: true
       Name: Global costmap
       Topic: /korus/move_base_node/global_costmap/costmap
@@ -511,13 +519,42 @@ Visualization Manager:
       Marker Topic: /korus/stargazer/landmarks
       Name: Stargazer landmarks
       Namespaces:
-        landmark 1040: true
-        landmark 10672: true
-        landmark 11412: true
-        landmark 11426: true
-        landmark 16688: true
-        landmark 16690: true
-        landmark 3284: true
+        landmark 1088: true
+        landmark 1152: true
+        landmark 16448: true
+        landmark 192: true
+        landmark 2112: true
+        landmark 320: true
+        landmark 3314: true
+        landmark 3316: true
+        landmark 3318: true
+        landmark 3328: true
+        landmark 3330: true
+        landmark 3332: true
+        landmark 3334: true
+        landmark 3344: true
+        landmark 3346: true
+        landmark 3348: true
+        landmark 3350: true
+        landmark 3360: true
+        landmark 3362: true
+        landmark 3364: true
+        landmark 3366: true
+        landmark 3376: true
+        landmark 3378: true
+        landmark 384: true
+        landmark 4038: true
+        landmark 4048: true
+        landmark 4050: true
+        landmark 4052: true
+        landmark 4054: true
+        landmark 4064: true
+        landmark 4080: true
+        landmark 4082: true
+        landmark 576: true
+        landmark 640: true
+        landmark 8194: true
+        landmark 8256: true
       Queue Size: 100
       Value: true
     - Arrow Length: 0.3
@@ -547,6 +584,7 @@ Visualization Manager:
       Depth Map Topic: /sensor_3d/depth/image
       Depth Map Transport Hint: raw
       Enabled: true
+      Invert Rainbow: false
       Max Color: 255; 255; 255
       Max Intensity: 4096
       Min Color: 0; 0; 0
@@ -567,7 +605,8 @@ Visualization Manager:
   Enabled: true
   Global Options:
     Background Color: 48; 48; 48
-    Fixed Frame: /map
+    Fixed Frame: map
+    Frame Rate: 30
   Name: root
   Tools:
     - Class: rviz/Interact
@@ -589,9 +628,9 @@ Visualization Manager:
       Class: rviz/Orbit
       Distance: 11.5559
       Focal Point:
-        X: 0.146409
-        Y: 0.965214
-        Z: 0.24308
+        X: 2.65081
+        Y: 1.20815
+        Z: 0.243353
       Name: Current View
       Near Clip Distance: 0.01
       Pitch: 1.5698
