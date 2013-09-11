@@ -1,39 +1,18 @@
 #!/usr/bin/env python
 
-# ROS
-import roslib; roslib.load_manifest('korus_smach')
-import tf
-#from tf import TransformListener
-#from tf.transformations import quaternion_from_euler
-
 # ROS msgs
-import std_msgs
-import std_srvs
-from std_srvs.srv import Empty
-import sensor_msgs
-import control_msgs
-from control_msgs.msg import FollowJointTrajectoryAction, FollowJointTrajectoryGoal
-#import tabletop_object_detector
-#from tabletop_object_detector.srv import TabletopDetection
-#from tabletop_object_detector.srv import TabletopDetectionRequest
-#from tabletop_object_detector.srv import TabletopDetectionResponse
-#from tabletop_object_detector.msg import TabletopDetectionResult
-import geometry_msgs
-#from geometry_msgs.msg import TransformStamped
-#from geometry_msgs.msg import Pose
-#from geometry_msgs.msg import Quaternion
-import trajectory_msgs
-#from trajectory_msgs.msg import JointTrajectoryPoint
-import moveit_msgs
-from moveit_msgs.msg import MoveGroupAction
-from moveit_msgs.msg import MoveItErrorCodes
-from moveit_msgs.srv import GetPositionIK
-import shape_msgs
+import actionlib_msgs.msg as actionlib_msgs
+import control_msgs.msg as control_msgs
+import geometry_msgs.msg as geometry_msgs
+import moveit_msgs.msg as moveit_msgs
+import moveit_msgs.srv as moveit_srvs
+import object_recognition_msgs.msg as object_recognition_msgs
+import object_recognition_msgs.srv as object_recognition_srvs
+import sensor_msgs.msg as sensor_msgs
+import shape_msgs.msg as shape_msgs
+import std_msgs.msg as std_msgs
+import std_srvs.srv as std_srvs
+import trajectory_msgs.msg as trajectory_msgs
 
 # Korus
-import korus_smach
-import pick_and_place_msgs
-from pick_and_place_msgs.msg import MoveArmAction
-from pick_and_place_msgs.msg import MoveArmGoal
-from pick_and_place_msgs.msg import MoveArmFeedback
-from pick_and_place_msgs.msg import MoveArmResult
+import pick_and_place_msgs.msg as pick_and_place_msgs

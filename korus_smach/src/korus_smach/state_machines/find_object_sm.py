@@ -4,7 +4,6 @@ from tf import TransformListener
 from state_machines_imports import *
 from korus_smach.pick_and_place_tools import object_recognition, trajectory_control, misc_tools
 from korus_smach.pick_and_place_tools.msg_imports import *
-import object_recognition_msgs.msg as object_recognition_msgs
 
 
 class CheckTablePose(smach.State):
@@ -81,50 +80,51 @@ def createSM():
                                                     'tf_listener'],
                                         output_keys=['recognised_objects',
                                                      'object_names',
+                                                     'objects_info',
                                                      'error_message',
                                                      'error_code',
                                                      'tf_listener'])
     with sm_find_object:
         # move head
         sm_find_object.userdata.motors = ['head_pan', 'head_tilt']
-        sm_find_object.userdata.pose_bottom_left = geometry_msgs.msg.PoseStamped()
+        sm_find_object.userdata.pose_bottom_left = geometry_msgs.PoseStamped()
         sm_find_object.userdata.pose_bottom_left.header.stamp = rospy.Time.now()
         sm_find_object.userdata.pose_bottom_left.header.frame_id = "base_footprint"
         sm_find_object.userdata.pose_bottom_left.pose.position.x = 0.2
         sm_find_object.userdata.pose_bottom_left.pose.position.y = -0.2
         sm_find_object.userdata.pose_bottom_left.pose.position.z = 0.0
         sm_find_object.userdata.pose_bottom_left.pose.orientation.w = 1.0
-        sm_find_object.userdata.pose_bottom_centre = geometry_msgs.msg.PoseStamped()
+        sm_find_object.userdata.pose_bottom_centre = geometry_msgs.PoseStamped()
         sm_find_object.userdata.pose_bottom_centre.header = sm_find_object.userdata.pose_bottom_left.header
         sm_find_object.userdata.pose_bottom_centre.pose.position.x = 0.2
         sm_find_object.userdata.pose_bottom_centre.pose.position.y = 0.0
         sm_find_object.userdata.pose_bottom_centre.pose.position.z = 0.0
         sm_find_object.userdata.pose_bottom_centre.pose.orientation.w = 1.0
-        sm_find_object.userdata.pose_bottom_right = geometry_msgs.msg.PoseStamped()
+        sm_find_object.userdata.pose_bottom_right = geometry_msgs.PoseStamped()
         sm_find_object.userdata.pose_bottom_right.header = sm_find_object.userdata.pose_bottom_left.header
         sm_find_object.userdata.pose_bottom_right.pose.position.x = 0.2
         sm_find_object.userdata.pose_bottom_right.pose.position.y = 0.2
         sm_find_object.userdata.pose_bottom_right.pose.position.z = 0.0
         sm_find_object.userdata.pose_bottom_right.pose.orientation.w = 1.0
-        sm_find_object.userdata.pose_top_left = geometry_msgs.msg.PoseStamped()
+        sm_find_object.userdata.pose_top_left = geometry_msgs.PoseStamped()
         sm_find_object.userdata.pose_top_left.header = sm_find_object.userdata.pose_bottom_left.header
         sm_find_object.userdata.pose_top_left.pose.position.x = 0.5
         sm_find_object.userdata.pose_top_left.pose.position.y = -0.5
         sm_find_object.userdata.pose_top_left.pose.position.z = 0.5
         sm_find_object.userdata.pose_top_left.pose.orientation.w = 1.0
-        sm_find_object.userdata.pose_top_centre = geometry_msgs.msg.PoseStamped()
+        sm_find_object.userdata.pose_top_centre = geometry_msgs.PoseStamped()
         sm_find_object.userdata.pose_top_centre.header = sm_find_object.userdata.pose_bottom_left.header
         sm_find_object.userdata.pose_top_centre.pose.position.x = 0.5
         sm_find_object.userdata.pose_top_centre.pose.position.y = 0.0
         sm_find_object.userdata.pose_top_centre.pose.position.z = 0.5
         sm_find_object.userdata.pose_top_centre.pose.orientation.w = 1.0
-        sm_find_object.userdata.pose_top_right = geometry_msgs.msg.PoseStamped()
+        sm_find_object.userdata.pose_top_right = geometry_msgs.PoseStamped()
         sm_find_object.userdata.pose_top_right.header = sm_find_object.userdata.pose_bottom_left.header
         sm_find_object.userdata.pose_top_right.pose.position.x = 0.5
         sm_find_object.userdata.pose_top_right.pose.position.y = 0.5
         sm_find_object.userdata.pose_top_right.pose.position.z = 0.5
         sm_find_object.userdata.pose_top_right.pose.orientation.w = 1.0
-        sm_find_object.userdata.pose_centre = geometry_msgs.msg.PoseStamped()
+        sm_find_object.userdata.pose_centre = geometry_msgs.PoseStamped()
         sm_find_object.userdata.pose_centre.header = sm_find_object.userdata.pose_bottom_left.header
         sm_find_object.userdata.pose_centre.pose.position.x = 0.5
         sm_find_object.userdata.pose_centre.pose.position.y = 0.0
@@ -143,6 +143,7 @@ def createSM():
         sm_find_object.userdata.reset_true = True
         sm_find_object.userdata.reset_false = False
         
+        sm_find_object.userdata.objects_info = []
         
         smach.StateMachine.add('EnableMotors',
                                misc_tools.EnableMotors(),
@@ -171,7 +172,7 @@ def createSM():
         
         smach.StateMachine.add('MoveHead',
                                SimpleActionState('head_controller',
-                                                 control_msgs.msg.FollowJointTrajectoryAction,
+                                                 control_msgs.FollowJointTrajectoryAction,
                                                  goal_cb=trajectory_control.headControlRequestCb,
                                                  result_cb=trajectory_control.generalResponseCb,
                                                  input_keys=['tf_listener',
@@ -187,7 +188,7 @@ def createSM():
         
         smach.StateMachine.add('MoveHeadBottomLeft',
                                SimpleActionState('head_controller',
-                                                 control_msgs.msg.FollowJointTrajectoryAction,
+                                                 control_msgs.FollowJointTrajectoryAction,
                                                  goal_cb=trajectory_control.headControlRequestCb,
                                                  result_cb=trajectory_control.generalResponseCb,
                                                  input_keys=['tf_listener',
@@ -203,7 +204,7 @@ def createSM():
         
         smach.StateMachine.add('MoveHeadBottomCentre',
                                SimpleActionState('head_controller',
-                                                 control_msgs.msg.FollowJointTrajectoryAction,
+                                                 control_msgs.FollowJointTrajectoryAction,
                                                  goal_cb=trajectory_control.headControlRequestCb,
                                                  result_cb=trajectory_control.generalResponseCb,
                                                  input_keys=['tf_listener',
@@ -219,7 +220,7 @@ def createSM():
         
         smach.StateMachine.add('MoveHeadBottomRight',
                                SimpleActionState('head_controller',
-                                                 control_msgs.msg.FollowJointTrajectoryAction,
+                                                 control_msgs.FollowJointTrajectoryAction,
                                                  goal_cb=trajectory_control.headControlRequestCb,
                                                  result_cb=trajectory_control.generalResponseCb,
                                                  input_keys=['tf_listener',
@@ -235,7 +236,7 @@ def createSM():
         
         smach.StateMachine.add('MoveHeadTopRight',
                                SimpleActionState('head_controller',
-                                                 control_msgs.msg.FollowJointTrajectoryAction,
+                                                 control_msgs.FollowJointTrajectoryAction,
                                                  goal_cb=trajectory_control.headControlRequestCb,
                                                  result_cb=trajectory_control.generalResponseCb,
                                                  input_keys=['tf_listener',
@@ -250,7 +251,7 @@ def createSM():
         
         smach.StateMachine.add('MoveHeadTopCentre',
                                SimpleActionState('head_controller',
-                                                 control_msgs.msg.FollowJointTrajectoryAction,
+                                                 control_msgs.FollowJointTrajectoryAction,
                                                  goal_cb=trajectory_control.headControlRequestCb,
                                                  result_cb=trajectory_control.generalResponseCb,
                                                  input_keys=['tf_listener',
@@ -265,7 +266,7 @@ def createSM():
         
         smach.StateMachine.add('MoveHeadTopLeft',
                                SimpleActionState('head_controller',
-                                                 control_msgs.msg.FollowJointTrajectoryAction,
+                                                 control_msgs.FollowJointTrajectoryAction,
                                                  goal_cb=trajectory_control.headControlRequestCb,
                                                  result_cb=trajectory_control.generalResponseCb,
                                                  input_keys=['tf_listener',
@@ -334,7 +335,7 @@ def createSM():
                                transitions={'done':'AddObjectsToPlanningScene'})
         
         smach.StateMachine.add('AddObjectsToPlanningScene',
-                               object_recognition.AddObjectsToPlanningScene(),
+                               misc_tools.AddObjectsToPlanningScene(),
                                remapping={'recognised_objects':'recognised_objects',
                                           'object_names':'object_names',
                                           'objects_info':'objects_info',
@@ -343,7 +344,7 @@ def createSM():
                                transitions={'done':'WaitForObjectsAdded'})
         
         smach.StateMachine.add('WaitForObjectsAdded', misc_tools.Wait(),
-                               remapping={'duration':'wait_1sec'},
+                               remapping={'duration':'wait_5sec'},
                                transitions={'done':'object_found'})
         
 #        smach.StateMachine.add('MoveHeadCentreObjectsFound',

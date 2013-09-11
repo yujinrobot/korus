@@ -23,7 +23,11 @@ from trajectory_msgs.msg import JointTrajectoryPoint
 '''
 General
 '''
+@smach.cb_interface(input_keys=['trajectory_goal'],
+                    outcomes=['succeeded',
+                              'aborted'])
 def generalGoalCb(userdata, goal):
+    goal = userdata.trajectory_goal
     rospy.loginfo('Preparing FollowJointTrajectoryGoal ...')
     rospy.loginfo('FollowJointTrajectoryGoal prepared.')
     return goal
@@ -33,10 +37,11 @@ def generalGoalCb(userdata, goal):
                               'aborted'])
 def generalResponseCb(userdata, status, result):
     userdata.error_code = result.error_code
-    if result.error_code is control_msgs.msg.FollowJointTrajectoryResult.SUCCESSFUL:
+    if result.error_code == control_msgs.msg.FollowJointTrajectoryResult.SUCCESSFUL:
+        rospy.loginfo('Trajectory action succeeded.')
         return 'succeeded'
     else:
-        print 'error_code is ' + str(result.error_code)
+        rospy.loginfo('Trajectory action failed. Error code is ' + str(result.error_code))
         return 'aborted'
 
 '''
@@ -97,7 +102,7 @@ def headControlRequestCb(userdata, goal):
     except tf.Exception, e:
         rospy.logerr('Couldn`t transform requested pose!')
         rospy.logerr('%s', e)
-    pan_angle = -math.atan2(head_target.pose.position.y, head_target.pose.position.x)
+    pan_angle = math.atan2(head_target.pose.position.y, head_target.pose.position.x)
     tilt_angle = math.atan2(head_target.pose.position.z, head_target.pose.position.x)
     head_goal = FollowJointTrajectoryGoal()
     head_goal.trajectory.header.frame_id = "move_head"
@@ -107,8 +112,8 @@ def headControlRequestCb(userdata, goal):
     waypoint = JointTrajectoryPoint()
     waypoint.positions.append(pan_angle)
     waypoint.positions.append(tilt_angle)
-    waypoint.velocities.append(1.0)
-    waypoint.velocities.append(1.0)
+    waypoint.velocities.append(0.5)
+    waypoint.velocities.append(0.5)
     waypoint.accelerations.append(0.0)
     waypoint.accelerations.append(0.0)
     head_goal.trajectory.points.append(waypoint)

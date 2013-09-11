@@ -1,10 +1,6 @@
 #!/usr/bin/env python
-
 import sys
 import argparse
-
-# ros basics& smach
-import roslib; roslib.load_manifest('korus_smach')
 from korus_smach.state_machines.state_machines_imports import *
 from korus_smach.pick_and_place_tools.msg_imports import *
 
@@ -18,7 +14,7 @@ def main():
     parser.add_argument('pos_z', type = float, help='Z value of the target position')
     args=parser.parse_args()
     
-    goal_pose = geometry_msgs.msg.PoseStamped()
+    goal_pose = geometry_msgs.PoseStamped()
     goal_pose.header.stamp = rospy.Time.now()
     goal_pose.header.frame_id = "base_footprint"
     
@@ -52,7 +48,7 @@ def main():
             
         smach.StateMachine.add('MoveArmIK',
                                SimpleActionState('/korus/move_arm_planner',
-                                                 MoveArmAction,
+                                                 pick_and_place_msgs.MoveArmAction,
                                                  goal_slots=['goal_pose'],
                                                  result_cb=MoveArmIKResultCb))
     sm.execute()

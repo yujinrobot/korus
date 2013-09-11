@@ -1,19 +1,13 @@
 #!/usr/bin/env python
-
-import roslib; roslib.load_manifest('korus_smach')
+import tf
 from korus_smach.state_machines.state_machines_imports import *
 from korus_smach.pick_and_place_tools.msg_imports import *
-import object_recognition_msgs
-import object_recognition_msgs.srv as object_recognition_srvs
-import moveit_msgs
-import shape_msgs
-
 
 #===============================================================================================================
 # Detect object callbacks
 #===============================================================================================================
 def objectRecognitionGoalCb(userdata, goal):
-    goal = object_recognition_msgs.msg.ObjectRecognitionGoal()
+    goal = object_recognition_msgs.ObjectRecognitionGoal()
     return goal
 
 @smach.cb_interface(input_keys=['min_confidence',
@@ -51,7 +45,7 @@ def objectRecognitionResultCb(userdata, status, result):
                                   '18807':'campbell_soup_can',
                                   '18808':'campbell_soup_handheld'}
         rospy.logdebug("Object recognition was successful. Processing the result ...")
-        userdata.recognised_objects = object_recognition_msgs.msg.RecognizedObjectArray()
+        userdata.recognised_objects = object_recognition_msgs.RecognizedObjectArray()
         userdata.object_names = list()
         unreliable_recognition = int()
         for object in result.recognized_objects.objects:
@@ -65,7 +59,7 @@ def objectRecognitionResultCb(userdata, status, result):
                     try:
                         print"pose before"
                         print object.pose
-                        new_pose = geometry_msgs.msg.PoseStamped()
+                        new_pose = geometry_msgs.PoseStamped()
                         new_pose.header = object.pose.header
                         new_pose.pose = object.pose.pose.pose
                         new_pose.header.stamp = userdata.tf_listener.getLatestCommonTime(
@@ -128,48 +122,10 @@ class GetObjectInformation(smach.State):
                                          object_recognition_srvs.GetObjectInformation())
         for object in userdata.recognised_objects.objects:
             try:
-                info_request = object_recognition_msgs.srv.GetObjectInformationRequest()
+                info_request = object_recognition_srvs.GetObjectInformationRequest()
                 info_request.type = object.type
                 objects_info.append(srv_client(info_request))
             except rospy.ServiceException, e:
                 rospy.loginfo("Service did not process request: " + str(e))
         userdata.objects_info = objects_info
-        return 'done'
-
-class AddObjectsToPlanningScene(smach.State):
-    def __init__(self):
-        smach.State.__init__(self, 
-                             outcomes=['done'],
-                             input_keys=['recognised_objects',
-                                         'object_names',
-                                         'objects_info',
-                                         'error_code',
-                                         'error_message'],
-                             output_keys=['error_code',
-                                          'error_message'])
-        self._pub_collision_object = rospy.Publisher("collision_object",
-                                                     moveit_msgs.msg.CollisionObject,
-                                                     latch = False)
-
-    def execute(self, userdata):
-        rospy.loginfo('Publishing recognised objects as collision objects ...')
-        for recognised_object in userdata.recognised_objects.objects:
-            collision_object = moveit_msgs.msg.CollisionObject()
-            collision_object.header = recognised_object.pose.header
-            collision_object.header.stamp = rospy.Time.now()
-            recognised_object_nr = userdata.recognised_objects.objects.index(recognised_object)
-            collision_object.id = userdata.object_names[recognised_object_nr]
-            collision_object.type = recognised_object.type
-            shape = shape_msgs.msg.SolidPrimitive()
-            shape.type = shape_msgs.msg.SolidPrimitive.CYLINDER
-            shape.dimensions.append(0.30) # CYLINDER_HEIGHT
-            shape.dimensions.append(0.05) # CYLINDER_RADIUS
-#            collision_object.primitives.append(shape)
-#            collision_object.primitive_poses.append(recognised_object.pose.pose.pose)
-            # TODO: adjust primitive object pose
-            collision_object.meshes.append(userdata.objects_info[recognised_object_nr].information.ground_truth_mesh)
-            collision_object.mesh_poses.append(recognised_object.pose.pose.pose)
-            collision_object.operation = moveit_msgs.msg.CollisionObject.ADD
-            self._pub_collision_object.publish(collision_object)
-        userdata.error_message = "Published recognised objects as collision objects to the planning scene."
         return 'done'

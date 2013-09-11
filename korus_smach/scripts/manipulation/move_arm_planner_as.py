@@ -8,7 +8,6 @@
 import sys
 import math
 # ros basics & smach
-import roslib; roslib.load_manifest('korus_smach')
 from korus_smach.state_machines.state_machines_imports import *
 from korus_smach.state_machines import move_arm_sm
 from korus_smach.pick_and_place_tools.msg_imports import *
@@ -24,7 +23,7 @@ class ParseGoal(smach.State):
                                           'goal_pose'])
 
     def execute(self, userdata):
-        feedback = MoveArmFeedback()
+        feedback = pick_and_place_msgs.MoveArmFeedback()
         feedback.process_state = 'Finished parsing MoveArmGoal'
         userdata.feedback = feedback
         userdata.goal_pose = userdata.incoming_goal.goal_pose
@@ -43,8 +42,8 @@ def main():
 
     sm.userdata.goal_link_name = "palm_link"
     sm.userdata.motors = ['torso_turn', 'torso_lift', 'shoulder', 'elbow', 'wrist']
-    sm.userdata.feedback = MoveArmFeedback()
-    sm.userdata.result = MoveArmResult()
+    sm.userdata.feedback = pick_and_place_msgs.MoveArmFeedback()
+    sm.userdata.result = pick_and_place_msgs.MoveArmResult()
     sm.userdata.error_code = int()
     sm.userdata.pose_goal = True
         
@@ -72,7 +71,7 @@ def main():
                                             'error':'error'})
         
     asw = ActionServerWrapper('move_arm_planner',
-                              MoveArmAction,
+                              pick_and_place_msgs.MoveArmAction,
                               wrapped_container = sm,
                               goal_key = 'goal',
                               feedback_key = 'feedback',

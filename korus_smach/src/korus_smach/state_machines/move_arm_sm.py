@@ -40,7 +40,7 @@ def createSM():
                                      input_keys=['goal_link_name','goal_pose', 'result'],
                                      output_keys=['result'])
     with sm_move_arm:
-        sm_move_arm.userdata.default_pose = geometry_msgs.msg.PoseStamped()
+        sm_move_arm.userdata.default_pose = geometry_msgs.PoseStamped()
         sm_move_arm.userdata.default_pose.header.stamp = rospy.Time.now()
         sm_move_arm.userdata.default_pose.header.frame_id = "base_footprint"
         sm_move_arm.userdata.default_pose.pose.position.x = 0.40#0.052
@@ -60,7 +60,7 @@ def createSM():
         sm_move_arm.userdata.default_false = False 
         sm_move_arm.userdata.bottom_true = True
         sm_move_arm.userdata.bottom_false = False 
-        sm_move_arm.userdata.robot_state = moveit_msgs.msg.RobotState()
+        sm_move_arm.userdata.robot_state = moveit_msgs.RobotState()
 
 #        smach.StateMachine.add('ResetCollisionMap',
 #                               ServiceState('/korus/octomap_server/reset',
@@ -111,7 +111,7 @@ def createSM():
         
         smach.StateMachine.add('MoveArm',
                                SimpleActionState('move_group',
-                                                 moveit_msgs.msg.MoveGroupAction,
+                                                 moveit_msgs.MoveGroupAction,
                                                  goal_cb=move_arm.moveArmGoalCB,
                                                  result_cb=move_arm.moveArmResultCB,
                                                  input_keys=['goal_pose',

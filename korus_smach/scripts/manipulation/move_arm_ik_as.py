@@ -21,7 +21,7 @@ class ParseGoal(smach.State):
                                           'goal_pose'])
 
     def execute(self, userdata):
-        feedback = MoveArmFeedback()
+        feedback = pick_and_place_msgs.MoveArmFeedback()
         feedback.process_state = 'Finished parsing MoveArmGoal'
         userdata.feedback = feedback
         userdata.goal_pose = userdata.incoming_goal.goal_pose
@@ -40,11 +40,11 @@ def main():
                             output_keys=['feedback',
                                          'result'])
     
-    sm.userdata.robot_state = moveit_msgs.msg.RobotState()
+    sm.userdata.robot_state = moveit_msgs.RobotState()
     sm.userdata.goal_link_name = "palm_link"
     sm.userdata.grasp_dist = 0.0
     sm.userdata.grasp_height = 0.0
-    sm.userdata.result = MoveArmResult()
+    sm.userdata.result = pick_and_place_msgs.MoveArmResult()
     sm.userdata.error_code = int()
     sm.userdata.motors = ['torso_turn', 'torso_lift', 'shoulder', 'elbow', 'wrist']
     sm.userdata.zero_true = True
@@ -53,7 +53,7 @@ def main():
     sm.userdata.default_false = False 
     sm.userdata.bottom_true = True
     sm.userdata.bottom_false = False
-    sm.userdata.avoid_collisions = True
+    sm.userdata.false = False
     
     with sm:
         smach.StateMachine.add('ParseGoal',
@@ -79,9 +79,9 @@ def main():
         
         smach.StateMachine.add('GetIKcurrentState',
                                ServiceState(compute_ik_topic,
-                                            GetPositionIK,
+                                            moveit_srvs.GetPositionIK,
                                             request_cb = ik.getPositionIKRequestCb,
-                                            response_cb = ik.getPositionIKResponseCb,
+                                            response_cb = ik.getPositionIKResponseArmControllerGoalCb,
                                             input_keys=['goal_pose',
                                                         'goal_link_name',
                                                         'robot_state',
@@ -91,8 +91,10 @@ def main():
                                remapping={'goal_pose':'goal_pose',
                                           'goal_link_name':'goal_link_name',
                                           'robot_state':'robot_state',
+                                          'avoid_collisions':'false',
                                           'arm_control_goal':'arm_control_goal',
-                                          'error_code':'error_code'},
+                                          'error_code':'error_code',
+                                          'error_message':'error_message'},
                                transitions={'succeeded':'ParseIKcurrentStateErrorCode',
                                             'preempted':'preempted',
                                             'aborted':'error',
@@ -117,9 +119,9 @@ def main():
         
         smach.StateMachine.add('GetIKzeroState',
                                ServiceState(compute_ik_topic,
-                                            GetPositionIK,
+                                            moveit_srvs.GetPositionIK,
                                             request_cb = ik.getPositionIKRequestCb,
-                                            response_cb = ik.getPositionIKResponseCb,
+                                            response_cb = ik.getPositionIKResponseArmControllerGoalCb,
                                             input_keys=['goal_pose',
                                                         'goal_link_name',
                                                         'robot_state',
@@ -131,6 +133,7 @@ def main():
                                           'grasp_dist':'grasp_dist',
                                           'grasp_height':'grasp_height',
                                           'robot_state':'robot_state',
+                                          'avoid_collisions':'false',
                                           'arm_control_goal':'arm_control_goal',
                                           'error_code':'error_code'},
                                transitions={'succeeded':'ParseIKzeroStateErrorCode',
@@ -157,9 +160,9 @@ def main():
         
         smach.StateMachine.add('GetIKdefaultState',
                                ServiceState(compute_ik_topic,
-                                            GetPositionIK,
+                                            moveit_srvs.GetPositionIK,
                                             request_cb = ik.getPositionIKRequestCb,
-                                            response_cb = ik.getPositionIKResponseCb,
+                                            response_cb = ik.getPositionIKResponseArmControllerGoalCb,
                                             input_keys=['goal_pose',
                                                         'goal_link_name',
                                                         'robot_state',
@@ -171,6 +174,7 @@ def main():
                                           'grasp_dist':'grasp_dist',
                                           'grasp_height':'grasp_height',
                                           'robot_state':'robot_state',
+                                          'avoid_collisions':'false',
                                           'arm_control_goal':'arm_control_goal',
                                           'error_code':'error_code'},
                                transitions={'succeeded':'ParseIKdefaultStateErrorCode',
@@ -197,9 +201,9 @@ def main():
         
         smach.StateMachine.add('GetIKBottomState',
                                ServiceState(compute_ik_topic,
-                                            GetPositionIK,
+                                            moveit_srvs.GetPositionIK,
                                             request_cb = ik.getPositionIKRequestCb,
-                                            response_cb = ik.getPositionIKResponseCb,
+                                            response_cb = ik.getPositionIKResponseArmControllerGoalCb,
                                             input_keys=['goal_pose',
                                                         'goal_link_name',
                                                         'robot_state',
@@ -211,6 +215,7 @@ def main():
                                           'grasp_dist':'grasp_dist',
                                           'grasp_height':'grasp_height',
                                           'robot_state':'robot_state',
+                                          'avoid_collisions':'false',
                                           'arm_control_goal':'arm_control_goal',
                                           'error_code':'error_code'},
                                transitions={'succeeded':'ParseIKBottomStateErrorCode',
@@ -233,12 +238,12 @@ def main():
         
         smach.StateMachine.add('MoveArm',
                                SimpleActionState('arm_controller',
-                                                 control_msgs.msg.FollowJointTrajectoryAction,
-                                                 goal_cb=trajectory_control.armControlGoalCb,
+                                                 control_msgs.FollowJointTrajectoryAction,
+                                                 goal_cb=trajectory_control.generalGoalCb,
                                                  result_cb=trajectory_control.generalResponseCb,
-                                                 input_keys=['arm_control_goal'],
                                                  output_keys=['error_code'],),
-                               remapping={'error_code':'error_code'},
+                               remapping={'trajectory_goal':'arm_control_goal',
+                                          'error_code':'error_code'},
                                transitions={'succeeded':'ParseMoveArmErrorCode',
                                             'aborted':'ParseMoveArmErrorCode',
                                             'preempted':'preempted'})
@@ -251,7 +256,7 @@ def main():
                                           'error_code':'error_code'})
     
     asw = ActionServerWrapper('move_arm_ik',
-                              MoveArmAction,
+                              pick_and_place_msgs.MoveArmAction,
                               wrapped_container = sm,
                               goal_key = 'goal',
                               feedback_key = 'feedback',

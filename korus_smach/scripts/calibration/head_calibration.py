@@ -1,8 +1,7 @@
 #!/usr/bin/env python
-import roslib; roslib.load_manifest('korus_smach')
-import rospy
-import smach_ros
+from korus_smach.pick_and_place_tools import misc_tools
 from korus_smach.state_machines import head_calibration
+from korus_smach.state_machines.state_machines_imports import *
 
 
 '''
@@ -11,13 +10,27 @@ from korus_smach.state_machines import head_calibration
 def main():
     rospy.init_node('head_calibration')
     
-    sm_head_calibration = head_calibration.createSM()
-    
-    # Create and start the introspection server
+    sm_head_calibration = smach.StateMachine(outcomes=['calibrated', 'calibration_failed'])
+
+    with sm_head_calibration:
+        
+        sm_head_calibration.userdata.motors = ["head_pan",
+                                               "head_tilt"]
+        smach.StateMachine.add('EnableMotors',
+                               misc_tools.EnableMotors(),
+                               remapping={'motors':'motors'}, 
+                               transitions={'success':'HeadCalibration'})
+
+        sm_head = head_calibration.createSM()
+        smach.StateMachine.add('HeadCalibration',
+                               sm_head,
+                               remapping={'motors':'motors'}, 
+                               transitions={'head_calibrated':'calibrated',
+                                            'head_calibration_failed':'calibration_failed'})
+
     sis = smach_ros.IntrospectionServer('introspection_server', sm_head_calibration, '/SM_ROOT')
     sis.start()
     
-    # Execute SMACH plan
     sm_head_calibration.execute()
     
     sis.stop()
