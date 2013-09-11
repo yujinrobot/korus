@@ -6,10 +6,10 @@ sensors:
     frame_subsample: 1
     point_subsample: 1
     shape_padding: 0.10
-    shape_scale: 1.1
+    shape_scale: 1.0
     self_mask:
       min_sensor_dist: .5
-      self_see_default_padding: .04
+      self_see_default_padding: 0.03
       self_see_default_scale: 1.0
       self_see_links:
        - name: base_link
@@ -18,7 +18,10 @@ sensors:
        - name: lower_arm_link
        - name: wrist_link
        - name: palm_link
-       - name: finger_left_knuckle_1
-       - name: finger_left_knuckle_2
-       - name: finger_right_knuckle_1
-       - name: finger_right_knuckle_2
+       - name: gripper_camera_link
+       - name: finger_left_knuckle_1_link
+       - name: finger_left_knuckle_2_link
+       - name: finger_left_tip_link
+       - name: finger_right_knuckle_1_link
+       - name: finger_right_knuckle_2_link
+       - name: finger_right_tip_link
