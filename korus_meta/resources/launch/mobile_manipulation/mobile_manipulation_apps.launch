@@ -17,13 +17,13 @@
   <arg name="initial_pose_a"          value="0.0"/>
 
   <!--  ************** Korus' navigation suite **************  -->
-  <include file="$(find korus_meta)/resources/launch/navigation/navigation.launch.xml">
-    <arg name="costmap_sensors"       value="$(arg costmap_sensors)"/>
-    <arg name="map_name"              value="$(arg map_name)"/>
-    <arg name="initial_pose_x"        value="$(arg initial_pose_x)"/>
-    <arg name="initial_pose_y"        value="$(arg initial_pose_y)"/>
-    <arg name="initial_pose_a"        value="$(arg initial_pose_a)"/>
-  </include>
+<!--   <include file="$(find korus_meta)/resources/launch/navigation/navigation.launch.xml"> -->
+<!--     <arg name="costmap_sensors"       value="$(arg costmap_sensors)"/> -->
+<!--     <arg name="map_name"              value="$(arg map_name)"/> -->
+<!--     <arg name="initial_pose_x"        value="$(arg initial_pose_x)"/> -->
+<!--     <arg name="initial_pose_y"        value="$(arg initial_pose_y)"/> -->
+<!--     <arg name="initial_pose_a"        value="$(arg initial_pose_a)"/> -->
+<!--   </include> -->
 
   <!--  ************** Korus' object manipulation pipeline **************  -->
   <include file="$(find korus_meta)/resources/launch/manipulation/object_manipulation.launch.xml"/>

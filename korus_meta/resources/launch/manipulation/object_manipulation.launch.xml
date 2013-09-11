@@ -24,15 +24,11 @@
   <include file="$(find korus_meta)/resources/launch/object_recognition/or_tabletop.launch"/>
   
   <!--  ************** SMACH user interfaces **************  -->
-  <include file="$(find korus_smach)/launch/move_arm_planner.launch"/> <!-- TODO: include in pick&place -->
-<!--   <include file="$(find korus_smach)/launch/move_arm_ik.launch"/> -->
-  <include file="$(find korus_smach)/launch/find_object.launch"/> <!-- TODO: include in pick&place -->
+  <!-- TODO: include in pick&place -->
+  <include file="$(find korus_smach)/launch/move_arm_planner.launch"/>
+  <include file="$(find korus_smach)/launch/move_arm_ik.launch"/>
+  <!-- TODO: include in pick&place -->
+  <include file="$(find korus_smach)/launch/find_object.launch"/>
 <!--   <include file="$(find korus_smach)/launch/pick_object.launch"/> -->
 <!--   <include file="$(find korus_smach)/launch/place_object.launch"/> -->
-
-<!--   <node name="dyn_reconf_3d_sensor" pkg="dynamic_reconfigure" type="dynparam" -->
-<!--         args="set_from_parameters /korus/sensor_3d/driver"> -->
-<!--     <param name="image_mode" type="int" value="8" /> QQVGA_25Hz: 160x120@30Hz -->
-<!--     <param name="depth_mode" type="int" value="8" /> -->
-<!--   </node> -->
 </launch>
