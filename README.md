@@ -8,4 +8,4 @@ For instructions on installation, testing & debugging and running the navigation
 ### Note
 
 Most of the software here won't run without Yujin Robot's control software.
-Few things however are useable as is, e.g. view the robot model and MoveIt! demo.
+Few things however are useable as is, e.g. view the robot model and run the MoveIt! demo.
