@@ -8,11 +8,11 @@
 # Korus
 - git:
     local-name: korus
-    uri: git@bitbucket.org:yujinrobot/korus.git
+    uri: 'https://github.com/yujinrobot/korus.git'
     version: hydro-devel
 - git:
-    local-name: korus_comms
-    uri: 'https://github.com/yujinrobot/korus_comms.git'
+    local-name: korus_msgs
+    uri: 'https://github.com/yujinrobot/korus_msgs.git'
     version: hydro-devel
     
 # YCS
