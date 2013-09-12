@@ -24,7 +24,7 @@ def main():
     try:
         object_type = object_recognition_msgs.ObjectType
         object_type.key = '18800'
-        object_type.db = '{"host":"localhost","module":"object_recognition_tabletop","name":"household_objects-0.6","password":"akqjqtk","port":"5432","type":"ObjectDbSqlHousehold","user":"yujin"'
+        object_type.db = '{"host":"localhost","module":"object_recognition_tabletop","name":"household_objects-0.6","password":"yujin","port":"5432","type":"ObjectDbSqlHousehold","user":"yujin"'
         req = object_recognition_srvs.GetObjectInformationRequest(object_type)
         resp = get_object_info_srv(req)
     except rospy.ServiceException, e:
