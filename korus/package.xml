@@ -12,6 +12,10 @@
 
   <run_depend>korus_meta</run_depend>
   <run_depend>korus_moveit_config</run_depend>
+  <run_depend>korus_object_recognition</run_depend>
+  <run_depend>korus_rapi</run_depend>
+  <run_depend>korus_smach</run_depend>
+  <run_depend>korus_stage</run_depend>
 
   <export>
     <metapackage/>
