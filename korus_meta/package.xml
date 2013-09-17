@@ -39,6 +39,7 @@
   <run_depend>joint_state_publisher</run_depend>
   <run_depend>navigation</run_depend>
   <run_depend>openni_launch</run_depend>
+  <run_depend>openni2_launch</run_depend>
   <run_depend>robot_state_publisher</run_depend>
   <run_depend>std_msgs</run_depend>
   

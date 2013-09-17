@@ -20,7 +20,7 @@
   <arg name="costmap_sensors"         value="hokuyo"/>
 
   <!--  ************** Korus' minimal configuration **************  -->
-  <include file="$(find korus_meta)/resources/launch/minimal_1.launch">
+  <include file="$(find korus_meta)/resources/launch/minimal.launch">
     <arg name="pot"                   value="true"/>
     <arg name="launch_hokuyo"         value="$(arg launch_hokuyo)"/>
     <arg name="launch_sonars"         value="$(arg launch_sonars)"/>
