@@ -1,0 +1,12 @@
+<!--
+  Launches the Korus' minimal configuration specific for each robot
+  
+  korus_1: Homemate 3rd prototype Nr.1, used by Yujin
+  korus_2: Homemate 3rd prototype Nr.2, used by SKKU
+  -->
+  
+<launch>
+  <arg name="robot" default="$(optenv KORUS korus_1)"/>  <!-- korus_1, korus_2 -->
+  
+  <include file="$(find korus_meta)/resources/launch/robots/$(arg robot)/minimal.launch">
+</launch>

@@ -1,0 +1,45 @@
+<!--
+  Launches the Korus' minimal configuration for Yujin's robot (#1), i.e.
+  
+  * robot core (goo, mechanism model, joint trajectory controller)
+  * sensors (...)
+  -->
+  
+<launch>
+  <arg name="pot"                       default="true"/>
+  <arg name="whole_body_control"        default="false"/>
+  <arg name="omni_base"                 default="false"/>
+  <arg name="launch_hokuyo"             default="false"/>
+  <arg name="launch_sonars"             default="false"/>
+  <arg name="launch_sensor_3d"          default="false"/>
+  <arg name="launch_stargazer"          default="false"/>
+  <arg name="launch_gripper_camera"     default="false"/>
+  <arg name="launch_gyro"               default="false"/>
+  <arg name="launch_sensor_board"       default="false"/>
+  <arg name="launch_remocon"            default="false"/>
+  
+  <group ns="korus">
+    <!--  ************* Robot core components **********  -->
+    <include file="$(find korus_meta)/resources/launch/components/robot_core.launch">
+      <arg name="simulation"            value="false"/>
+      <arg name="pot"                   value="$(arg pot)"/>
+      <arg name="whole_body_control"    value="$(arg whole_body_control)"/>
+      <arg name="omni_base"             value="$(arg omni_base)"/>
+      <arg name="korus_1"               value="false"/>
+      <arg name="korus_2"               value="true"/>
+    </include>
+    
+    <!--  ***************** Robot sensors **************  -->
+    <include file="$(find korus_meta)/resources/launch/components/sensors.launch">
+      <arg name="launch_hokuyo"         value="$(arg launch_hokuyo)"/>
+      <arg name="launch_sonars"         value="$(arg launch_sonars)"/>
+      <arg name="launch_sensor_3d"      value="$(arg launch_sensor_3d)"/>
+      <arg name="launch_stargazer"      value="$(arg launch_stargazer)"/>
+      <arg name="launch_gripper_camera" value="$(arg launch_gripper_camera)"/>
+      <arg name="launch_gyro"           value="$(arg launch_gyro)"/>
+      <arg name="launch_sensor_board"   value="$(arg launch_sensor_board)"/>
+      <arg name="launch_remocon"        value="$(arg launch_remocon)"/>
+    </include>
+  </group>
+</launch>
+
