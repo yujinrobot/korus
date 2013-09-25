@@ -226,6 +226,7 @@ motor:
     gpio_init_signal: 3, #6
     gpio_init_speed: -4.0, #4.0
     gpio_init_offset: 0, #30600
+    gpio_init_mode: 0,
 
     # Limits
     pwm_output_limit: 1344, # TODO: check!
@@ -479,7 +480,7 @@ motor:
     
     # Potentiometer initialisation
     potentiometer_init: false,
-    potentiometer_initial_value: 1808,
+    potentiometer_initial_value: 748,
     pots_per_revolution: 4500, #4384,
     
     # Gpio initialisation
@@ -541,9 +542,11 @@ motor:
     # gpio_init_speed: is the velocity it will travel up and down (take care with +- signs)
     # gpio_init_offset is the offset used for the encoder to set the 0.0 angle position.
     gpio_init: false,
-    gpio_init_gain: 0,
+    gpio_init_gain: 0.01,
     gpio_init_signal: 0,
-    gpio_init_speed: 0,
+    gpio_init_speed: -0.5,
+    gpio_init_offset: 0,
+    gpio_init_mode: 1,
 
     # Limits
     pwm_output_limit: 1344, # true for 20W goo version?
