@@ -15,7 +15,7 @@ motor:
     output_direction: +1,
      
     p_gain: 0.0025, 
-    i_gain: 0.0002, 
+    i_gain: 0.0000, 
     d_gain: 0.000, 
     
     maximum_velocity: 1000.0,
@@ -67,8 +67,8 @@ motor:
     encoder_direction: +1, 
     output_direction: -1, 
       
-    p_gain: 0.0026, 
-    i_gain: 0.0002, 
+    p_gain: 0.0025, 
+    i_gain: 0.0000, 
     d_gain: 0.000, 
     
     maximum_velocity: 1000.0,
@@ -480,7 +480,7 @@ motor:
     
     # Potentiometer initialisation
     potentiometer_init: true,
-    potentiometer_initial_value: 748,
+    potentiometer_initial_value: 650, #748,
     pots_per_revolution: 4500, #4384,
     
     # Gpio initialisation
@@ -488,10 +488,12 @@ motor:
     # gpio init gain: is the p_gain for the velocity control used
     # gpio_init_speed: is the velocity it will travel up and down (take care with +- signs)
     # gpio_init_offset is the offset used for the encoder to set the 0.0 angle position.
-    gpio_init: false,
-    gpio_init_gain: 0,
+    gpio_init: true,
+    gpio_init_gain: 0.01,
     gpio_init_signal: 0,
-    gpio_init_speed: 0,
+    gpio_init_speed: 0.5,
+    gpio_init_offset: 0,
+    gpio_init_mode: 2,
 
     # Limits
     pwm_output_limit: 1344, # true for 20W goo version?
