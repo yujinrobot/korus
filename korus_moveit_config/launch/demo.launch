@@ -1,6 +1,6 @@
 <launch>
 
-  <include file="$(find korus_moveit_config)/launch/planning_context.launch">
+  <include file="$(find korus_moveit_config)/launch/planning_context.launch.xml">
     <arg name="load_robot_description" value="true"/>
   </include>
   
@@ -18,6 +18,6 @@
     <arg name="config" value="true"/>
   </include>
 
-  <include file="$(find korus_moveit_config)/launch/default_warehouse_db.launch" />
+  <include file="$(find korus_moveit_config)/launch/default_warehouse_db.launch,xml" />
 
 </launch>
