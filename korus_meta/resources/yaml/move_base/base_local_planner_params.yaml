@@ -26,7 +26,7 @@ TrajectoryPlannerROS:
   holonomic_robot: false
 
   # Set the tolerance on achieving a goal [0.05, 0.10]
-  xy_goal_tolerance: 0.15
+  xy_goal_tolerance: 0.15 #0.15
   yaw_goal_tolerance: 0.2 #7.2
 
   # If goal tolerance is latched, if the robot ever reaches the goal xy location it 

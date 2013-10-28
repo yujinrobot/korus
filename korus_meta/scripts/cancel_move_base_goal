@@ -1,6 +1,5 @@
 #!/usr/bin/env python
 
-import roslib; roslib.load_manifest('korus_meta')
 import rospy
 from actionlib_msgs.msg import GoalStatusArray
 from actionlib_msgs.msg import GoalID
@@ -22,7 +21,7 @@ def main():
     pub = rospy.Publisher('/korus/move_base/cancel', GoalID)
     sub = rospy.Subscriber("/korus/move_base/status", GoalStatusArray, goalStatus)
     rospy.loginfo("Retrieving goal id...")
-    while not received_id:
+    while not received_id and not rospy.is_shutdown():
         rospy.loginfo("...")
         rospy.sleep(1)
     sub.unregister()

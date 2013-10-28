@@ -8,7 +8,7 @@
 <launch>
   <arg name="robot" default="$(optenv KORUS korus_1)"/>  <!-- korus_1, korus_2 -->
   <arg name="pot"                       default="true"/>
-  <arg name="whole_body_control"        default="false"/>
+  <arg name="upper_body_control"        default="false"/>
   <arg name="omni_base"                 default="false"/>
   <arg name="launch_hokuyo"             default="false"/>
   <arg name="launch_sonars"             default="false"/>
@@ -19,9 +19,9 @@
   <arg name="launch_sensor_board"       default="false"/>
   <arg name="launch_remocon"            default="false"/>
   
-  <include file="$(find korus_meta)/resources/launch/robots/$(arg robot)/minimal.launch">
+  <include file="$(find korus_meta)/resources/launch/robots/$(arg robot)/minimal.launch.xml">
     <arg name="pot"                   value="$(arg pot)"/>
-    <arg name="whole_body_control"    value="$(arg whole_body_control)"/>
+    <arg name="upper_body_control"    value="$(arg upper_body_control"/>
     <arg name="omni_base"             value="$(arg omni_base)"/>
     <arg name="launch_hokuyo"         value="$(arg launch_hokuyo)"/>
     <arg name="launch_sonars"         value="$(arg launch_sonars)"/>

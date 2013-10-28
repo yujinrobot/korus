@@ -73,6 +73,8 @@
     <remap from="mechanism_model/actuator_states" to="actuator_states"/>
 		<remap from="mechanism_model/joint_states" to="joint_states"/>
   </node>
-  <node name="robot_state_publisher" pkg="robot_state_publisher" type="robot_state_publisher"/>
+  <node name="robot_state_publisher" pkg="robot_state_publisher" type="robot_state_publisher">
+    <param name="publish_frequency" value="20.0"/>
+  </node>
 </launch>
     

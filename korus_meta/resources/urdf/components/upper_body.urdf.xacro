@@ -149,9 +149,8 @@
     <joint name="sensor_3d" type="fixed">
       <parent link="head_tilt_link"/>
       <child link="sensor_3d_link"/>
-      <!-- adds 2 deg to yaw, because the xtion is mounted on its surface which is inclined (approx. 2 deg) -->
-      <origin xyz="0.0 0.0 0.0" rpy="${-pi/2} 0 0.035"/>
-<!--       <origin xyz="0.0 0.0 0.0" rpy="${-pi/2} 0 0.0"/>  -->
+      <!-- adds to yaw, because the xtion is mounted on its surface which is inclined (approx. 2 deg) -->
+      <origin xyz="0.0 0.0 0.0" rpy="${-pi/2} 0 0.034"/>
     </joint>
     <link name="sensor_3d_link">
       <visual>
@@ -168,9 +167,16 @@
         </geometry>
       </collision>
     </link>
-    
+
+    <joint name="sensor_3d_fixed" type="fixed"> <!-- used for head pose control -->
+      <parent link="head_link"/>
+      <child link="sensor_3d_fixed_link"/>
+      <origin xyz="0.143 0.0 0.1225" rpy="0 0 0"/>
+    </joint>
+    <link name="sensor_3d_fixed_link"/>
+
     <joint name="sensor_3d_depth_joint" type="fixed">
-      <origin xyz="0.01 0.0485 0.0315" rpy="0 0.0 0" />
+      <origin xyz="0.019 0.0435 0.0315" rpy="0 0 0" />
       <parent link="sensor_3d_link" />
       <child link="sensor_3d_depth_frame" />
     </joint>
@@ -184,7 +190,8 @@
     <link name="sensor_3d_depth_optical_frame"/>
 
     <joint name="sensor_3d_rgb_joint" type="fixed">
-      <origin xyz="0.01 0.005 0.0315" rpy="0 -0.017 0" />
+<!--       <origin xyz="0.0175 0.005 0.0315" rpy="0 -0.017 0" /> already applied in the sensor_3d_link -->
+      <origin xyz="0.0 0.015 0.0315" rpy="0 0 0" /> 
       <parent link="sensor_3d_link" />
       <child link="sensor_3d_rgb_frame" />
     </joint>

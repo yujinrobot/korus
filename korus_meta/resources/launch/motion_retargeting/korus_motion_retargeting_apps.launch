@@ -1,0 +1,5 @@
+<!-- Korus motion retargeting apps launcher -->
+<launch>
+  <!-- Motion retargeting -->
+  <include file="$(find korus_motion_retargeting_controller)/launch/controller.launch"/>
+</launch>

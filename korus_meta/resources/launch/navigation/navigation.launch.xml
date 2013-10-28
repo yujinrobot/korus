@@ -32,15 +32,16 @@
     </node>
 
     <!--  ********** Localization fusion node ***********  -->
-    <include file="$(find korus_meta)/resources/launch/components/localize_ekf.launch">
-      <arg name="initial_pose_x"   value="$(arg initial_pose_x)"/>
-      <arg name="initial_pose_y"   value="$(arg initial_pose_y)"/>
-      <arg name="initial_pose_yaw" value="$(arg initial_pose_a)"/>
-    </include>
+<!--     <include file="$(find korus_meta)/resources/launch/components/localize_ekf.launch"> -->
+<!--       <arg name="initial_pose_x"   value="$(arg initial_pose_x)"/> -->
+<!--       <arg name="initial_pose_y"   value="$(arg initial_pose_y)"/> -->
+<!--       <arg name="initial_pose_yaw" value="$(arg initial_pose_a)"/> -->
+<!--     </include> -->
 
     <!--  ******************** Amcl ********************  -->
     <include file="$(find korus_meta)/resources/launch/components/amcl.launch">
-      <arg name="tf_broadcast" value="false"/>
+<!--       <arg name="tf_broadcast" value="false"/> -->
+      <arg name="tf_broadcast" value="true"/>
       
       <arg name="initial_pose_x" value="$(arg initial_pose_x)"/>
       <arg name="initial_pose_y" value="$(arg initial_pose_y)"/>
@@ -48,11 +49,11 @@
     </include>
 
     <!--  ***** Stargazer map node in localize mode *****  -->
-    <include file="$(find korus_meta)/resources/launch/components/stargz_map.launch">
-      <arg name="landmarks_file_path" value="$(arg map_name).stgz"/>
-      <arg name="operation_mode" value="1"/>
-      <arg name="simulation" value="$(arg simulation)"/>
-      </include>
+<!--     <include file="$(find korus_meta)/resources/launch/components/stargz_map.launch"> -->
+<!--       <arg name="landmarks_file_path" value="$(arg map_name).stgz"/> -->
+<!--       <arg name="operation_mode" value="1"/> -->
+<!--       <arg name="simulation" value="$(arg simulation)"/> -->
+<!--       </include> -->
 
     <!--  *************** Remote control ****************  -->
     <include file="$(find korus_meta)/resources/launch/components/remote_ctrl.launch"/>

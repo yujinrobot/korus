@@ -4,7 +4,7 @@
 
 <launch>
   <node pkg="nodelet" type="nodelet" name="upper_body_controller" args="load ycs_joint_trajectory_controller/JointTrajectoryControllerNodelet robot_core">
-    <rosparam file="$(find korus_meta)/resources/yaml/controllers/korus_v3_upper_body_controller.yaml" command="load" />
+    <rosparam file="$(find korus_meta)/resources/yaml/controllers/upper_body_controller.yaml" command="load" />
     <!-- param remaps -->
     <remap from="upper_body_controller/joint_names" to = "mechanism_model/joint_groups/upper_body"/>
     <remap from="upper_body_controller/joints" to = "mechanism_model/joints"/>

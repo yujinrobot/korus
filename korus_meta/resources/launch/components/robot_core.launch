@@ -12,7 +12,7 @@
 <launch>
   <arg name="simulation"/>
   <arg name="pot"/>
-  <arg name="whole_body_control"/>
+  <arg name="upper_body_control"/>
   <arg name="omni_base"/>
   <arg name="position_controlled_base" value="false" unless="$(arg omni_base)"/>
   <arg name="position_controlled_base" value="true" if="$(arg omni_base)"/>
@@ -43,11 +43,8 @@
   <include file="$(find korus_meta)/resources/launch/components/robot_core/base_controller.launch">
     <arg name="simulation" value="$(arg simulation)"/>
   </include>
-  <include unless="$(arg whole_body_control)" file="$(find korus_meta)/resources/launch/components/robot_core/arm_controller.launch"/>
-  <include unless="$(arg whole_body_control)" file="$(find korus_meta)/resources/launch/components/robot_core/gripper_controller.launch"/>
-  <include unless="$(arg whole_body_control)" file="$(find korus_meta)/resources/launch/components/robot_core/head_controller.launch"/>
-<!--   <include unless="$(arg whole_body_control)" file="$(find korus_meta)/resources/launch/components/robot_core/korus_v3/upper_body_controller.launch"/> -->
-<!--   <include if="$(arg whole_body_control)" file="$(find korus_meta)/resources/launch/components/robot_core/korus_v3/whole_body_controller.launch"> -->
-<!--     <arg name="kinematics_base" value="$(arg kinematics_base)"/> -->
-<!--   </include> -->
+  <include unless="$(arg upper_body_control)" file="$(find korus_meta)/resources/launch/components/robot_core/arm_controller.launch"/>
+  <include unless="$(arg upper_body_control)" file="$(find korus_meta)/resources/launch/components/robot_core/gripper_controller.launch"/>
+  <include unless="$(arg upper_body_control)" file="$(find korus_meta)/resources/launch/components/robot_core/head_controller.launch"/>
+  <include if="$(arg upper_body_control)" file="$(find korus_meta)/resources/launch/components/robot_core/upper_body_controller.launch"/>
 </launch>

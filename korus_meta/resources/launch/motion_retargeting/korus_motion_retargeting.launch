@@ -1,0 +1,12 @@
+<!--
+  Motion retargeting setup for Korus
+  
+  Combined launcher for the minimal config and the apps.
+ -->
+<launch>
+  <!--  ************** Korus' minimal configuration **************  -->
+  <include file="$(find korus_meta)/resources/launch/motion_retargeting/motion_retargeting_minimal.launch"/>
+
+  <!--  ************** Korus' motion retargeting apps **************  -->
+  <include file="$(find korus_meta)/resources/launch/motion_retargeting/motion_retargeting_apps.launch"/>
+</launch>
