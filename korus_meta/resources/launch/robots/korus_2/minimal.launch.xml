@@ -7,7 +7,7 @@
   
 <launch>
   <arg name="pot"                       default="true"/>
-  <arg name="whole_body_control"        default="false"/>
+  <arg name="upper_body_control"        default="false"/>
   <arg name="omni_base"                 default="false"/>
   <arg name="launch_hokuyo"             default="false"/>
   <arg name="launch_sonars"             default="false"/>
@@ -23,7 +23,7 @@
     <include file="$(find korus_meta)/resources/launch/components/robot_core.launch">
       <arg name="simulation"            value="false"/>
       <arg name="pot"                   value="$(arg pot)"/>
-      <arg name="whole_body_control"    value="$(arg whole_body_control)"/>
+      <arg name="whole_body_control"    value="$(arg upper_body_control)"/>
       <arg name="omni_base"             value="$(arg omni_base)"/>
       <arg name="korus_1"               value="false"/>
       <arg name="korus_2"               value="true"/>

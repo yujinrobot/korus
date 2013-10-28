@@ -21,7 +21,7 @@
   
   <include file="$(find korus_meta)/resources/launch/robots/$(arg robot)/minimal.launch.xml">
     <arg name="pot"                   value="$(arg pot)"/>
-    <arg name="upper_body_control"    value="$(arg upper_body_control"/>
+    <arg name="upper_body_control"    value="$(arg upper_body_control)"/>
     <arg name="omni_base"             value="$(arg omni_base)"/>
     <arg name="launch_hokuyo"         value="$(arg launch_hokuyo)"/>
     <arg name="launch_sonars"         value="$(arg launch_sonars)"/>

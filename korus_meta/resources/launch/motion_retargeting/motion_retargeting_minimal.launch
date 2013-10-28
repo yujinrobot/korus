@@ -12,7 +12,6 @@
   <arg name="launch_sonars"           value="false"/>
   <arg name="launch_sensor_3d"        value="false"/>
   <arg name="launch_stargazer"        value="false"/>
-  <arg name="launch_stargazer"        value="false"/>
   <arg name="launch_gripper_camera"   value="false"/>
   <arg name="launch_gyro"             value="false"/>
   <arg name="launch_sensor_board"     value="false"/>
@@ -31,4 +30,4 @@
     <arg name="launch_sensor_board"   value="$(arg launch_sensor_board)"/>
     <arg name="launch_remocon"        value="$(arg launch_remocon)"/>
   </include>
-</laun
+</launch>
