@@ -1,3 +1,0 @@
-#!/bin/sh
-
-rostopic pub /robot_core/disable -1 std_msgs/String all
