@@ -17,7 +17,7 @@
  -->
 <launch>
   <!-- Parameters for move base -->
-  <arg name="costmap_sensors" value="hokuyo"/>
+  <arg name="costmap_sensors" value="hokuyo virtual"/>
 
   <!-- Name of the map to use (without extension) and initial position -->
   <arg name="map_name"        default="6th_floor_plan"/>

@@ -28,7 +28,7 @@ lethal_cost_threshold: 100
 
 # Configuration for the sensors that the costmap will use to update a map
 # Note that this list will probably be be changed at launch time
-observation_sources: hokuyo 3d_cam sonars
+observation_sources: hokuyo sensor_3d sonars virtual
 
 hokuyo: {sensor_frame: /laser_link, data_type: LaserScan, expected_update_rate: 1.0, topic: /korus/base_scan, 
   observation_persistence: 0.0, marking: true, clearing: true, max_obstacle_height: 1.4, min_obstacle_height: 0.08}
@@ -38,3 +38,6 @@ sonars: {sensor_frame: /base_link, data_type: PointCloud2, expected_update_rate:
 
 sensor_3d: {sensor_frame: /sensor_3d_link, data_type: PointCloud2, expected_update_rate: 1.0, topic: /korus/pointcloud, 
   observation_persistence: 0.0, marking: true, clearing: true, max_obstacle_height: 1.4, min_obstacle_height: 0.1}
+
+virtual: {sensor_frame: /torso_link, data_type: LaserScan, expected_update_rate: 1.0, topic: /korus/virtual_sensor_scan, 
+  observation_persistence: 0.0, marking: true, clearing: true, max_obstacle_height: 1.4, min_obstacle_height: 0.08}

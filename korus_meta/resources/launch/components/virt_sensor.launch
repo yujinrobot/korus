@@ -1,0 +1,22 @@
+<!--
+ Virtual sensor that uses semantic map information to "see" throat-cutting tables
+ and other nasty invisible obstacles.
+-->
+<launch>
+  <node name="virtual_sensor" pkg="yocs_virtual_sensor" type="yocs_virtual_sensor_node" output="screen">
+    <param name="range_min"    value="0.0"/>
+    <param name="range_max"    value="6.0"/>
+    <param name="frequency"    value="10.0"/>
+    <param name="hits_count"   value="3"/>
+    <param name="global_frame" value="/map"/>
+    <param name="sensor_frame" value="/torso_link"/>
+  </node>
+
+  <!-- Current implementation cannot read obstacles from file, so we must publish them in auxiliary scripts -->
+  <node name="wall_publisher" pkg="yocs_virtual_sensor" type="wall_publisher.py" output="screen">
+    <param name="filename" type="string" value="$(find yocs_virtual_sensor)/data/wall_list.yaml"/>
+  </node>
+  <node name="column_publisher" pkg="yocs_virtual_sensor" type="column_publisher.py" output="screen">
+    <param name="filename" type="string" value="$(find yocs_virtual_sensor)/data/column_list.yaml"/>
+  </node>
+</launch>

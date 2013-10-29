@@ -162,6 +162,10 @@ Visualization Manager:
           Alpha: 1
           Show Axes: false
           Show Trail: false
+        sensor_3d_fixed_link:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
         sensor_3d_link:
           Alpha: 1
           Show Axes: false
@@ -321,6 +325,8 @@ Visualization Manager:
           Value: true
         sensor_3d_depth_optical_frame:
           Value: true
+        sensor_3d_fixed_link:
+          Value: true
         sensor_3d_link:
           Value: true
         sensor_3d_rgb_frame:
@@ -408,6 +414,8 @@ Visualization Manager:
                               sensor_3d_rgb_frame:
                                 sensor_3d_rgb_optical_frame:
                                   {}
+                        sensor_3d_fixed_link:
+                          {}
                         stargazer_link:
                           {}
                       tablet_link:
@@ -469,6 +477,35 @@ Visualization Manager:
       Use rainbow: true
       Value: true
     - Alpha: 1
+      Autocompute Intensity Bounds: true
+      Autocompute Value Bounds:
+        Max Value: 10
+        Min Value: -10
+        Value: true
+      Axis: Z
+      Channel Name: intensity
+      Class: rviz/LaserScan
+      Color: 255; 255; 255
+      Color Transformer: FlatColor
+      Decay Time: 0
+      Enabled: true
+      Invert Rainbow: false
+      Max Color: 255; 255; 255
+      Max Intensity: 4096
+      Min Color: 0; 0; 0
+      Min Intensity: 0
+      Name: Virtual sensor
+      Position Transformer: XYZ
+      Queue Size: 10
+      Selectable: true
+      Size (Pixels): 3
+      Size (m): 0.01
+      Style: Flat Squares
+      Topic: /korus/virtual_sensor_scan
+      Use Fixed Frame: true
+      Use rainbow: true
+      Value: true
+    - Alpha: 1
       Buffer Length: 1
       Class: rviz/Path
       Color: 255; 252; 69
@@ -519,42 +556,7 @@ Visualization Manager:
       Marker Topic: /korus/stargazer/landmarks
       Name: Stargazer landmarks
       Namespaces:
-        landmark 1088: true
-        landmark 1152: true
-        landmark 16448: true
-        landmark 192: true
-        landmark 2112: true
-        landmark 320: true
-        landmark 3314: true
-        landmark 3316: true
-        landmark 3318: true
-        landmark 3328: true
-        landmark 3330: true
-        landmark 3332: true
-        landmark 3334: true
-        landmark 3344: true
-        landmark 3346: true
-        landmark 3348: true
-        landmark 3350: true
-        landmark 3360: true
-        landmark 3362: true
-        landmark 3364: true
-        landmark 3366: true
-        landmark 3376: true
-        landmark 3378: true
-        landmark 384: true
-        landmark 4038: true
-        landmark 4048: true
-        landmark 4050: true
-        landmark 4052: true
-        landmark 4054: true
-        landmark 4064: true
-        landmark 4080: true
-        landmark 4082: true
-        landmark 576: true
-        landmark 640: true
-        landmark 8194: true
-        landmark 8256: true
+        {}
       Queue Size: 100
       Value: true
     - Arrow Length: 0.3
@@ -602,6 +604,22 @@ Visualization Manager:
       Use Fixed Frame: true
       Use rainbow: true
       Value: true
+    - Class: rviz/MarkerArray
+      Enabled: true
+      Marker Topic: /korus/column_marker
+      Name: Column markers
+      Namespaces:
+        column_obstacles: true
+      Queue Size: 100
+      Value: true
+    - Class: rviz/MarkerArray
+      Enabled: true
+      Marker Topic: /korus/wall_marker
+      Name: Wall markers
+      Namespaces:
+        wall_obstacles: true
+      Queue Size: 100
+      Value: true
   Enabled: true
   Global Options:
     Background Color: 48; 48; 48
@@ -625,18 +643,15 @@ Visualization Manager:
   Value: true
   Views:
     Current:
-      Class: rviz/Orbit
-      Distance: 11.5559
-      Focal Point:
-        X: 2.65081
-        Y: 1.20815
-        Z: 0.243353
+      Angle: 0
+      Class: rviz/TopDownOrtho
       Name: Current View
       Near Clip Distance: 0.01
-      Pitch: 1.5698
+      Scale: 85.1389
       Target Frame: <Fixed Frame>
-      Value: Orbit (rviz)
-      Yaw: 4.70043
+      Value: TopDownOrtho (rviz)
+      X: 6.98392
+      Y: 2.47473
     Saved: ~
 Window Geometry:
   Displays:

@@ -35,6 +35,7 @@
   <!-- Yujin ocs -->
   <run_depend>yocs_cmd_vel_mux</run_depend>
   <run_depend>yocs_velocity_smoother</run_depend>
+  <run_depend>yocs_virtual_sensor</run_depend>
 
   <!-- ROS -->
   <run_depend>control_msgs</run_depend>

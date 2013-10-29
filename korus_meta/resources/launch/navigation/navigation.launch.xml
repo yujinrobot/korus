@@ -18,6 +18,9 @@
 
   <group ns="korus">
 
+    <!--  *************** Virtual sensor ***************  -->
+    <include file="$(find korus_meta)/resources/launch/components/virt_sensor.launch"/>
+
     <!--  ************** Rosnav move base **************  -->
     <include file="$(find korus_meta)/resources/launch/components/move_base.launch">
       <arg name="costmap_sensors" value="$(arg costmap_sensors)"/>

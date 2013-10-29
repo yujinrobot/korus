@@ -48,7 +48,7 @@ floorplan
 # throw in a robot
 korus
 (
-  pose [ 1.0 1.0 0.0 0.0 ]
+  pose [ 3.0 1.0 0.0 0.0 ]
   name "korus"
   color "gray"
   gui_nose 1
