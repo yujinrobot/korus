@@ -1,0 +1,3 @@
+#!/bin/sh
+
+rostopic pub /robot_core/enable -1 std_msgs/String all

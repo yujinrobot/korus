@@ -1,0 +1,20 @@
+<?xml version="1.0"?>
+<package>
+  <name>korus_scripts</name>
+  <version>0.0.1</version>
+  <description>Collection of scripts for Korus</description>
+  <author email="marcus.liebhardt@yujinrobot.com">Marcus Liebhardt</author>
+  <author email="jorge@yujinrobot.com">Jorge Santos</author>
+  <maintainer email="marcus.liebhardt@yujinrobot.com">Marcus Liebhardt</maintainer>
+  <license>BSD</license>
+
+  <url type="bugtracker">https://github.com/yujinrobot/korus/issues</url>
+  <url type="repository">https://github.com/yujinrobot/korus</url>
+  <url type="website">http://ros.org/wiki/korus_scripts</url>
+
+  <buildtool_depend>catkin</buildtool_depend>
+  
+  <run_depend>actionlib_msgs</run_depend>
+  <run_depend>std_msgs</run_depend>
+  <run_depend>actionlib_msgs</run_depend>
+</package>
