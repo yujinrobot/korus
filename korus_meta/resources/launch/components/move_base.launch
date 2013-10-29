@@ -8,9 +8,7 @@
   <node pkg="move_base" type="move_base" respawn="false" name="move_base_node">
 
     <!--  Remappings -->
-    <!-- <remap from="odom" to="/korus/odom"/> -->
     <remap from="cmd_vel" to="navigation_vel_smoother/raw_cmd_vel"/>
-    <!-- <remap from="base_scan" to="/korus/base_scan"/> -->
     
     <!--  Parameters -->
     <rosparam file="$(find korus_meta)/resources/yaml/move_base/move_base.yaml" command="load"/>
