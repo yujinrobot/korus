@@ -51,7 +51,7 @@
     <!--  ******* Velocity commands multiplexer *******  -->
     <!-- Nodelet manager name must be robot_core as vel smoother will be loaded there -->
     <node pkg="nodelet" type="nodelet" name="robot_core" args="manager"/>
-    <node pkg="nodelet" type="nodelet" name="cmd_vel_mux" args="load cmd_vel_mux/CmdVelMuxNodelet robot_core">
+    <node pkg="nodelet" type="nodelet" name="cmd_vel_mux" args="load yocs_cmd_vel_mux/CmdVelMuxNodelet robot_core">
       <param name="yaml_cfg_file" value="$(find korus_meta)/resources/yaml/mobile_base/vel_multiplexer.yaml"/>
       <remap from="cmd_vel_mux/output/cmd_vel" to="cmd_vel"/>
     </node>
