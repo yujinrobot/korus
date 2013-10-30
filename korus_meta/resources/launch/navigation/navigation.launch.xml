@@ -52,11 +52,11 @@
     </include>
 
     <!--  ***** Stargazer map node in localize mode *****  -->
-<!--     <include file="$(find korus_meta)/resources/launch/components/stargz_map.launch"> -->
-<!--       <arg name="landmarks_file_path" value="$(arg map_name).stgz"/> -->
-<!--       <arg name="operation_mode" value="1"/> -->
-<!--       <arg name="simulation" value="$(arg simulation)"/> -->
-<!--       </include> -->
+    <include file="$(find korus_meta)/resources/launch/components/stargz_map.launch">
+      <arg name="landmarks_file_path" value="$(arg map_name).stgz"/>
+      <arg name="operation_mode" value="1"/>
+      <arg name="simulation" value="$(arg simulation)"/>
+    </include>
 
     <!--  *************** Remote control ****************  -->
     <include file="$(find korus_meta)/resources/launch/components/remote_ctrl.launch"/>
