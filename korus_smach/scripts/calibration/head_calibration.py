@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 from korus_smach.pick_and_place_tools import misc_tools
-from korus_smach.state_machines import head_calibration
+from korus_smach.state_machines import head_calibration_sm
 from korus_smach.state_machines.state_machines_imports import *
 
 

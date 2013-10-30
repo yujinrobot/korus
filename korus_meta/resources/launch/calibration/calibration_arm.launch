@@ -1,0 +1,8 @@
+<!--
+  Launches the arm calibration script for Korus
+ -->
+<launch>
+  <group ns="korus">
+    <node pkg="korus_smach" type="arm_calibration.py" name="korus_arm_calibration"/>
+  </group>
+</launch>
