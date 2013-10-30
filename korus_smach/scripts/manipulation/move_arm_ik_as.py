@@ -104,6 +104,7 @@ def main():
                                misc_tools.MoveItErrorCodesParser(),
                                transitions={'success':'EnableMotors',
                                             'no_ik_solution':'error',
+                                            'planning_failed':'error',
                                             'parsed':'error'},
                                remapping={'result':'result',
                                           'error_code':'error_code'})
@@ -145,6 +146,7 @@ def main():
                                misc_tools.MoveItErrorCodesParser(),
                                transitions={'success':'EnableMotors',
                                             'no_ik_solution':'PrepareIKSeedDefaultState',
+                                            'planning_failed':'error',
                                             'parsed':'error'},
                                remapping={'result':'result',
                                           'error_code':'error_code'})
@@ -186,6 +188,7 @@ def main():
                                misc_tools.MoveItErrorCodesParser(),
                                transitions={'success':'EnableMotors',
                                             'no_ik_solution':'PrepareIKSeedBottomState',
+                                            'planning_failed':'error',
                                             'parsed':'error'},
                                remapping={'result':'result',
                                           'error_code':'error_code'})
@@ -227,6 +230,7 @@ def main():
                                misc_tools.MoveItErrorCodesParser(),
                                transitions={'success':'EnableMotors',
                                             'no_ik_solution':'error',
+                                            'planning_failed':'error',
                                             'parsed':'error'},
                                remapping={'result':'result',
                                           'error_code':'error_code'})

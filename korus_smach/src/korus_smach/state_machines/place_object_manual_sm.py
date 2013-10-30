@@ -15,6 +15,8 @@ class Prepare(smach.State):
                                          'pre_place_dist',
                                          'pre_place_height',
                                          'place_dist',
+                                         'place_height',
+                                         'post_place_dist',
                                          'post_place_height',
                                          'collision_object'],
                              output_keys=['pre_place_pose',
@@ -33,28 +35,29 @@ class Prepare(smach.State):
         pitch = 0.0
         quat = tf.transformations.quaternion_from_euler(roll, pitch, yaw)
         
+        place_heigth = userdata.place_pose.pose.position.z
         userdata.pre_place_pose.pose.position.x = (dist - userdata.pre_place_dist) * math.cos(angle)
         userdata.pre_place_pose.pose.position.y = (dist - userdata.pre_place_dist) * math.sin(angle)
-        userdata.pre_place_pose.pose.position.z = userdata.place_pose.pose.position.z + userdata.pre_place_height
+        userdata.pre_place_pose.pose.position.z = place_heigth + userdata.pre_place_height
         userdata.pre_place_pose.pose.orientation = geometry_msgs.Quaternion(*quat)
         userdata.place_pose.pose.position.x = (dist - userdata.place_dist) * math.cos(angle)
         userdata.place_pose.pose.position.y = (dist - userdata.place_dist) * math.sin(angle)
-        userdata.place_pose.pose.position.z = userdata.place_pose.pose.position.z + userdata.pre_place_height
+        userdata.place_pose.pose.position.z = place_heigth + userdata.place_height
         userdata.place_pose.pose.orientation = geometry_msgs.Quaternion(*quat)
-        userdata.post_place_pose.pose.position.x = (dist - userdata.place_dist) * math.cos(angle)
-        userdata.post_place_pose.pose.position.y = (dist - userdata.place_dist) * math.sin(angle)
-        userdata.post_place_pose.pose.position.z = userdata.place_pose.pose.position.z + userdata.post_place_height
+        userdata.post_place_pose.pose.position.x = (dist - userdata.post_place_dist) * math.cos(angle)
+        userdata.post_place_pose.pose.position.y = (dist - userdata.post_place_dist) * math.sin(angle)
+        userdata.post_place_pose.pose.position.z = place_heigth + userdata.post_place_height
         userdata.post_place_pose.pose.orientation = geometry_msgs.Quaternion(*quat)
         
         userdata.collision_object.header = userdata.place_pose.header
         userdata.collision_object.mesh_poses[0] = userdata.place_pose.pose
         
         rospy.loginfo('Pre place pose:')
-        rospy.loginfo(userdata.pre_place_pose.pose)
-        rospy.loginfo('place pose:')
-        rospy.loginfo(userdata.place_pose.pose)
+        rospy.loginfo(userdata.pre_place_pose)
+        rospy.loginfo('Place pose:')
+        rospy.loginfo(userdata.place_pose)
         rospy.loginfo('Post place pose:')
-        rospy.loginfo(userdata.post_place_pose.pose)
+        rospy.loginfo(userdata.post_place_pose)
         return 'prepared'
 
 
@@ -67,6 +70,8 @@ def createSM():
                                         'pre_place_dist',
                                         'pre_place_height',
                                         'place_dist',
+                                        'place_height',
+                                        'post_place_dist',
                                         'post_place_height',
                                         'collision_object',
                                         'angle_gripper_opened',
@@ -80,6 +85,7 @@ def createSM():
         sm.userdata.post_place_pose = geometry_msgs.PoseStamped()
         sm.userdata.true = True
         sm.userdata.false = False
+        sm.userdata.wait_2sec = 2.0
         
         smach.StateMachine.add('Prepare',
                                Prepare(),
@@ -89,9 +95,11 @@ def createSM():
                                           'pre_place_dist':'pre_place_dist',
                                           'pre_place_height':'pre_place_height',
                                           'place_dist':'place_dist',
+                                          'place_height':'place_height',
+                                          'post_place_dist':'post_place_dist',
                                           'post_place_height':'post_place_height',
                                           'collision_object':'collision_object'},
-                               transitions={'prepared':'placed'})
+                               transitions={'prepared':'MoveArmPrePlace'})
         
         smach.StateMachine.add('MoveArmPrePlace',
                                SimpleActionState('move_arm_planner',
@@ -149,6 +157,11 @@ def createSM():
                                misc_tools.AttachObjectToRobot(),
                                remapping={'collision_object':'collision_object',
                                           'attach':'false'},
+                               transitions={'done':'WaitForObjectDetached'})
+        
+        smach.StateMachine.add('WaitForObjectDetached',
+                               misc_tools.Wait(),
+                               remapping={'duration':'wait_2sec'},
                                transitions={'done':'MoveArmDefault'})
 
         smach.StateMachine.add('MoveArmDefault',

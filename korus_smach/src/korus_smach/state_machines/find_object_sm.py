@@ -81,12 +81,14 @@ def createSM():
                                         output_keys=['recognised_objects',
                                                      'object_names',
                                                      'objects_info',
+                                                     'tabletop_centre_pose',
                                                      'error_message',
                                                      'error_code',
                                                      'tf_listener'])
     with sm_find_object:
         # move head
         sm_find_object.userdata.motors = ['head_pan', 'head_tilt']
+        sm_find_object.userdata.tabletop_centre_pose = geometry_msgs.PoseStamped()
         sm_find_object.userdata.pose_bottom_left = geometry_msgs.PoseStamped()
         sm_find_object.userdata.pose_bottom_left.header.stamp = rospy.Time.now()
         sm_find_object.userdata.pose_bottom_left.header.frame_id = "base_footprint"
@@ -136,14 +138,31 @@ def createSM():
         # wait
         sm_find_object.userdata.wait_0sec = 0.0
         sm_find_object.userdata.wait_1sec = 1.0
+        sm_find_object.userdata.wait_2sec = 2.0
         sm_find_object.userdata.wait_3sec = 3.0
         sm_find_object.userdata.wait_5sec = 5.0
         sm_find_object.userdata.wait_10sec = 10.0
         # reset TryAgain
         sm_find_object.userdata.reset_true = True
         sm_find_object.userdata.reset_false = False
-        
+        # reset TryAgain
+        sm_find_object.userdata.reset_true = True
+        sm_find_object.userdata.reset_false = False
         sm_find_object.userdata.objects_info = []
+        # 3D sensor modes
+        sm_find_object.userdata.color_mode_high_res = 5
+        sm_find_object.userdata.depth_mode_high_res = sm_find_object.userdata.color_mode_high_res
+        sm_find_object.userdata.ir_mode_high_res = sm_find_object.userdata.color_mode_high_res
+        sm_find_object.userdata.color_mode_low_res = 8
+        sm_find_object.userdata.depth_mode_low_res = sm_find_object.userdata.color_mode_low_res
+        sm_find_object.userdata.ir_mode_low_res = sm_find_object.userdata.color_mode_low_res
+        
+        smach.StateMachine.add('EnableHighResPointCloud',
+                               misc_tools.change3DSensorDriverMode(),
+                               transitions={'done':'EnableMotors'},
+                               remapping={'color_mode':'color_mode_high_res',
+                                          'depth_mode':'depth_mode_high_res',
+                                          'ir_mode':'ir_mode_high_res'})
         
         smach.StateMachine.add('EnableMotors',
                                misc_tools.EnableMotors(),
@@ -310,7 +329,7 @@ def createSM():
                                            'error_code':'error_code',
                                            'error_message':'error_message',
                                            'tf_listener':'tf_listener'},
-                                transitions={'succeeded':'GetObjectMeshes',
+                                transitions={'succeeded':'DisableHighResPointCloudSuccess',
                                              'no_objects_found':'TryAgain',
                                              'preempted':'preempted',
                                              'aborted':'aborted'})
@@ -324,7 +343,21 @@ def createSM():
                                             'top_right':'MoveHeadTopRight',
                                             'top_centre':'MoveHeadTopCentre',
                                             'top_left':'MoveHeadTopLeft',
-                                            'done':'no_objects_found'})
+                                            'done':'DisableHighResPointCloudNoSuccess'})
+        
+        smach.StateMachine.add('DisableHighResPointCloudNoSuccess',
+                               misc_tools.change3DSensorDriverMode(),
+                               transitions={'done':'no_objects_found'},
+                               remapping={'color_mode':'color_mode_low_res',
+                                          'depth_mode':'depth_mode_low_res',
+                                          'ir_mode':'ir_mode_low_res'})
+        
+        smach.StateMachine.add('DisableHighResPointCloudSuccess',
+                               misc_tools.change3DSensorDriverMode(),
+                               transitions={'done':'GetObjectMeshes'},
+                               remapping={'color_mode':'color_mode_low_res',
+                                          'depth_mode':'depth_mode_low_res',
+                                          'ir_mode':'ir_mode_low_res'})
         
         smach.StateMachine.add('GetObjectMeshes',
                                object_recognition.GetObjectInformation(),
@@ -341,10 +374,17 @@ def createSM():
                                           'objects_info':'objects_info',
                                           'error_message':'error_message',
                                           'error_code':'error_code'},
-                               transitions={'done':'WaitForObjectsAdded'})
+                               transitions={'done':'AddTableToPlanningScene'})
+        
+        smach.StateMachine.add('AddTableToPlanningScene',
+                               object_recognition.GetTable(),
+                               remapping={'tabletop_centre_pose':'tabletop_centre_pose',
+                                          'tf_listener':'tf_listener'},
+                               transitions={'table_added':'WaitForObjectsAdded',
+                                            'no_table_added':'aborted'})
         
         smach.StateMachine.add('WaitForObjectsAdded', misc_tools.Wait(),
-                               remapping={'duration':'wait_5sec'},
+                               remapping={'duration':'wait_2sec'},
                                transitions={'done':'object_found'})
         
 #        smach.StateMachine.add('MoveHeadCentreObjectsFound',

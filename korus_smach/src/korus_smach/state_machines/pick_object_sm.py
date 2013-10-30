@@ -7,12 +7,12 @@ import smach_ros
 from smach_ros import SimpleActionState
 import tf
 
+import actionlib_msgs.msg as actionlib_msgs
 import geometry_msgs.msg as geometry_msgs
-import manipulation_msgs.msg as manipulation_msgs
 import moveit_msgs.msg as moveit_msgs
 import pick_and_place_msgs.msg as pick_and_place_msgs
-import sensor_msgs.msg as sensor_msgs
-
+#import sensor_msgs.msg as sensor_msgs
+import trajectory_msgs.msg as trajectory_msgs
 
 
 class Prepare(smach.State):
@@ -45,42 +45,41 @@ def pickGoalCb(userdata, goal):
     goal.target_name = userdata.object_name
     goal.group_name = "arm"
     goal.end_effector = "gripper"
-    grasp = manipulation_msgs.Grasp()
+    grasp = moveit_msgs.Grasp()
     grasp.id = "front_grasp"
     grasp.pre_grasp_posture.header.stamp = rospy.Time.now()
     grasp.pre_grasp_posture.header.frame_id = "gripper_link"
-    grasp.pre_grasp_posture.name.append("gripper")
-    grasp.pre_grasp_posture.position.append(1.3)
-    grasp.pre_grasp_posture.velocity.append(0.0)
-    grasp.pre_grasp_posture.effort.append(0.0)
-#    gripper_state = sensor_msgs.JointState()
+    grasp.pre_grasp_posture.joint_names.append("gripper")
+    grasp_opened = trajectory_msgs.JointTrajectoryPoint()
+    grasp_opened.positions.append(1.3)
+    grasp_opened.velocities.append(0.0)
+    grasp_opened.accelerations.append(0.0)
+    grasp.pre_grasp_posture.points.append(grasp_opened)
     grasp.grasp_posture.header.stamp = grasp.pre_grasp_posture.header.stamp
     grasp.grasp_posture.header.frame_id = grasp.pre_grasp_posture.header.frame_id
-    grasp.grasp_posture.name.append("gripper")
-    grasp.grasp_posture.position.append(0.2)
-    grasp.grasp_posture.velocity.append(0.0)
-    grasp.grasp_posture.effort.append(0.0)
+    grasp.grasp_posture.joint_names.append("gripper")
+    grasp_closed = trajectory_msgs.JointTrajectoryPoint()
+    grasp_closed.positions.append(0.2)
+    grasp_closed.velocities.append(0.0)
+    grasp_closed.accelerations.append(0.0)
+    grasp.grasp_posture.points.append(grasp_closed)
     grasp.grasp_pose = userdata.object_pose
     print 'grasp pose'
     print grasp.grasp_pose
     grasp.grasp_quality = 1.0
-    gripper_trans_approach = manipulation_msgs.GripperTranslation()
-    gripper_trans_approach.direction.header.stamp = grasp.pre_grasp_posture.header.stamp
-    gripper_trans_approach.direction.header.frame_id = "palm_link"
-    gripper_trans_approach.direction.vector.x = 1.0
-    gripper_trans_approach.direction.vector.y = 0.0
-    gripper_trans_approach.direction.vector.z = 0.0
-    gripper_trans_approach.desired_distance = 0.10
-    gripper_trans_approach.min_distance = 0.08
-    grasp.approach = gripper_trans_approach
-    gripper_trans_retreat = manipulation_msgs.GripperTranslation()
-    gripper_trans_retreat.direction.header = gripper_trans_approach.direction.header
-    gripper_trans_retreat.direction.vector.x = 0.0
-    gripper_trans_retreat.direction.vector.y = 1.0
-    gripper_trans_retreat.direction.vector.z = 0.0
-    gripper_trans_retreat.desired_distance = 0.07
-    gripper_trans_retreat.min_distance = 0.05
-    grasp.retreat = gripper_trans_retreat
+    grasp.pre_grasp_approach.direction.header.stamp = grasp.pre_grasp_posture.header.stamp
+    grasp.pre_grasp_approach.direction.header.frame_id = "palm_link"
+    grasp.pre_grasp_approach.direction.vector.x = 1.0
+    grasp.pre_grasp_approach.direction.vector.y = 0.0
+    grasp.pre_grasp_approach.direction.vector.z = 0.0
+    grasp.pre_grasp_approach.desired_distance = 0.10
+    grasp.pre_grasp_approach.min_distance = 0.08
+    grasp.post_grasp_retreat.direction.header = grasp.pre_grasp_approach.direction.header
+    grasp.post_grasp_retreat.direction.vector.x = 0.0
+    grasp.post_grasp_retreat.direction.vector.y = 1.0
+    grasp.post_grasp_retreat.direction.vector.z = 0.0
+    grasp.post_grasp_retreat.desired_distance = 0.07
+    grasp.post_grasp_retreat.min_distance = 0.05
     grasp.max_contact_force = 0.0 # disabled
 #    grasp.allowed_touch_objects.append("all") # optional
     goal.possible_grasps.append(grasp)
@@ -103,7 +102,10 @@ def pickResultCb(userdata, status, result):
     rospy.loginfo('Pickup status: ' + str(status))
 #    rospy.loginfo('Pickup result:')
 #    rospy.loginfo(result)
-    return 'succeeded'
+    if status == actionlib_msgs.GoalStatus.SUCCEEDED:
+        return 'succeeded'
+    else:
+        return 'aborted'
 
 def createSM():
     

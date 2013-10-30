@@ -1,4 +1,5 @@
 #!/usr/bin/env python
+import dynamic_reconfigure.client
 import tf
 from korus_smach.state_machines.state_machines_imports import *
 from korus_smach.pick_and_place_tools.msg_imports import *
@@ -61,6 +62,7 @@ class AddObjectsToPlanningScene(smach.State):
         self._pub_collision_object = rospy.Publisher("collision_object",
                                                      moveit_msgs.CollisionObject,
                                                      latch = False)
+        rospy.loginfo("Collision objects publisher initialised.")
 
     def execute(self, userdata):
         rospy.loginfo('Publishing recognised objects as collision objects ...')
@@ -73,11 +75,16 @@ class AddObjectsToPlanningScene(smach.State):
             collision_object.type = recognised_object.type
             shape = shape_msgs.SolidPrimitive()
             shape.type = shape_msgs.SolidPrimitive.CYLINDER
-            shape.dimensions.append(0.20) # CYLINDER_HEIGHT
-            shape.dimensions.append(0.10) # CYLINDER_RADIUS
+            shape.dimensions.append(0.15) # CYLINDER_HEIGHT
+            shape.dimensions.append(0.05) # CYLINDER_RADIUS
             collision_object.primitives.append(shape)
-            collision_object.primitive_poses.append(recognised_object.pose.pose.pose)
-            # TODO: adjust primitive object pose
+            primitive_pose = geometry_msgs.Pose()
+            primitive_pose.position.x = recognised_object.pose.pose.pose.position.x
+            primitive_pose.position.y = recognised_object.pose.pose.pose.position.y
+            primitive_pose.position.z = recognised_object.pose.pose.pose.position.z + 0.075
+            primitive_pose.orientation = recognised_object.pose.pose.pose.orientation
+            collision_object.primitive_poses.append(primitive_pose)
+#            collision_object.primitive_poses.append(recognised_object.pose.pose.pose)
             collision_object.meshes.append(userdata.objects_info[recognised_object_nr].information.ground_truth_mesh)
             collision_object.mesh_poses.append(recognised_object.pose.pose.pose)
             collision_object.operation = moveit_msgs.CollisionObject.ADD
@@ -181,33 +188,51 @@ class GetRobotState(smach.State):
                              outcomes=['success'],
                              input_keys=['robot_state'],
                              output_keys=['robot_state'])
-        self._robot_state = moveit_msgs.RobotState
-        self._keep_listening = True
-        
-    def getRobotStateCB(self, msg):
-        if self._keep_listening:
-            self._robot_state = msg.robot_state
-            self._keep_listening = False
-        return
-        
+#        self._robot_state = moveit_msgs.RobotState
+#        self._keep_listening = True
+#        
+#    def getRobotStateCB(self, msg):
+#        if self._keep_listening:
+#            self._robot_state = msg.robot_state
+#            self._keep_listening = False
+#        return
+#        
+#    def execute(self, userdata):
+#        rospy.loginfo("Setting up subscriber on topic " + rospy.resolve_name("move_group/monitored_planning_scene"))
+#        self._sub_joint_states = rospy.Subscriber("move_group/monitored_planning_scene",
+#                                                  moveit_msgs.PlanningScene,
+#                                                  self.getRobotStateCB)
+#        
+#        while not (rospy.is_shutdown() or not(self._keep_listening)):
+#            rospy.loginfo("Waiting for incoming robot state message ...")
+#            rospy.sleep(0.5)
+#        userdata.robot_state = self._robot_state
+#        return 'success'
     def execute(self, userdata):
-        rospy.loginfo("Setting up subscriber on topic " + rospy.resolve_name("move_group/monitored_planning_scene"))
-        self._sub_joint_states = rospy.Subscriber("move_group/monitored_planning_scene",
-                                                  moveit_msgs.PlanningScene,
-                                                  self.getRobotStateCB)
-        
-        while not (rospy.is_shutdown() or not(self._keep_listening)):
-            rospy.loginfo("Waiting for incoming robot state message ...")
-            rospy.sleep(0.5)
-        userdata.robot_state = self._robot_state
+        service_name = "get_planning_scene"
+        rospy.loginfo("Waiting for '" + service_name + "' service ... ")
+        rospy.wait_for_service(service_name)
+        rospy.loginfo("'" + service_name + "' service available.")
+        srv_client = rospy.ServiceProxy(service_name,
+                                        moveit_srvs.GetPlanningScene())
+        try:
+            srv_req = moveit_srvs.GetPlanningSceneRequest()
+            srv_req.components.components = moveit_msgs.PlanningSceneComponents.ROBOT_STATE
+            srv_resp = srv_client(srv_req)
+        except rospy.ServiceException, e:
+            rospy.loginfo("Service did not process request: " + str(e))
+        userdata.robot_state = srv_resp.scene.robot_state
+        rospy.loginfo("Robot state received.")
         return 'success'
+    
 
 class MoveItErrorCodesParser(smach.State):
     def __init__(self):
         smach.State.__init__(self,
                              outcomes=['success',
                                        'parsed',
-                                       'no_ik_solution'],
+                                       'no_ik_solution',
+                                       'planning_failed'],
                              input_keys=['error_code'],
                              output_keys=['result'])
         self.error_code_dict = {moveit_msgs.MoveItErrorCodes.SUCCESS:'SUCCESS',
@@ -246,6 +271,8 @@ class MoveItErrorCodesParser(smach.State):
                 return 'success'
             elif userdata.error_code == moveit_msgs.MoveItErrorCodes.NO_IK_SOLUTION:
                 return 'no_ik_solution'
+            elif userdata.error_code == moveit_msgs.MoveItErrorCodes.PLANNING_FAILED:
+                return 'planning_failed'
         else:
             result.error_message = str("Error code '" + str(userdata.error_code) + "' not in dictionary. " 
                                        +"Check MoveItErrorCodes message for more information!")
@@ -253,3 +280,21 @@ class MoveItErrorCodesParser(smach.State):
             rospy.loginfo("Error code '" + str(userdata.error_code) + "' not in dictionary. " 
                           +"Check MoveItErrorCodes message for more information!")
         return 'parsed'
+
+class change3DSensorDriverMode(smach.State):
+    def __init__(self):
+        smach.State.__init__(self, 
+                             outcomes=['done'],
+                             input_keys=['color_mode',
+                                         'depth_mode',
+                                         'ir_mode'],
+                             output_keys=[])
+        self._client = dynamic_reconfigure.client.Client("sensor_3d/driver")
+                                                         
+    def execute(self, userdata):
+        params = {'color_mode' : userdata.color_mode,
+                  'depth_mode' : userdata.depth_mode,
+                  'ir_mode' : userdata.ir_mode}
+        config = self._client.update_configuration(params)
+        rospy.sleep(2.0)
+        return 'done'

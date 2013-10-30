@@ -17,6 +17,8 @@ class Prepare(smach.State):
                                          'pre_grasp_dist',
                                          'pre_grasp_height',
                                          'grasp_dist',
+                                         'grasp_height',
+                                         'post_grasp_dist',
                                          'post_grasp_height',
                                          'collision_object'],
                              output_keys=['pre_grasp_pose',
@@ -37,17 +39,18 @@ class Prepare(smach.State):
         pitch = 0.0
         quat = tf.transformations.quaternion_from_euler(roll, pitch, yaw)
         
+        pick_height = userdata.object_pose.pose.position.z
         userdata.pre_grasp_pose.pose.position.x = (dist - userdata.pre_grasp_dist) * math.cos(angle)
         userdata.pre_grasp_pose.pose.position.y = (dist - userdata.pre_grasp_dist) * math.sin(angle)
-        userdata.pre_grasp_pose.pose.position.z = userdata.object_pose.pose.position.z + userdata.pre_grasp_height
+        userdata.pre_grasp_pose.pose.position.z = pick_height + userdata.pre_grasp_height
         userdata.pre_grasp_pose.pose.orientation = geometry_msgs.Quaternion(*quat)
         userdata.grasp_pose.pose.position.x = (dist - userdata.grasp_dist) * math.cos(angle)
         userdata.grasp_pose.pose.position.y = (dist - userdata.grasp_dist) * math.sin(angle)
-        userdata.grasp_pose.pose.position.z = userdata.object_pose.pose.position.z + userdata.pre_grasp_height
+        userdata.grasp_pose.pose.position.z = pick_height + userdata.grasp_height
         userdata.grasp_pose.pose.orientation = geometry_msgs.Quaternion(*quat)
-        userdata.post_grasp_pose.pose.position.x = (dist - userdata.grasp_dist) * math.cos(angle)
-        userdata.post_grasp_pose.pose.position.y = (dist - userdata.grasp_dist) * math.sin(angle)
-        userdata.post_grasp_pose.pose.position.z = userdata.object_pose.pose.position.z + userdata.post_grasp_height
+        userdata.post_grasp_pose.pose.position.x = (dist - userdata.post_grasp_dist) * math.cos(angle)
+        userdata.post_grasp_pose.pose.position.y = (dist - userdata.post_grasp_dist) * math.sin(angle)
+        userdata.post_grasp_pose.pose.position.z = pick_height + userdata.post_grasp_height
         userdata.post_grasp_pose.pose.orientation = geometry_msgs.Quaternion(*quat)
         
         rospy.loginfo('Object pose:')
@@ -82,6 +85,8 @@ def createSM():
                                         'pre_grasp_dist',
                                         'pre_grasp_height',
                                         'grasp_dist',
+                                        'grasp_height',
+                                        'post_grasp_dist',
                                         'post_grasp_height',
                                         'angle_gripper_opened',
                                         'angle_gripper_closed',
@@ -105,6 +110,8 @@ def createSM():
                                           'pre_grasp_dist':'pre_grasp_dist',
                                           'pre_grasp_height':'pre_grasp_height',
                                           'grasp_dist':'grasp_dist',
+                                          'grasp_height':'grasp_height',
+                                          'post_grasp_dist':'post_grasp_dist',
                                           'post_grasp_height':'post_grasp_height'},
                                transitions={'prepared':'MoveArmPreGrasp'})
         
@@ -114,7 +121,7 @@ def createSM():
                                                  goal_slots=['goal_pose']),
                                remapping={'goal_pose':'pre_grasp_pose'},
                                transitions={'succeeded':'OpenGripper',
-                                            'aborted':'MoveArmDefault',
+                                            'aborted':'MoveArmDefaultFailed',
                                             'preempted':'preempted'})
         
         smach.StateMachine.add('OpenGripper',
@@ -126,7 +133,7 @@ def createSM():
                                           'open_gripper':'true',
                                           'close_gripper':'false'},
                                transitions={'succeeded':'MoveArmIKGrasp',
-                                            'aborted':'pick_failed',
+                                            'aborted':'MoveArmDefaultFailed',
                                             'preempted':'preempted'})
         
         smach.StateMachine.add('MoveArmIKGrasp',
@@ -135,7 +142,7 @@ def createSM():
                                                  goal_slots=['goal_pose']),
                                remapping={'goal_pose':'grasp_pose'},
                                transitions={'succeeded':'CloseGripper',
-                                            'aborted':'MoveArmDefault',
+                                            'aborted':'MoveArmDefaultFailed',
                                             'preempted':'preempted'})
         
         smach.StateMachine.add('CloseGripper',
@@ -147,7 +154,7 @@ def createSM():
                                           'open_gripper':'false',
                                           'close_gripper':'true'},
                                transitions={'succeeded':'AttachObject',
-                                            'aborted':'pick_failed',
+                                            'aborted':'MoveArmDefaultFailed',
                                             'preempted':'preempted'})
 
         smach.StateMachine.add('AttachObject',
@@ -166,7 +173,7 @@ def createSM():
                                                  goal_slots=['goal_pose']),
                                remapping={'goal_pose':'post_grasp_pose'},
                                transitions={'succeeded':'MoveArmDefault',
-                                            'aborted':'MoveArmDefault',
+                                            'aborted':'MoveArmDefaultFailed',
                                             'preempted':'preempted'})
 
         smach.StateMachine.add('MoveArmDefault',
@@ -178,4 +185,12 @@ def createSM():
                                             'aborted':'pick_failed',
                                             'preempted':'preempted'})
         
+        smach.StateMachine.add('MoveArmDefaultFailed',
+                               SimpleActionState('move_arm_planner',
+                                                 pick_and_place_msgs.MoveArmAction,
+                                                 goal_slots=['goal_pose']),
+                               remapping={'goal_pose':'pose_arm_default'},
+                               transitions={'succeeded':'pick_failed',
+                                            'aborted':'pick_failed',
+                                            'preempted':'preempted'})
     return sm

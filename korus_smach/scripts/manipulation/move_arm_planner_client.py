@@ -41,16 +41,16 @@ def main():
     sm.userdata.goal_pose = goal_pose
 
     with sm:
-        def MoveArmIKResultCb(userdata, status, result):
+        def MoveArmResultCb(userdata, status, result):
             rospy.loginfo('action finished in state ' + str(status))
             rospy.loginfo('action result: ')
             rospy.loginfo(str(result))
             
-        smach.StateMachine.add('MoveArmIK',
+        smach.StateMachine.add('MoveArm',
                                SimpleActionState('/korus/move_arm_planner',
                                                  pick_and_place_msgs.MoveArmAction,
                                                  goal_slots=['goal_pose'],
-                                                 result_cb=MoveArmIKResultCb))
+                                                 result_cb=MoveArmResultCb))
     sm.execute()
 
 if __name__ == '__main__':

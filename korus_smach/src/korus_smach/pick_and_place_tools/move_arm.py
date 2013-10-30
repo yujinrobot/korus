@@ -22,7 +22,7 @@ def moveArmGoalCB(userdata, goal):
     position_constraint.target_point_offset.z = 0.0
     primitive = shape_msgs.SolidPrimitive()
     primitive.type = shape_msgs.SolidPrimitive.SPHERE
-    primitive.dimensions.append(1e-5)
+    primitive.dimensions.append(1e-3)
 #    primitive.dimensions.append(0.0)
     position_constraint.constraint_region.primitives.append(primitive)
     primitive_pose = geometry_msgs.Pose()
@@ -46,9 +46,9 @@ def moveArmGoalCB(userdata, goal):
     pitch = 0.0
     quat = tf.transformations.quaternion_from_euler(roll, pitch, yaw)
     orientation_constraint.orientation = geometry_msgs.Quaternion(*quat)
-    orientation_constraint.absolute_x_axis_tolerance = 1e-5 #0.00017453293 # # 1 deg, optional
-    orientation_constraint.absolute_y_axis_tolerance = 1e-5 #0.00017453293 # optional
-    orientation_constraint.absolute_z_axis_tolerance = 1e-5 #0.00017453293 # optional
+    orientation_constraint.absolute_x_axis_tolerance = 1e-3 #0.00017453293 # # 1 deg, optional
+    orientation_constraint.absolute_y_axis_tolerance = 1e-3 #0.00017453293 # optional
+    orientation_constraint.absolute_z_axis_tolerance = 1e-3 #0.00017453293 # optional
     orientation_constraint.weight = 1.0
     goal_constraint.orientation_constraints.append(orientation_constraint)
     rospy.loginfo("Goal constraints: ")
@@ -71,11 +71,11 @@ def moveArmGoalCB(userdata, goal):
     motion_plan_request.trajectory_constraints = moveit_msgs.TrajectoryConstraints()
     motion_plan_request.planner_id = "BKPIECEkConfigDefault" # using default needed
     motion_plan_request.group_name = "arm"
-    motion_plan_request.num_planning_attempts = 1
-    motion_plan_request.allowed_planning_time = 10.0
+    motion_plan_request.num_planning_attempts = 3
+    motion_plan_request.allowed_planning_time = 2.0
     move_arm_goal = moveit_msgs.MoveGroupGoal()
     move_arm_goal.request = motion_plan_request
-    move_arm_goal.planning_options = moveit_msgs.PlanningOptions()
+    move_arm_goal.planning_options.replan_attempts = 1
     rospy.loginfo('Move arm goal prepared.')
     return move_arm_goal
 
@@ -113,8 +113,8 @@ def moveArmJointGoalCB(userdata, goal):
     motion_plan_request.trajectory_constraints = moveit_msgs.TrajectoryConstraints()
     motion_plan_request.planner_id = "LBKPIECEkConfigDefault" # using default needed
     motion_plan_request.group_name = "arm"
-    motion_plan_request.num_planning_attempts = 1
-    motion_plan_request.allowed_planning_time = 10.0
+    motion_plan_request.num_planning_attempts = 3
+    motion_plan_request.allowed_planning_time = 2.0
     move_arm_goal = moveit_msgs.MoveGroupGoal()
     move_arm_goal.request = motion_plan_request
     move_arm_goal.planning_options = moveit_msgs.PlanningOptions()

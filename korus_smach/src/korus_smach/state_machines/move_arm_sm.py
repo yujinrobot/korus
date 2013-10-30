@@ -130,6 +130,7 @@ def createSM():
                                misc_tools.MoveItErrorCodesParser(),
                                transitions={'success':'success',
                                             'parsed':'error',
+                                            'planning_failed':'TryAgain',
                                             'no_ik_solution':'TryAgain'},
                                remapping={'result':'result',
                                           'error_code':'error_code'})

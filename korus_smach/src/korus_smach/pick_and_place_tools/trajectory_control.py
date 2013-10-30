@@ -91,14 +91,9 @@ def headControlRequestCb(userdata, goal):
     head_target = geometry_msgs.PoseStamped()
     pose_new_stamp = userdata.goal_pose
     try:
-#        print "now: " + str(rospy.Time.now())
-        pose_new_stamp.header.stamp = userdata.tf_listener.getLatestCommonTime("head_link", userdata.goal_pose.header.frame_id)
-#        print "latest common: " + str(pose_new_stamp.header.stamp)
-#        userdata.tf_listener.waitForTransform("head_link",
-#                                              userdata.goal_pose.header.frame_id,
-#                                              rospy.Time(0),
-#                                              rospy.Duration(2.0))
-        head_target = userdata.tf_listener.transformPose("head_link", pose_new_stamp)
+        pose_new_stamp.header.stamp = userdata.tf_listener.getLatestCommonTime("sensor_3d_fixed_link",
+                                                                               userdata.goal_pose.header.frame_id)
+        head_target = userdata.tf_listener.transformPose("sensor_3d_fixed_link", pose_new_stamp)
     except tf.Exception, e:
         rospy.logerr('Couldn`t transform requested pose!')
         rospy.logerr('%s', e)

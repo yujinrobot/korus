@@ -53,7 +53,13 @@ def main():
                                          'result'])
 
     with sm:
-        
+        sm.userdata.pose_arm_default = geometry_msgs.PoseStamped()
+        sm.userdata.pose_arm_default.header.stamp = rospy.Time.now()
+        sm.userdata.pose_arm_default.header.frame_id = "/base_footprint"
+        sm.userdata.pose_arm_default.pose.position.x = 0.1
+        sm.userdata.pose_arm_default.pose.position.y = 0.0
+        sm.userdata.pose_arm_default.pose.position.z = 0.5
+        sm.userdata.pose_arm_default.pose.orientation.w = 1.0
         sm.userdata.result = pick_and_place_msgs.PickObjectResult()
         
         smach.StateMachine.add('ParseGoal',
@@ -67,7 +73,8 @@ def main():
         smach.StateMachine.add('PickObject',
                                sm_pick,
                                remapping={'object_name':'object_name',
-                                          'object_pose':'object_pose'},
+                                          'object_pose':'object_pose',
+                                          'pose_arm_default':'pose_arm_default'},
                                transitions={'picked':'picked',
                                             'pick_failed':'pick_failed',
                                             'preempted':'preempted',
