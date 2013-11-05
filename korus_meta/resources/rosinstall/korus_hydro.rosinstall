@@ -51,6 +51,10 @@
 
 # Open YCS
 - git:
+    local-name: yocs_msgs
+    uri: 'https://github.com/yujinrobot/yocs_msgs.git'
+    version: hydro-devel
+- git:
     local-name: yujin_ocs
     uri: 'https://github.com/yujinrobot/yujin_ocs.git'
     version: hydro-devel
