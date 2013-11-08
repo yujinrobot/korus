@@ -1,0 +1,4 @@
+<!-- Visualise the Korus robot doing motion retargeting -->
+<launch>
+  <node name="rviz" pkg="rviz" type="rviz" args="-d $(find korus_meta)/resources/rviz/view_motion_retargeting.rviz" />
+</launch>

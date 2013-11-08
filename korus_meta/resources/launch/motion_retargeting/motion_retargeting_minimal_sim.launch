@@ -1,0 +1,33 @@
+<!--
+  Korus' minimal setup for motion retargeting
+  
+  In detail:
+    * robot core (Goo, mechanism model, joint trajectory controller, ...)
+ -->
+<launch>
+  <!-- Parameters for minimal configuration -->
+  <arg name="pot"                     value="true"/>
+  <arg name="upper_body_control"      value="true"/>
+  <arg name="launch_hokuyo"           value="false"/>
+  <arg name="launch_sonars"           value="false"/>
+  <arg name="launch_sensor_3d"        value="false"/>
+  <arg name="launch_stargazer"        value="false"/>
+  <arg name="launch_gripper_camera"   value="false"/>
+  <arg name="launch_gyro"             value="false"/>
+  <arg name="launch_sensor_board"     value="false"/>
+  <arg name="launch_remocon"          value="false"/>
+
+  <!--  ************** Korus' minimal configuration **************  -->
+  <include file="$(find korus_meta)/resources/launch/minimal_sim.launch">
+    <arg name="pot"                   value="$(arg pot)"/>
+    <arg name="upper_body_control"    value="$(arg upper_body_control)"/>
+    <arg name="launch_hokuyo"         value="$(arg launch_hokuyo)"/>
+    <arg name="launch_sonars"         value="$(arg launch_sonars)"/>
+    <arg name="launch_sensor_3d"      value="$(arg launch_sensor_3d)"/>
+    <arg name="launch_stargazer"      value="$(arg launch_stargazer)"/>
+    <arg name="launch_gripper_camera" value="$(arg launch_gripper_camera)"/>
+    <arg name="launch_gyro"           value="$(arg launch_gyro)"/>
+    <arg name="launch_sensor_board"   value="$(arg launch_sensor_board)"/>
+    <arg name="launch_remocon"        value="$(arg launch_remocon)"/>
+  </include>
+</launch>
