@@ -47,7 +47,8 @@ joints:
       limit_max:  2.79253,
       #nominal_rate: 1.54811,
       nominal_rate: 0.5,
-      max_acceleration: 5.0,
+      #max_acceleration: 5.0,
+      max_acceleration: 1.0,
   }
   'torso_lift': {
       transmission: prismatic,
@@ -56,7 +57,8 @@ joints:
       limit_max: 0.17500,
       #nominal_rate: 0.038,
       nominal_rate: 0.02,
-      max_acceleration: 5.0,
+      #max_acceleration: 5.0,
+      max_acceleration: 0.04,
   }
   'shoulder': {
       transmission: direct,
@@ -64,18 +66,20 @@ joints:
       limit_max:  1.60570,
       #nominal_rate: 1.27409,
       nominal_rate: 0.5,
-      max_acceleration: 5.0,
+      #max_acceleration: 5.0,
+      max_acceleration: 1.0,
   }
   'elbow': {
       transmission: coupled,
       coupled_joint_name: shoulder,
       coupled_joint_ratio: 1.0,
       active: true,
-      limit_min: -3.17650,
+      limit_min: -3.14159,
       limit_max:  1.91986,
       #nominal_rate: 1.58824,
       nominal_rate: 0.5,
-      max_acceleration: 5.0,
+      #max_acceleration: 5.0,
+      max_acceleration: 1.0,
   }
   'wrist': {
       transmission: direct,
@@ -83,7 +87,8 @@ joints:
       limit_max:  1.74533,
       #nominal_rate: 1.26536,
       nominal_rate: 0.5,
-      max_acceleration: 5.0,
+      #max_acceleration: 5.0,
+      max_acceleration: 1.0,
   }
   'gripper': {
       transmission: direct,
@@ -91,7 +96,8 @@ joints:
       limit_max:  1.36136,
       #nominal_rate: 1.41023,
       nominal_rate: 0.5,
-      max_acceleration: 5.0,
+      #max_acceleration: 5.0,
+      max_acceleration: 1.0,
   }
   'finger_left_knuckle_1': {
       transmission: coupled,
@@ -139,7 +145,8 @@ joints:
       limit_max:  2.39110,
       #nominal_rate: 8.30777,
       nominal_rate: 0.5,
-      max_acceleration: 5.0,
+      #max_acceleration: 5.0,
+      max_acceleration: 1.0,
   }
   'head_tilt': {
       transmission: direct,
@@ -147,5 +154,6 @@ joints:
       limit_max:  0.55850,
       #nominal_rate: 8.30777,
       nominal_rate: 0.5,
-      max_acceleration: 5.0,
+      #max_acceleration: 5.0,
+      max_acceleration: 1.0,
    }
