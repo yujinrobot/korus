@@ -289,8 +289,8 @@ Visualization Manager:
         Interactive Marker Size: 0
         Joint Violation Color: 255; 0; 255
         Planning Group: arm
-        Query Goal State: false
-        Query Start State: false
+        Query Goal State: true
+        Query Start State: true
         Show Workspace: false
         Start State Alpha: 1
         Start State Color: 0; 255; 0
@@ -615,7 +615,7 @@ Visualization Manager:
       Marker Topic: /korus/marker_tables
       Name: MarkerArray
       Namespaces:
-        tabletop_node: true
+        {}
       Queue Size: 100
       Value: true
     - Class: rviz/MarkerArray
@@ -623,14 +623,13 @@ Visualization Manager:
       Marker Topic: /korus/move_group/display_contacts
       Name: MarkerArray
       Namespaces:
-        table_1382613814627350091=finger_right_knuckle_2_link: true
-        table_1382613856018959045=finger_right_knuckle_2_link: true
+        {}
       Queue Size: 100
       Value: true
   Enabled: true
   Global Options:
     Background Color: 48; 48; 48
-    Fixed Frame: map
+    Fixed Frame: base_footprint
     Frame Rate: 30
   Name: root
   Tools:
@@ -646,17 +645,17 @@ Visualization Manager:
   Views:
     Current:
       Class: rviz/Orbit
-      Distance: 1.61882
+      Distance: 4.32221
       Focal Point:
-        X: 0.600076
-        Y: -0.0169549
-        Z: 0.388248
+        X: 0.548315
+        Y: 0.0983144
+        Z: 0.63436
       Name: Current View
       Near Clip Distance: 0.01
-      Pitch: 0.799797
+      Pitch: 0.684798
       Target Frame: base_footprint
       Value: Orbit (rviz)
-      Yaw: 4.24995
+      Yaw: 4.93495
     Saved: ~
 Window Geometry:
   Displays:
@@ -672,5 +671,5 @@ Window Geometry:
   Views:
     collapsed: false
   Width: 1454
-  X: 2894
+  X: 2898
   Y: 35
