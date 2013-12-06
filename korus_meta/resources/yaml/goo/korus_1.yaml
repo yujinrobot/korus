@@ -364,7 +364,7 @@ motor:
     encoder_direction: 1,
     output_direction: 1,
     
-    p_gain: 0.1,
+    p_gain: 0.15,
     i_gain: 0.0000,
     d_gain: 0.0,
     
