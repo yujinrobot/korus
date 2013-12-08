@@ -1,5 +1,8 @@
 <!-- Korus motion retargeting apps launcher -->
 <launch>
+  <!-- MoveIt for self-collision checking -->
+  <include file="$(find korus_moveit_config)/launch/korus/moveit_self_collision_check_only.launch"/>
+
   <!-- Motion retargeting -->
   <include file="$(find korus_motion_retargeting_controller)/launch/controller.launch"/>
 </launch>
