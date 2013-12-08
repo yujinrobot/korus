@@ -235,17 +235,16 @@
     <link name="gripper_camera_link">
       <visual>
         <geometry>
-          <cylinder length="0.01" radius="0.005"/>
+          <cylinder length="0.01" radius="0.01"/>
         </geometry>
         <origin xyz="0.0 0.0 0.0" rpy="0 0 0"/>
         <xacro:insert_block name="material_black"/>
       </visual>
       <collision>
         <geometry>
-          <cylinder length="0.01" radius="0.005"/>
+          <cylinder length="0.01" radius="0.01"/>
         </geometry>
         <origin xyz="0.0 0.0 0.0" rpy="0 0 0"/>
-        <xacro:insert_block name="material_black"/>
       </collision>
     </link>
   </xacro:macro>
