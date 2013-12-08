@@ -96,16 +96,27 @@ class ClearCollisionObjects(smach.State):
     def __init__(self):
         smach.State.__init__(self, 
                              outcomes=['done'])
-        self._pub = rospy.Publisher("attached_collision_object", moveit_msgs.AttachedCollisionObject, latch=True)
+        self._pub_collision_objects = rospy.Publisher("collision_object",
+                                                      moveit_msgs.AttachedCollisionObject,
+                                                      latch=True)
+        self._pub_attached_collision_objects = rospy.Publisher("attached_collision_object",
+                                                               moveit_msgs.AttachedCollisionObject,
+                                                               latch=True)
         
     def execute(self, userdata):
+        rospy.loginfo("Removing all collision objects ...")
+        object.header.stamp = rospy.Time.now()
+        object.header.frame_id = 'base_footprint'
+        object.operation = moveit_msgs.CollisionObjectOperation.REMOVE
+        self._pub_collision_objects.publish(object)
         rospy.loginfo("Preparing to remove all attached objects ...")
         attached_object = moveit_msgs.AttachedCollisionObject()
-#        attached_object.link_name = str(arm_navigation_msgs.AttachedCollisionObject.REMOVE_ALL_ATTACHED_OBJECTS)
-        attached_object.link_name = 'all'
+        attached_object.link_name = 'palm_link'
         attached_object.object.id = ""
         attached_object.object.operation.operation = moveit_msgs.CollisionObjectOperation.REMOVE
-        self._pub.publish(attached_object)
+        self._pub_attached_collision_objects.publish(attached_object)
+        object = moveit_msgs.CollisionObject()
+
 #        rospy.sleep(3.0) # wait a bit to make sure all subscribers will receive the message
         rospy.loginfo("Removed all attached objects. <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<");
         return 'done'

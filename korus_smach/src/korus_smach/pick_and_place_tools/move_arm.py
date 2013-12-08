@@ -58,21 +58,37 @@ def moveArmGoalCB(userdata, goal):
     motion_plan_request = moveit_msgs.MotionPlanRequest()
     ws_params = moveit_msgs.WorkspaceParameters()
     ws_params.header = userdata.goal_pose.header
-    ws_params.min_corner.x = 0.0
-    ws_params.max_corner.x = 1.0
-    ws_params.min_corner.y = -1.0
-    ws_params.max_corner.y = 1.0
+    ws_params.min_corner.x = -1.5
+    ws_params.min_corner.y = -1.5
     ws_params.min_corner.z = 0.0
+    ws_params.max_corner.x = 1.5
+    ws_params.max_corner.y = 1.5
     ws_params.max_corner.z = 1.5
     motion_plan_request.workspace_parameters = ws_params
+    print "workspace parameters"
+    print motion_plan_request.workspace_parameters
     #motion_plan_request.start_state = userdata.robot_state # not needed
     motion_plan_request.goal_constraints.append(goal_constraint)
-    motion_plan_request.path_constraints = moveit_msgs.Constraints()
-    motion_plan_request.trajectory_constraints = moveit_msgs.TrajectoryConstraints()
-    motion_plan_request.planner_id = "BKPIECEkConfigDefault" # using default needed
+    wrist_path_constraint = moveit_msgs.Constraints()
+    wrist_path_constraint.name = "fixed wrist orientation"
+    wrist_orientation_constraint = moveit_msgs.OrientationConstraint()
+    wrist_orientation_constraint.header = userdata.goal_pose.header
+    wrist_orientation_constraint.link_name = "palm_link"
+    wrist_orientation_constraint.orientation = orientation_constraint.orientation # setting goal orientation
+    wrist_orientation_constraint.absolute_x_axis_tolerance = 3.14 # ignore errors in the x-axis
+    wrist_orientation_constraint.absolute_y_axis_tolerance = 3.14 # ignore errors in the y-axis
+    wrist_orientation_constraint.absolute_z_axis_tolerance = 0.08 # enforce z-axis orientation
+    wrist_orientation_constraint.weight = 1.0
+    wrist_path_constraint.orientation_constraints.append(wrist_orientation_constraint)
+    motion_plan_request.path_constraints = wrist_path_constraint
+    print "path constraints"
+    print motion_plan_request.path_constraints
+#    motion_plan_request.trajectory_constraints = moveit_msgs.TrajectoryConstraints()
+#    motion_plan_request.planner_id = "BKPIECEkConfigDefault" # using default needed
+    motion_plan_request.planner_id = "SBLkConfigDefault" # using default needed
     motion_plan_request.group_name = "arm"
     motion_plan_request.num_planning_attempts = 3
-    motion_plan_request.allowed_planning_time = 2.0
+    motion_plan_request.allowed_planning_time = 120.0
     move_arm_goal = moveit_msgs.MoveGroupGoal()
     move_arm_goal.request = motion_plan_request
     move_arm_goal.planning_options.replan_attempts = 1

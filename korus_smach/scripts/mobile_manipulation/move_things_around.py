@@ -124,20 +124,20 @@ def main():
         sm.userdata.pose_table_a = geometry_msgs.PoseStamped()
         sm.userdata.pose_table_a.header.stamp = rospy.Time.now()
         sm.userdata.pose_table_a.header.frame_id = "/map"
-        sm.userdata.pose_table_a.pose.position.x = -0.2
-        sm.userdata.pose_table_a.pose.position.y = 1.136
+	sm.userdata.pose_table_a.pose.position.x = 2.512
+        sm.userdata.pose_table_a.pose.position.y = 0.612
         sm.userdata.pose_table_a.pose.orientation.x = 0.0
         sm.userdata.pose_table_a.pose.orientation.y = 0.0
-        sm.userdata.pose_table_a.pose.orientation.z = 1.0
-        sm.userdata.pose_table_a.pose.orientation.w = -0.01
+        sm.userdata.pose_table_a.pose.orientation.z = 0.923
+        sm.userdata.pose_table_a.pose.orientation.w = 0.384
         sm.userdata.pose_table_b = geometry_msgs.PoseStamped()
         sm.userdata.pose_table_b.header = sm.userdata.pose_table_a.header
-        sm.userdata.pose_table_b.pose.position.x = 3.600
-        sm.userdata.pose_table_b.pose.position.y = 0.680
+        sm.userdata.pose_table_b.pose.position.x = 4.124
+        sm.userdata.pose_table_b.pose.position.y = 0.288
         sm.userdata.pose_table_b.pose.orientation.x = 0.0
         sm.userdata.pose_table_b.pose.orientation.y = 0.0
-        sm.userdata.pose_table_b.pose.orientation.z = 0.031
-        sm.userdata.pose_table_b.pose.orientation.w = 1.0
+        sm.userdata.pose_table_b.pose.orientation.z = 0.660
+        sm.userdata.pose_table_b.pose.orientation.w = 0.752
         ''' Korus base pose '''
         sm.userdata.base_position = geometry_msgs.PoseStamped()
         ''' tabletop poses '''
@@ -162,9 +162,9 @@ def main():
         sm.userdata.object_names = list()
         sm.userdata.tf_listener = tf.TransformListener()
         ''' pick object'''
-        sm.userdata.pre_grasp_dist = 0.27
-        sm.userdata.pre_grasp_height = 0.15
-        sm.userdata.grasp_dist = 0.10
+        sm.userdata.pre_grasp_dist = 0.20 #0.27
+        sm.userdata.pre_grasp_height = 0.25
+        sm.userdata.grasp_dist = 0.20
         sm.userdata.grasp_height = 0.10
         sm.userdata.post_grasp_dist = sm.userdata.pre_grasp_dist
         sm.userdata.post_grasp_height = sm.userdata.pre_grasp_height
@@ -180,9 +180,9 @@ def main():
         sm.userdata.object_names = list()
         ''' place object'''
         sm.userdata.place_pose = geometry_msgs.PoseStamped()
-        sm.userdata.pre_place_dist = 0.27
-        sm.userdata.pre_place_height = 0.15
-        sm.userdata.place_dist = 0.15
+        sm.userdata.pre_place_dist = 0.20
+        sm.userdata.pre_place_height = 0.30
+        sm.userdata.place_dist = 0.20
         sm.userdata.place_height = 0.10
         sm.userdata.post_place_dist = sm.userdata.pre_place_dist
         sm.userdata.post_place_height = sm.userdata.pre_place_height

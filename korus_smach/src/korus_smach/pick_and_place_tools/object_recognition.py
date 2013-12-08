@@ -269,7 +269,8 @@ class GetTable(smach.State):
                         collision_object = moveit_msgs.CollisionObject()
                         collision_object.header.stamp = tf_time
                         collision_object.header.frame_id = map_root
-                        collision_object.id = "table_" + str(rospy.Time.now())
+#                        collision_object.id = "table_" + str(rospy.Time.now())
+                        collision_object.id = "table"
     #                    collision_object.type = 
                         object_shape = shape_msgs.SolidPrimitive()
                         object_shape.type = shape_msgs.SolidPrimitive.BOX
