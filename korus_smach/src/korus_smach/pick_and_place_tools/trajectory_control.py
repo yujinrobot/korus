@@ -79,7 +79,7 @@ def gripperControlResultCb(userdata, status, result):
     else:
         print 'error_code is ' + str(result.error_code)
         return 'aborted'
-    
+
 '''
 Head control callbacks
 '''
@@ -115,6 +115,34 @@ def headControlRequestCb(userdata, goal):
     rospy.loginfo('Head goal prepared.')
     return head_goal
 
+'''
+    Move arm up
+'''
+@smach.cb_interface(input_keys=['joint_states',
+                                'distance'])
+def moveArmUpGoalCb(userdata, goal):
+    arm_goal = control_msgs.msg.FollowJointTrajectoryGoal()
+    trajectory = trajectory_msgs.msg.JointTrajectory()
+    trajectory.header.stamp = rospy.Time.now()
+    trajectory.header.frame_id = ""
+    trajectory.joint_names.append("torso_turn")
+    trajectory.joint_names.append("torso_lift")
+    trajectory.joint_names.append("shoulder")
+    trajectory.joint_names.append("elbow")
+    trajectory.joint_names.append("wrist")
+    waypoint = trajectory_msgs.msg.JointTrajectoryPoint()
+    waypoint.positions.append(userdata.joint_states.position[2])
+    waypoint.positions.append(userdata.joint_states.position[3] + userdata.distance)
+    waypoint.positions.append(userdata.joint_states.position[4])
+    waypoint.positions.append(userdata.joint_states.position[5])
+    waypoint.positions.append(userdata.joint_states.position[6])
+    waypoint.velocities.append(0.0)
+    waypoint.accelerations.append(0.0)
+    trajectory.points.append(waypoint)
+    arm_goal.trajectory = trajectory
+    rospy.loginfo('Move arm up goal prepared.')
+    return arm_goal
+
 
 class FollowJointTrajectoryErrorCodesParser(smach.State):
     def __init__(self):
@@ -138,9 +166,9 @@ class FollowJointTrajectoryErrorCodesParser(smach.State):
             if userdata.error_code is control_msgs.msg.FollowJointTrajectoryResult.SUCCESSFUL:
                 return 'success'
         else:
-            error_message = str("Error code '" + str(userdata.error_code) + "' not in dictionary. " 
-                                 +"Check FollowJointTrajectory action description for more information!")
+            error_message = str("Error code '" + str(userdata.error_code) + "' not in dictionary. "
+                                 + "Check FollowJointTrajectory action description for more information!")
             userdata.error_message = error_message
-            rospy.loginfo("Error code '" + str(userdata.error_code) + "' not in dictionary. " 
-                          +"Check FollowJointTrajectory action description for more information!")
+            rospy.loginfo("Error code '" + str(userdata.error_code) + "' not in dictionary. "
+                          + "Check FollowJointTrajectory action description for more information!")
         return 'parsed'

@@ -15,7 +15,7 @@ class CheckTablePose(smach.State):
                              input_keys=['look_around',
                                          'table_pose'],
                              output_keys=[])
-    
+
     def execute(self, userdata):
         if userdata.look_around:
             return 'look_around'
@@ -76,8 +76,10 @@ def createSM():
                                         input_keys=['table_pose',
                                                     'look_around',
                                                     'tabletop_centre_pose',
+                                                    'tabletop_front_place_pose',
                                                     'tf_listener'],
                                         output_keys=['tabletop_centre_pose',
+                                                     'tabletop_front_place_pose',
                                                      'error_message',
                                                      'error_code',
                                                      'tf_listener'])
@@ -150,14 +152,14 @@ def createSM():
         sm_find_table.userdata.color_mode_low_res = 8
         sm_find_table.userdata.depth_mode_low_res = sm_find_table.userdata.color_mode_low_res
         sm_find_table.userdata.ir_mode_low_res = sm_find_table.userdata.color_mode_low_res
-        
+
         smach.StateMachine.add('EnableHighResPointCloud',
                                misc_tools.change3DSensorDriverMode(),
                                transitions={'done':'EnableMotors'},
                                remapping={'color_mode':'color_mode_high_res',
                                           'depth_mode':'depth_mode_high_res',
                                           'ir_mode':'ir_mode_high_res'})
-        
+
         smach.StateMachine.add('EnableMotors',
                                misc_tools.EnableMotors(),
                                transitions={'success':'ResetTryAgain'},
@@ -174,7 +176,7 @@ def createSM():
                                             'top_centre':'aborted',
                                             'top_left':'aborted',
                                             'done':'CheckTablePose'})
-        
+
         smach.StateMachine.add('CheckTablePose',
                                CheckTablePose(),
                                transitions={'look_around':'MoveHeadBottomLeft',
@@ -182,7 +184,7 @@ def createSM():
                                             'is_not_zero':'MoveHead'},
                                remapping={'look_around':'look_around',
                                           'table_pose':'table_pose'})
-        
+
         smach.StateMachine.add('MoveHead',
                                SimpleActionState('head_controller',
                                                  control_msgs.FollowJointTrajectoryAction,
@@ -198,7 +200,7 @@ def createSM():
                                transitions={'succeeded':'ParseMoveHeadErrorCode',
                                             'aborted':'ParseMoveHeadErrorCode',
                                             'preempted':'preempted'})
-        
+
         smach.StateMachine.add('MoveHeadBottomLeft',
                                SimpleActionState('head_controller',
                                                  control_msgs.FollowJointTrajectoryAction,
@@ -214,7 +216,7 @@ def createSM():
                                transitions={'succeeded':'ParseMoveHeadErrorCode',
                                             'aborted':'ParseMoveHeadErrorCode',
                                             'preempted':'preempted'})
-        
+
         smach.StateMachine.add('MoveHeadBottomCentre',
                                SimpleActionState('head_controller',
                                                  control_msgs.FollowJointTrajectoryAction,
@@ -230,7 +232,7 @@ def createSM():
                                transitions={'succeeded':'ParseMoveHeadErrorCode',
                                             'aborted':'ParseMoveHeadErrorCode',
                                             'preempted':'preempted'})
-        
+
         smach.StateMachine.add('MoveHeadBottomRight',
                                SimpleActionState('head_controller',
                                                  control_msgs.FollowJointTrajectoryAction,
@@ -246,7 +248,7 @@ def createSM():
                                transitions={'succeeded':'ParseMoveHeadErrorCode',
                                             'aborted':'ParseMoveHeadErrorCode',
                                             'preempted':'preempted'})
-        
+
         smach.StateMachine.add('MoveHeadTopRight',
                                SimpleActionState('head_controller',
                                                  control_msgs.FollowJointTrajectoryAction,
@@ -261,7 +263,7 @@ def createSM():
                                transitions={'succeeded':'ParseMoveHeadErrorCode',
                                             'aborted':'ParseMoveHeadErrorCode',
                                             'preempted':'preempted'})
-        
+
         smach.StateMachine.add('MoveHeadTopCentre',
                                SimpleActionState('head_controller',
                                                  control_msgs.FollowJointTrajectoryAction,
@@ -276,7 +278,7 @@ def createSM():
                                transitions={'succeeded':'ParseMoveHeadErrorCode',
                                             'aborted':'ParseMoveHeadErrorCode',
                                             'preempted':'preempted'})
-        
+
         smach.StateMachine.add('MoveHeadTopLeft',
                                SimpleActionState('head_controller',
                                                  control_msgs.FollowJointTrajectoryAction,
@@ -291,19 +293,19 @@ def createSM():
                                transitions={'succeeded':'ParseMoveHeadErrorCode',
                                             'aborted':'ParseMoveHeadErrorCode',
                                             'preempted':'preempted'})
-        
+
         smach.StateMachine.add('ParseMoveHeadErrorCode',
                                trajectory_control.FollowJointTrajectoryErrorCodesParser(),
                                transitions={'success':'WaitForPointcloudAlignment',
                                             'parsed':'aborted'},
                                remapping={'error_code':'error_code',
                                           'error_message':'error_message'})
-        
+
         smach.StateMachine.add('WaitForPointcloudAlignment',
                                misc_tools.Wait(),
                                remapping={'duration':'wait_1sec'},
                                transitions={'done':'RecognizeObjects'})
-         
+
         smach.StateMachine.add('RecognizeObjects',
                                SimpleActionState('recognize_objects',
                                                  object_recognition_msgs.ObjectRecognitionAction,
@@ -313,14 +315,15 @@ def createSM():
                                 transitions={'succeeded':'AddTableToPlanningScene',
                                              'preempted':'preempted',
                                              'aborted':'aborted'})
-        
+
         smach.StateMachine.add('AddTableToPlanningScene',
                                object_recognition.GetTable(),
                                remapping={'tabletop_centre_pose':'tabletop_centre_pose',
+                                          'tabletop_front_place_pose':'tabletop_front_place_pose',
                                           'tf_listener':'tf_listener'},
                                transitions={'table_added':'DisableHighResPointCloudSuccess',
                                             'no_table_added':'DisableHighResPointCloudNoSuccess'})
-        
+
         smach.StateMachine.add('TryAgain',
                                try_again_sm,
                                remapping={'reset':'reset_false',
@@ -331,19 +334,19 @@ def createSM():
                                             'top_centre':'MoveHeadTopCentre',
                                             'top_left':'MoveHeadTopLeft',
                                             'done':'DisableHighResPointCloudNoSuccess'})
-        
+
         smach.StateMachine.add('DisableHighResPointCloudNoSuccess',
                                misc_tools.change3DSensorDriverMode(),
                                transitions={'done':'no_table_found'},
                                remapping={'color_mode':'color_mode_low_res',
                                           'depth_mode':'depth_mode_low_res',
                                           'ir_mode':'ir_mode_low_res'})
-        
+
         smach.StateMachine.add('DisableHighResPointCloudSuccess',
                                misc_tools.change3DSensorDriverMode(),
                                transitions={'done':'table_found'},
                                remapping={'color_mode':'color_mode_low_res',
                                           'depth_mode':'depth_mode_low_res',
                                           'ir_mode':'ir_mode_low_res'})
-        
+
     return sm_find_table

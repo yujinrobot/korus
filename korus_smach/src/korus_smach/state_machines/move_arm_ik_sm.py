@@ -42,11 +42,11 @@ def createSM():
                                      output_keys=['result'])
     with sm_move_arm:
         sm_move_arm.userdata.zero_true = True
-        sm_move_arm.userdata.zero_false = False 
+        sm_move_arm.userdata.zero_false = False
         sm_move_arm.userdata.default_true = True
-        sm_move_arm.userdata.default_false = False 
+        sm_move_arm.userdata.default_false = False
         sm_move_arm.userdata.bottom_true = True
-        sm_move_arm.userdata.bottom_false = False 
+        sm_move_arm.userdata.bottom_false = False
         sm_move_arm.userdata.robot_seed_state = moveit_msgs.msg.RobotState()
         sm_move_arm.userdata.robot_goal_state = moveit_msgs.msg.RobotState()
         sm_move_arm.userdata.avoid_collisions = True
@@ -56,7 +56,7 @@ def createSM():
                                misc_tools.GetRobotState(),
                                remapping={'robot_state':'robot_seed_state'},
                                transitions={'success':'PrepareIKSeedCurrentState'})
-        
+
         smach.StateMachine.add('PrepareIKSeedCurrentState',
                                ik.PrepareIKSeed(),
                                remapping={'zero':'zero_false',
@@ -65,7 +65,7 @@ def createSM():
                                           'robot_state':'robot_seed_state'},
                                transitions={'success':'GetIK',
                                             'error':'error'})
-        
+
         smach.StateMachine.add('PrepareIKSeedZeroState',
                                ik.PrepareIKSeed(),
                                remapping={'zero':'zero_true',
@@ -74,7 +74,7 @@ def createSM():
                                           'robot_state':'robot_seed_state'},
                                transitions={'success':'GetIK',
                                             'error':'error'})
-        
+
         smach.StateMachine.add('PrepareIKSeedDefaultState',
                                ik.PrepareIKSeed(),
                                remapping={'zero':'zero_false',
@@ -83,7 +83,7 @@ def createSM():
                                           'robot_state':'robot_seed_state'},
                                transitions={'success':'GetIK',
                                             'error':'error'})
-        
+
         smach.StateMachine.add('PrepareIKSeedBottomState',
                                ik.PrepareIKSeed(),
                                remapping={'zero':'zero_false',
@@ -92,12 +92,12 @@ def createSM():
                                           'robot_state':'robot_seed_state'},
                                transitions={'success':'GetIK',
                                             'error':'error'})
-        
+
         smach.StateMachine.add('GetIK',
                                ServiceState(compute_ik_topic,
                                             GetPositionIK,
-                                            request_cb = ik.getPositionIKRequestCb,
-                                            response_cb = ik.getPositionIKResponseRobotStateCb,
+                                            request_cb=ik.getPositionIKRequestCb,
+                                            response_cb=ik.getPositionIKResponseRobotStateCb,
                                             input_keys=['goal_pose',
                                                         'goal_link_name',
                                                         'robot_seed_state',
@@ -109,13 +109,14 @@ def createSM():
                                   'grasp_dist':'grasp_dist',
                                   'grasp_height':'grasp_height',
                                   'robot_seed_state':'robot_seed_state',
+                                  'avoid_collisions':'avoid_collisions',
                                   'robot_goal_state':'robot_goal_state',
                                   'error_code':'error_code'},
                        transitions={'succeeded':'MoveArm',
                                     'preempted':'preempted',
                                     'aborted':'error',
                                     'failed':'TryAgain'})
-        
+
         smach.StateMachine.add('TryAgain',
                                TryAgain(),
                                transitions={'zero_state':'PrepareIKSeedZeroState',
@@ -123,7 +124,7 @@ def createSM():
                                             'bottom_state':'PrepareIKSeedBottomState',
                                             'done':'error',
                                             'error':'error'})
-        
+
         smach.StateMachine.add('MoveArm',
                                SimpleActionState('move_group',
                                                  moveit_msgs.msg.MoveGroupAction,
@@ -137,7 +138,7 @@ def createSM():
                                transitions={'succeeded':'ParseMoveArmErrorCode',
                                             'aborted':'ParseMoveArmErrorCode',
                                             'preempted':'preempted'})
-        
+
         smach.StateMachine.add('ParseMoveArmErrorCode',
                                misc_tools.MoveItErrorCodesParser(),
                                transitions={'success':'success',

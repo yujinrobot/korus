@@ -30,7 +30,7 @@ class Prepare(smach.State):
         userdata.pre_grasp_pose.header.frame_id = "/base_footprint"
         userdata.grasp_pose.header = userdata.pre_grasp_pose.header
         userdata.post_grasp_pose.header = userdata.pre_grasp_pose.header
-        
+
         angle = math.atan2(userdata.object_pose.pose.position.y, userdata.object_pose.pose.position.x)
         dist = math.sqrt(math.pow(userdata.object_pose.pose.position.x, 2)
                          + math.pow(userdata.object_pose.pose.position.y, 2))
@@ -38,7 +38,7 @@ class Prepare(smach.State):
         roll = math.pi / 2
         pitch = 0.0
         quat = tf.transformations.quaternion_from_euler(roll, pitch, yaw)
-        
+
         pick_height = userdata.object_pose.pose.position.z
         userdata.pre_grasp_pose.pose.position.x = (dist - userdata.pre_grasp_dist) * math.cos(angle)
         userdata.pre_grasp_pose.pose.position.y = (dist - userdata.pre_grasp_dist) * math.sin(angle)
@@ -52,7 +52,7 @@ class Prepare(smach.State):
         userdata.post_grasp_pose.pose.position.y = (dist - userdata.post_grasp_dist) * math.sin(angle)
         userdata.post_grasp_pose.pose.position.z = pick_height + userdata.post_grasp_height
         userdata.post_grasp_pose.pose.orientation = geometry_msgs.Quaternion(*quat)
-        
+
         rospy.loginfo('Object pose:')
         rospy.loginfo(userdata.object_pose.pose)
         rospy.loginfo('Pre grasp pose:')
@@ -61,7 +61,7 @@ class Prepare(smach.State):
         rospy.loginfo(userdata.grasp_pose.pose)
         rospy.loginfo('Post grasp pose:')
         rospy.loginfo(userdata.post_grasp_pose.pose)
-        
+
         userdata.collision_object.header.stamp = rospy.Time.now()
         userdata.collision_object.header.frame_id = "palm_link"
         new_pose = geometry_msgs.Pose()
@@ -75,7 +75,6 @@ class Prepare(smach.State):
 
 
 def createSM():
-    
     sm = smach.StateMachine(outcomes=['picked',
                                       'pick_failed',
                                       'preempted'],
@@ -100,7 +99,8 @@ def createSM():
         sm.userdata.true = True
         sm.userdata.false = False
         sm.userdata.wait_5sec = 5.0
-        
+        sm.userdata.move_arm_up_distance = 0.03
+
         smach.StateMachine.add('Prepare',
                                Prepare(),
                                remapping={'object_pose':'object_pose',
@@ -114,7 +114,7 @@ def createSM():
                                           'post_grasp_dist':'post_grasp_dist',
                                           'post_grasp_height':'post_grasp_height'},
                                transitions={'prepared':'MoveArmPreGrasp'})
-        
+
         smach.StateMachine.add('MoveArmPreGrasp',
                                SimpleActionState('move_arm_planner',
                                                  pick_and_place_msgs.MoveArmAction,
@@ -123,7 +123,7 @@ def createSM():
                                transitions={'succeeded':'OpenGripper',
                                             'aborted':'MoveArmDefaultFailed',
                                             'preempted':'preempted'})
-        
+
         smach.StateMachine.add('OpenGripper',
                                SimpleActionState('gripper_controller',
                                                  control_msgs.FollowJointTrajectoryAction,
@@ -135,7 +135,7 @@ def createSM():
                                transitions={'succeeded':'MoveArmIKGrasp',
                                             'aborted':'MoveArmDefaultFailed',
                                             'preempted':'preempted'})
-        
+
         smach.StateMachine.add('MoveArmIKGrasp',
                                SimpleActionState('move_arm_ik',
                                                  pick_and_place_msgs.MoveArmAction,
@@ -144,7 +144,7 @@ def createSM():
                                transitions={'succeeded':'CloseGripper',
                                             'aborted':'MoveArmDefaultFailed',
                                             'preempted':'preempted'})
-        
+
         smach.StateMachine.add('CloseGripper',
                                SimpleActionState('gripper_controller',
                                                  control_msgs.FollowJointTrajectoryAction,
@@ -162,11 +162,28 @@ def createSM():
                                remapping={'collision_object':'collision_object',
                                           'attach':'true'},
                                transitions={'done':'WaitForObjectAdded'})
-        
+
         smach.StateMachine.add('WaitForObjectAdded', misc_tools.Wait(),
                                remapping={'duration':'wait_5sec'},
-                               transitions={'done':'MoveArmIKPostGrasp'})
-        
+                               transitions={'done':'RetrieveJointStates'})
+
+        smach.StateMachine.add('RetrieveJointStates',
+                               misc_tools.RetrieveJointStates(),
+                               remapping={'joint_states':'joint_states'},
+                               transitions={'success':'MoveArmUp',
+                                            'error':'MoveArmIKPostGrasp'})
+
+        smach.StateMachine.add('MoveArmUp',
+                               SimpleActionState('arm_controller',
+                                                 control_msgs.FollowJointTrajectoryAction,
+                                                 goal_cb=trajectory_control.moveArmUpGoalCb,
+                                                 result_cb=trajectory_control.generalResponseCb),
+                               remapping={'joint_states':'joint_states',
+                                          'distance':'move_arm_up_distance'},
+                               transitions={'succeeded':'MoveArmIKPostGrasp',
+                                            'aborted':'MoveArmIKPostGrasp',
+                                            'preempted':'preempted'})
+
         smach.StateMachine.add('MoveArmIKPostGrasp',
                                SimpleActionState('move_arm_ik',
                                                  pick_and_place_msgs.MoveArmAction,
@@ -184,7 +201,7 @@ def createSM():
                                transitions={'succeeded':'picked',
                                             'aborted':'pick_failed',
                                             'preempted':'preempted'})
-        
+
         smach.StateMachine.add('MoveArmDefaultFailed',
                                SimpleActionState('move_arm_planner',
                                                  pick_and_place_msgs.MoveArmAction,

@@ -9,13 +9,14 @@ App for picking objects up from a table in one place and placing them on a table
 import math
 import tf
 from korus_smach.state_machines.state_machines_imports import *
-from korus_smach.state_machines import find_object_sm,\
-                                       find_table_sm,\
-                                       pick_object_sm,\
-                                       pick_object_manual_sm,\
-                                       place_object_sm,\
+from korus_smach.state_machines import find_object_sm, \
+                                       find_table_sm, \
+                                       pick_object_sm, \
+                                       pick_object_manual_sm, \
+                                       place_object_sm, \
                                        place_object_manual_sm
 from korus_smach.pick_and_place_tools.msg_imports import *
+from korus_smach.pick_and_place_tools import misc_tools
 import move_base_msgs.msg as move_base_msgs
 
 
@@ -27,7 +28,7 @@ class Prepare(smach.State):
                              output_keys=[])
     def execute(self, userdata):
         return 'prepared'
-    
+
 class PreparePickObject(smach.State):
     def __init__(self):
         smach.State.__init__(self,
@@ -53,12 +54,12 @@ class PreparePickObject(smach.State):
             if object.confidence > max_confidence:
                 max_confidence = object.confidence
                 object_index = userdata.recognised_objects.objects.index(object)
-                
+
         userdata.pick_object_name = userdata.recognised_object_names[object_index]
         userdata.pick_object_pose = geometry_msgs.PoseStamped()
         userdata.pick_object_pose.header = userdata.recognised_objects.objects[object_index].pose.header
         userdata.pick_object_pose.pose = userdata.recognised_objects.objects[object_index].pose.pose.pose
-        
+
         pick_collision_object = moveit_msgs.CollisionObject()
         pick_collision_object.header = userdata.pick_object_pose.header
         pick_collision_object.id = userdata.pick_object_name
@@ -80,11 +81,11 @@ class PreparePickObject(smach.State):
         rospy.loginfo(pick_collision_object.header)
         rospy.loginfo(pick_collision_object.primitive_poses)
         rospy.loginfo(pick_collision_object.mesh_poses)
-        
+
         rospy.loginfo("Object '" + str(userdata.pick_object_name) + "' has been selected among all recognised objects")
         rospy.loginfo("Object's pose:")
         rospy.loginfo(userdata.pick_object_pose)
-        
+
         angle = math.atan2(userdata.pick_object_pose.pose.position.y, userdata.pick_object_pose.pose.position.x)
         dist = math.sqrt(math.pow(userdata.pick_object_pose.pose.position.x, 2) + math.pow(userdata.pick_object_pose.pose.position.y, 2))
         userdata.pick_object_pose.pose.position.x = dist * math.cos(angle)
@@ -105,14 +106,14 @@ class Finalise(smach.State):
                              outcomes=['finalised'],
                              input_keys=[],
                              output_keys=[])
-        
+
     def execute(self, userdata):
         return 'finalised'
 
 
 def main():
     rospy.init_node('move_things_around')
-    
+
     sm = StateMachine(outcomes=['success',
                                 'aborted',
                                 'preempted'])
@@ -123,27 +124,27 @@ def main():
         ''' table poses '''
         sm.userdata.pose_table_a = geometry_msgs.PoseStamped()
         sm.userdata.pose_table_a.header.stamp = rospy.Time.now()
-        sm.userdata.pose_table_a.header.frame_id = "/map"
-	sm.userdata.pose_table_a.pose.position.x = 2.512
-        sm.userdata.pose_table_a.pose.position.y = 0.612
+        sm.userdata.pose_table_a.header.frame_id = "map"
+        sm.userdata.pose_table_a.pose.position.x = -1.0
+        sm.userdata.pose_table_a.pose.position.y = 4.0
         sm.userdata.pose_table_a.pose.orientation.x = 0.0
         sm.userdata.pose_table_a.pose.orientation.y = 0.0
-        sm.userdata.pose_table_a.pose.orientation.z = 0.923
-        sm.userdata.pose_table_a.pose.orientation.w = 0.384
+        sm.userdata.pose_table_a.pose.orientation.z = 0.851
+        sm.userdata.pose_table_a.pose.orientation.w = 0.526
         sm.userdata.pose_table_b = geometry_msgs.PoseStamped()
         sm.userdata.pose_table_b.header = sm.userdata.pose_table_a.header
-        sm.userdata.pose_table_b.pose.position.x = 4.124
-        sm.userdata.pose_table_b.pose.position.y = 0.288
+        sm.userdata.pose_table_b.pose.position.x = 0.95
+        sm.userdata.pose_table_b.pose.position.y = 0.75
         sm.userdata.pose_table_b.pose.orientation.x = 0.0
         sm.userdata.pose_table_b.pose.orientation.y = 0.0
-        sm.userdata.pose_table_b.pose.orientation.z = 0.660
-        sm.userdata.pose_table_b.pose.orientation.w = 0.752
+        sm.userdata.pose_table_b.pose.orientation.z = -0.509
+        sm.userdata.pose_table_b.pose.orientation.w = 0.861
         ''' Korus base pose '''
         sm.userdata.base_position = geometry_msgs.PoseStamped()
         ''' tabletop poses '''
         sm.userdata.pose_tabletop_a = geometry_msgs.PoseStamped()
         sm.userdata.pose_tabletop_a.header.stamp = rospy.Time.now()
-        sm.userdata.pose_tabletop_a.header.frame_id = "/base_footprint"
+        sm.userdata.pose_tabletop_a.header.frame_id = "base_footprint"
         sm.userdata.pose_tabletop_a.pose.position.x = 0.6
         sm.userdata.pose_tabletop_a.pose.position.y = 0.0
         sm.userdata.pose_tabletop_a.pose.position.z = 0.55
@@ -153,7 +154,7 @@ def main():
         sm.userdata.pose_tabletop_a.pose.orientation.w = 1.0
         sm.userdata.pose_tabletop_b = geometry_msgs.PoseStamped()
         sm.userdata.pose_tabletop_b.header = sm.userdata.pose_tabletop_a.header
-        sm.userdata.pose_tabletop_b.pose.position.x = 0.6
+        sm.userdata.pose_tabletop_b.pose.position.x = 1.0
         sm.userdata.pose_tabletop_b.pose.position.y = 0.0
         sm.userdata.pose_tabletop_b.pose.position.z = 0.55
         sm.userdata.pose_tabletop_b.pose.orientation = sm.userdata.pose_tabletop_a.pose.orientation
@@ -162,12 +163,12 @@ def main():
         sm.userdata.object_names = list()
         sm.userdata.tf_listener = tf.TransformListener()
         ''' pick object'''
-        sm.userdata.pre_grasp_dist = 0.20 #0.27
-        sm.userdata.pre_grasp_height = 0.25
-        sm.userdata.grasp_dist = 0.20
-        sm.userdata.grasp_height = 0.10
+        sm.userdata.pre_grasp_dist = 0.27
+        sm.userdata.pre_grasp_height = 0.12
+        sm.userdata.grasp_dist = 0.14
+        sm.userdata.grasp_height = 0.08
         sm.userdata.post_grasp_dist = sm.userdata.pre_grasp_dist
-        sm.userdata.post_grasp_height = sm.userdata.pre_grasp_height
+        sm.userdata.post_grasp_height = 0.23
         sm.userdata.angle_gripper_opened = 1.3
         sm.userdata.angle_gripper_closed = 0.2
         sm.userdata.pose_arm_default = geometry_msgs.PoseStamped()
@@ -179,19 +180,26 @@ def main():
         sm.userdata.min_confidence = 0.8
         sm.userdata.object_names = list()
         ''' place object'''
-        sm.userdata.place_pose = geometry_msgs.PoseStamped()
+        sm.userdata.centre_place_pose = geometry_msgs.PoseStamped()
+        sm.userdata.front_place_pose = geometry_msgs.PoseStamped()
         sm.userdata.pre_place_dist = 0.20
-        sm.userdata.pre_place_height = 0.30
-        sm.userdata.place_dist = 0.20
-        sm.userdata.place_height = 0.10
-        sm.userdata.post_place_dist = sm.userdata.pre_place_dist
-        sm.userdata.post_place_height = sm.userdata.pre_place_height
-        
+        sm.userdata.pre_place_height = 0.20
+        sm.userdata.place_dist = sm.userdata.grasp_dist
+        sm.userdata.place_height = sm.userdata.grasp_height + 0.02
+        sm.userdata.post_place_dist = 0.29
+        sm.userdata.post_place_height = 0.20
+
         smach.StateMachine.add('Prepare',
                                Prepare(),
                                remapping={},
-                               transitions={'prepared':'MoveToTableA'})
-        
+                               transitions={'prepared':'ClearCollisionObjects'})
+
+        smach.StateMachine.add('ClearCollisionObjects',
+                               misc_tools.ClearCollisionObjects(),
+                               remapping={},
+                               transitions={'cleared':'MoveToTableA',
+                                            'clearing_failed':'aborted'})
+
         smach.StateMachine.add('MoveToTableA',
                                SimpleActionState('move_base',
                                                  move_base_msgs.MoveBaseAction,
@@ -202,7 +210,7 @@ def main():
                                transitions={'succeeded':'FindObject',
                                             'aborted':'aborted',
                                             'preempted':'preempted'})
-        
+
         sm_find_object = find_object_sm.createSM()
         smach.StateMachine.add('FindObject',
                                sm_find_object,
@@ -221,7 +229,7 @@ def main():
                                             'no_objects_found':'Prepare',
                                             'aborted':'aborted',
                                             'preempted':'preempted'})
-        
+
         smach.StateMachine.add('PreparePickObject',
                                PreparePickObject(),
                                remapping={'recognised_objects':'recognised_objects',
@@ -234,16 +242,7 @@ def main():
                                transitions={'prepared':'PickObject',
                                             'error':'aborted'})
 
-
-#        smach.StateMachine.add('PickObject',
-#                               sm_pick_object,
-#                               remapping={'object_pose':'pick_object_pose',
-#                                          'object_name':'pick_object_name',
-#                                          'pose_arm_default':'pose_arm_default'},
-#                               transitions={'picked':'Finalise',
-#                                            'pick_failed':'Finalise',
-#                                            'error':'aborted',
-#                                            'preempted':'preempted'})
+#        sm_pick_object = pick_object_sm.createSM() # using MoveIt's pick action
         sm_pick_object = pick_object_manual_sm.createSM() # using own pick implementation
         smach.StateMachine.add('PickObject',
                                sm_pick_object,
@@ -262,8 +261,7 @@ def main():
                                transitions={'picked':'MoveToTableB',
                                             'pick_failed':'Prepare',
                                             'preempted':'preempted'})
-        
-        sm_place_object = place_object_sm.createSM() # using MoveIt's place action
+
         smach.StateMachine.add('MoveToTableB',
                                SimpleActionState('move_base',
                                                  move_base_msgs.MoveBaseAction,
@@ -274,13 +272,13 @@ def main():
                                transitions={'succeeded':'FindTable',
                                             'aborted':'aborted',
                                             'preempted':'preempted'})
-        
-#        sm_find_table = find_object_sm.createSM()
+
         sm_find_table = find_table_sm.createSM()
         smach.StateMachine.add('FindTable',
                                sm_find_table,
                                remapping={'table_pose':'pose_tabletop_b',
-                                          'tabletop_centre_pose':'place_pose',
+                                          'tabletop_centre_pose':'centre_place_pose',
+                                          'tabletop_front_place_pose':'front_place_pose',
                                           'look_around':'false',
                                           'error_message':'error_message',
                                           'error_code':'error_code',
@@ -290,10 +288,11 @@ def main():
                                             'aborted':'aborted',
                                             'preempted':'preempted'})
 
+#        sm_place_object = place_object_sm.createSM() # using MoveIt's place action
         sm_place_object = place_object_manual_sm.createSM() # using own place implementation
         smach.StateMachine.add('PlaceObject',
                                sm_place_object,
-                               remapping={'place_pose':'place_pose',
+                               remapping={'place_pose':'front_place_pose',
                                           'pre_place_dist':'pre_place_dist',
                                           'pre_place_height':'pre_place_height',
                                           'place_dist':'place_dist',
@@ -307,12 +306,12 @@ def main():
                                transitions={'placed':'Prepare',
                                             'place_failed':'Finalise',
                                             'preempted':'preempted'})
-        
+
         smach.StateMachine.add('Finalise',
                                Finalise(),
                                remapping={},
                                transitions={'finalised':'success'})
-    
+
     sm.execute()
 
 
@@ -321,4 +320,4 @@ if __name__ == '__main__':
         main()
     except rospy.ROSInterruptException:
         pass
-    
+

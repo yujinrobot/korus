@@ -53,13 +53,11 @@ def objectRecognitionResultCb(userdata, status, result):
             if object.confidence >= userdata.min_confidence:
                 if object.type.key in reduced_model_set_dict:
                     userdata.object_names.append(reduced_model_set_dict[object.type.key])
-                    rospy.loginfo("Added recognised object '" + reduced_model_set_dict[object.type.key] + "' (" 
-                                   + object.type.key + ") with confidence " 
+                    rospy.loginfo("Added recognised object '" + reduced_model_set_dict[object.type.key] + "' ("
+                                   + object.type.key + ") with confidence "
                                    + str(object.confidence))
                     ''' convert poses to robot_root since 3d sensor pose keeps changing '''
                     try:
-#                        print"pose before"
-#                        print object.pose
                         new_pose = geometry_msgs.PoseStamped()
                         new_pose.header = object.pose.header
                         new_pose.pose = object.pose.pose.pose
@@ -68,8 +66,6 @@ def objectRecognitionResultCb(userdata, status, result):
                         new_pose = userdata.tf_listener.transformPose("base_footprint", new_pose)
                         object.pose.header = new_pose.header
                         object.pose.pose.pose = new_pose.pose
-#                        print"pose after"
-#                        print object.pose
                     except tf.Exception, e:
                         rospy.logerr('Couldn`t transform requested pose!')
                         rospy.logerr('%s', e)
@@ -80,8 +76,8 @@ def objectRecognitionResultCb(userdata, status, result):
                     return 'aborted'
             else:
                 unreliable_recognition += 1
-                rospy.loginfo("Recognised object '" + reduced_model_set_dict[object.type.key] + "' (" 
-                                   + object.type.key + "), but confidence is too low (" 
+                rospy.loginfo("Recognised object '" + reduced_model_set_dict[object.type.key] + "' ("
+                                   + object.type.key + "), but confidence is too low ("
                                    + str(reduced_model_set_dict[object.type.key]) + ").")
         if len(result.recognized_objects.objects) == 0:
             userdata.error_message = "No objects found"
@@ -106,7 +102,7 @@ def objectRecognitionResultCb(userdata, status, result):
 
 class GetObjectInformation(smach.State):
     def __init__(self):
-        smach.State.__init__(self, 
+        smach.State.__init__(self,
                              outcomes=['done'],
                              input_keys=['recognised_objects',
                                          'error_code',
@@ -125,37 +121,45 @@ class GetObjectInformation(smach.State):
             try:
                 info_request = object_recognition_srvs.GetObjectInformationRequest()
                 info_request.type = object.type
+                rospy.loginfo("Getting information for: " + str(info_request))
                 objects_info.append(srv_client(info_request))
             except rospy.ServiceException, e:
-                rospy.loginfo("Service did not process request: " + str(e))
+                rospy.logerr("Service did not process request: " + str(e))
         userdata.objects_info = objects_info
         return 'done'
 
 
 class GetTable(smach.State):
     def __init__(self):
-        smach.State.__init__(self, 
+        smach.State.__init__(self,
                              outcomes=['table_added',
                                        'no_table_added'],
                              input_keys=['tabletop_centre_pose',
+                                         'tabletop_front_place_pose',
                                          'tf_listener'],
                              output_keys=['tabletop_centre_pose',
+                                          'tabletop_front_place_pose'
                                           'tf_listener'])
         self._pub_collision_object = None
         self._sub_table_markers = None
         self._table_markers = None
         self._new_table_markers_received = False
-        
+
+        self._table_width_enlargement = 0.10
+        self._table_length_enlargement = 0.10
+        self._table_height_enlargement = 0.05
+        self._front_place_pose_factor = 0.5
+
     def _marker_cb(self, data):
         if not self._new_table_markers_received:
             rospy.loginfo("Received new table markers.")
             self._table_markers = data.markers
-            self._new_table_markers_received= True
+            self._new_table_markers_received = True
 
     def execute(self, userdata):
         self._pub_collision_object = rospy.Publisher("collision_object",
                                                      moveit_msgs.CollisionObject,
-                                                     latch = False)
+                                                     latch=True)
         self._sub_table_markers = rospy.Subscriber("marker_tables",
                                                    visualization_msgs.MarkerArray,
                                                    self._marker_cb)
@@ -165,19 +169,16 @@ class GetTable(smach.State):
         rate = rospy.Rate(1)
         table_added = False
         markers_processed = False
-        
+
         while not rospy.is_shutdown() and not markers_processed:
             if self._new_table_markers_received:
                 for marker in self._table_markers:
-    #                print "Processing marker " + str(marker.id)
-    #                print marker
                     try:
                         ''' transform marker frame into map_root '''
                         tf_time = tf_transform_listener.getLatestCommonTime(marker.header.frame_id, map_root)
-                        translation, rotation =  tf_transform_listener.lookupTransform(map_root,
+                        translation, rotation = tf_transform_listener.lookupTransform(map_root,
                                                                                        marker.header.frame_id,
                                                                                        tf_time)
-    #                    print translation, rotation
                         tf_odom_marker_frame = geometry_msgs.TransformStamped()
                         tf_odom_marker_frame.header.stamp = tf_time
                         tf_odom_marker_frame.header.frame_id = map_root
@@ -190,11 +191,7 @@ class GetTable(smach.State):
                         tf_odom_marker_frame.transform.rotation.z = rotation[2]
                         tf_odom_marker_frame.transform.rotation.w = rotation[3]
                         tf_transformer.setTransform(tf_odom_marker_frame)
-    #                    print "transform odom -> marker frame:"
-    #                    print tf_transformer.lookupTransform(map_root,
-    #                                                         marker.header.frame_id,
-    #                                                         rospy.Time(0))
-                        
+
                         ''' set transform marker frame -> table root '''
                         tf_marker_frame_table_root = geometry_msgs.TransformStamped()
                         tf_marker_frame_table_root.header.stamp = tf_time
@@ -206,9 +203,7 @@ class GetTable(smach.State):
                         table_root_trans = tf_transformer.lookupTransform(map_root,
                                                                           tf_marker_frame_table_root.child_frame_id,
                                                                           rospy.Time(0))
-    #                    print "transform odom -> table root:"
-    #                    print table_root_trans
-                        
+
                         '''set transform table root -> table front left'''
                         tf_table_front_left = geometry_msgs.TransformStamped()
                         tf_table_front_left.header.stamp = tf_time
@@ -218,9 +213,7 @@ class GetTable(smach.State):
                         tf_table_front_left.transform.rotation.w = 1.0
                         tf_transformer.setTransform(tf_table_front_left)
                         front_left_trans = tf_transformer.lookupTransform(map_root, "table_front_left", rospy.Time(0))
-    #                    print "transform odom -> table_front_left:"
-    #                    print front_left_trans
-                        
+
                         '''set transform table root -> table back right'''
                         tf_table_front_left = geometry_msgs.TransformStamped()
                         tf_table_front_left.header.stamp = tf_time
@@ -230,9 +223,7 @@ class GetTable(smach.State):
                         tf_table_front_left.transform.rotation.w = 1.0
                         tf_transformer.setTransform(tf_table_front_left)
                         back_right_trans = tf_transformer.lookupTransform(map_root, "table_back_right", rospy.Time(0))
-    #                    print "transform odom -> table_back_right:"
-    #                    print back_right_trans
-                        
+
                         ''' determine table dimensions '''
                         table_corners = tf_transformer.lookupTransform("table_front_left",
                                                                        "table_back_right",
@@ -240,7 +231,7 @@ class GetTable(smach.State):
                         width = math.sqrt(math.pow(table_corners[0][0], 2))
                         length = math.sqrt(math.pow(table_corners[0][1], 2))
                         height = front_left_trans[0][2]
-                        
+
                         ''' set table centre '''
                         tf_table_centre = geometry_msgs.TransformStamped()
                         tf_table_centre.header.stamp = tf_time
@@ -252,19 +243,35 @@ class GetTable(smach.State):
                         tf_table_centre.transform.rotation.w = 1.0
                         tf_transformer.setTransform(tf_table_centre)
                         table_centre_trans = tf_transformer.lookupTransform(map_root, "table_centre", rospy.Time(0))
-    #                    print "transform odom -> table_centre:"
-    #                    print table_centre_trans
-                        
+
+                        ''' set table front '''
+                        tf_table_front_centre = geometry_msgs.TransformStamped()
+                        tf_table_front_centre.header.stamp = tf_time
+                        tf_table_front_centre.header.frame_id = "table_front_left"
+                        tf_table_front_centre.child_frame_id = "table_front_centre"
+                        tf_table_front_centre.transform.translation.x = width * 0.5
+                        tf_table_front_centre.transform.translation.y = 0.0
+                        tf_table_front_centre.transform.translation.z = 0.0
+                        tf_table_front_centre.transform.rotation.w = 1.0
+                        tf_transformer.setTransform(tf_table_front_centre)
+
+                        ''' determine front place pose '''
+                        table_centre_front_centre_trans = tf_transformer.lookupTransform("table_front_centre",
+                                                                                         "table_centre",
+                                                                                         rospy.Time(0))
+                        print 'table front to centre:'
+                        print table_centre_front_centre_trans
+
                         ''' determine table pose '''
                         table_pos_x = table_centre_trans[0][0]
                         table_pos_y = table_centre_trans[0][1]
                         table_pos_z = table_centre_trans[0][2]
                         rospy.loginfo("New table's properties:")
                         rospy.loginfo("x = " + str(table_pos_x) + ", y = " + str(table_pos_y)
-                                      + ", z = " +str(table_pos_z))
+                                      + ", z = " + str(table_pos_z))
                         rospy.loginfo("width = " + str(width) + ", length = " + str(length)
-                                      + ", height = " +str(height))
-    
+                                      + ", height = " + str(height))
+
                         # prepare collision object
                         collision_object = moveit_msgs.CollisionObject()
                         collision_object.header.stamp = tf_time
@@ -274,9 +281,9 @@ class GetTable(smach.State):
     #                    collision_object.type = 
                         object_shape = shape_msgs.SolidPrimitive()
                         object_shape.type = shape_msgs.SolidPrimitive.BOX
-                        object_shape.dimensions.append(width) # BOX_X
-                        object_shape.dimensions.append(length) # BOX_Y
-                        object_shape.dimensions.append(height) # BOX_Z
+                        object_shape.dimensions.append(width + self._table_width_enlargement) # BOX_X
+                        object_shape.dimensions.append(length + self._table_length_enlargement) # BOX_Y
+                        object_shape.dimensions.append(height + self._table_height_enlargement) # BOX_Z
                         collision_object.primitives.append(object_shape)
                         shape_pose = geometry_msgs.Pose()
                         shape_pose.position.x = table_pos_x
@@ -299,8 +306,22 @@ class GetTable(smach.State):
                         userdata.tabletop_centre_pose.pose.orientation.y = front_left_trans[1][1]
                         userdata.tabletop_centre_pose.pose.orientation.z = front_left_trans[1][2]
                         userdata.tabletop_centre_pose.pose.orientation.w = front_left_trans[1][3]
-#                        rospy.loginfo('Tabletop centre pose:')
-#                        rospy.loginfo(userdata.tabletop_centre_pose)
+                        userdata.tabletop_front_place_pose.header.stamp = tf_time
+                        userdata.tabletop_front_place_pose.header.frame_id = map_root
+                        angle = math.atan2(table_centre_front_centre_trans[0][1], table_centre_front_centre_trans[0][0])
+                        dist = math.sqrt(math.pow(table_centre_front_centre_trans[0][0], 2)\
+                                          + math.pow(table_centre_front_centre_trans[0][1], 2))
+                        userdata.tabletop_front_place_pose.pose.position.x = table_pos_x - dist * math.sin(angle) * self._front_place_pose_factor
+                        userdata.tabletop_front_place_pose.pose.position.y = table_pos_y - dist * math.cos(angle) * self._front_place_pose_factor
+                        userdata.tabletop_front_place_pose.pose.position.z = table_pos_z + table_centre_front_centre_trans[0][2]
+                        userdata.tabletop_front_place_pose.pose.orientation.x = table_centre_front_centre_trans[1][0]
+                        userdata.tabletop_front_place_pose.pose.orientation.y = table_centre_front_centre_trans[1][1]
+                        userdata.tabletop_front_place_pose.pose.orientation.z = table_centre_front_centre_trans[1][2]
+                        userdata.tabletop_front_place_pose.pose.orientation.w = table_centre_front_centre_trans[1][3]
+                        rospy.loginfo('Tabletop centre pose:')
+                        rospy.loginfo(userdata.tabletop_centre_pose)
+                        rospy.loginfo('Tabletop front place pose:')
+                        rospy.loginfo(userdata.tabletop_front_place_pose)
                         table_added = True
                     except tf.Exception as e:
                         rospy.logwarn("TF reported an error: " + str(e))
@@ -313,6 +334,10 @@ class GetTable(smach.State):
                 rospy.loginfo("Waiting for incoming table message ...")
                 rate.sleep()
         if table_added:
+            duration = 2.0
+            rospy.loginfo('Waiting for ' + str(duration) + ' seconds.')
+            rospy.sleep(duration) # wait a bit to make sure all subscribers will receive the message
+            rospy.loginfo("Table added to planning scene.");
             return 'table_added'
         else:
             return 'no_table_added'
