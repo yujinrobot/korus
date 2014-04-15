@@ -148,7 +148,7 @@ class GetTable(smach.State):
         self._table_width_enlargement = 0.10
         self._table_length_enlargement = 0.10
         self._table_height_enlargement = 0.05
-        self._front_place_pose_factor = 0.5
+        self._front_place_pose_factor = 0.75
 
     def _marker_cb(self, data):
         if not self._new_table_markers_received:

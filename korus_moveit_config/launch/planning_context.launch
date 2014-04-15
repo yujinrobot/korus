@@ -11,6 +11,7 @@
   <!-- Load to the parameter server yaml files -->
   <group ns="robot_description_planning">    
     <rosparam command="load" file="$(find korus_moveit_config)/config/joint_limits.yaml"/>
+    <rosparam command="load" file="$(find korus_moveit_config)/config/paddings.yaml"/>
   </group>
   
 </launch>

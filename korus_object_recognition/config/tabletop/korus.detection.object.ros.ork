@@ -57,6 +57,6 @@ pipeline2:
       host: 'localhost'
       port: 5432
       user: 'yujin'
-      password: 'akqjqtk'
+      password: 'yujin'
       name: 'household_objects-0.6'
       module: 'object_recognition_tabletop'

@@ -1,4 +1,5 @@
 <launch>
+  <group ns="korus">
 	  <arg name="debug" default="false" />
 	  <arg unless="$(arg debug)" name="launch_prefix" value="" />
 	  <arg     if="$(arg debug)" name="launch_prefix" value="gdb --ex run --args" />
@@ -16,10 +17,11 @@
 	  <param name="tabletop_object_recognition/robot_frame"       value="$(arg robot_frame)"/>
 	  <param name="tabletop_object_recognition/sensor_frame"      value="$(arg sensor_frame)"/>
 	  <param name="tabletop_object_recognition/filter_planes"     value="true"/>
-	  <param name="tabletop_object_recognition/min_table_height"  value="0.2"/>
+	  <param name="tabletop_object_recognition/min_table_height"  value="0.4"/>
 	  <param name="tabletop_object_recognition/max_table_height"  value="0.9"/>
 	  <param name="tabletop_object_recognition/max_angle_diff"    value="0.1"/>
 	  <param name="tabletop_object_recognition/table_normal_x"    value="0"/>
 	  <param name="tabletop_object_recognition/table_normal_y"    value="0"/>
 	  <param name="tabletop_object_recognition/table_normal_z"    value="1"/>
+  </group>
 </launch>

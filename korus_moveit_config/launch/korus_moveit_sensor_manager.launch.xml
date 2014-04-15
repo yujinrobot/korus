@@ -4,5 +4,5 @@
   <param name="octomap_resolution" type="double" value="0.03" />
 <!--   <rosparam command="load" file="$(find korus_moveit_config)/config/sensors_pc.yaml" /> -->
 <!--   <rosparam command="load" file="$(find korus_moveit_config)/config/sensors_di.yaml" /> -->
-  <rosparam command="load" file="$(find korus_moveit_config)/config/sensors_di_sm.yaml" />
+<!--   <rosparam command="load" file="$(find korus_moveit_config)/config/sensors_di_sm.yaml" /> -->
 </launch>

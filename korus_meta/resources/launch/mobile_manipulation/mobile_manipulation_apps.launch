@@ -11,7 +11,8 @@
   <arg name="costmap_sensors"         value="hokuyo"/>
   <!-- Name of the map to use (without extension) and initial position -->
 <!--   <arg name="map_name"                default="$(find yujin_maps)/maps/yujin_edu_room"/> -->
-  <arg name="map_name"                default="/home/yujin/edu_room_29oct"/>
+<!--   <arg name="map_name"                default="/home/yujin/edu_room_29oct"/> -->
+  <arg name="map_name"        default="$(find yujin_maps)/maps/inno_room"/>
   <arg name="initial_pose_x"          value="3.0"/>
   <arg name="initial_pose_y"          value="1.0"/>
   <arg name="initial_pose_a"          value="0.0"/>

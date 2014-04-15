@@ -1,0 +1,32 @@
+sensors:
+  - sensor_plugin: occupancy_map_monitor/DepthImageOctomapUpdater
+    sensor_type: asus_xtion_pro_live
+    image_topic: /korus/sensor_3d/depth/image_raw
+    filtered_cloud_topic: filtered_cloud
+    queue_size: 5
+    near_clipping_plane_distance: 0.4
+    far_clipping_plane_distance: 2.0
+    skip_vertical_pixels: 1
+    skip_horizontal_pixels: 1
+    shadow_threshold: 0.04
+    padding_scale: 0.0
+    padding_offset: 0.01
+    self_mask:
+      min_sensor_dist: 0.4
+      self_see_default_scale: 0.0
+      self_see_default_padding: 0.01
+      self_see_links:
+       - name: base_link
+       - name: torso_link
+       - name: shoulder_link
+#       - name: upper_arm_link
+#       - name: lower_arm_link
+#       - name: wrist_link
+#       - name: palm_link
+#       - name: gripper_camera_link
+#       - name: finger_left_knuckle_1_link
+#       - name: finger_left_knuckle_2_link
+#       - name: finger_left_tip_link
+#       - name: finger_right_knuckle_1_link
+#       - name: finger_right_knuckle_2_link
+#       - name: finger_right_tip_link

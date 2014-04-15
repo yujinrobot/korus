@@ -87,7 +87,7 @@ def createSM():
         sm.userdata.false = False
         sm.userdata.wait_2sec = 2.0
         sm.userdata.wait_4sec = 4.0
-        sm.userdata.move_arm_down_distance = -0.02
+        sm.userdata.move_arm_down_distance = -0.03
 
         smach.StateMachine.add('Prepare',
                                Prepare(),
@@ -146,9 +146,20 @@ def createSM():
                                remapping={'angle':'angle_gripper_opened',
                                           'open_gripper':'true',
                                           'close_gripper':'false'},
-                               transitions={'succeeded':'MoveArmIKPostPlace',
+                               transitions={'succeeded':'DetachObject',
                                             'aborted':'place_failed',
                                             'preempted':'preempted'})
+
+        smach.StateMachine.add('DetachObject',
+                               misc_tools.AttachObjectToRobot(),
+                               remapping={'collision_object':'collision_object',
+                                          'attach':'false'},
+                               transitions={'done':'WaitForObjectDetached'})
+
+        smach.StateMachine.add('WaitForObjectDetached',
+                               misc_tools.Wait(),
+                               remapping={'duration':'wait_4sec'},
+                               transitions={'done':'MoveArmIKPostPlace'})
 
         smach.StateMachine.add('MoveArmIKPostPlace',
                                SimpleActionState('move_arm_ik',
@@ -167,20 +178,9 @@ def createSM():
                                remapping={'angle':'angle_gripper_closed',
                                           'open_gripper':'false',
                                           'close_gripper':'true'},
-                               transitions={'succeeded':'DetachObject',
+                               transitions={'succeeded':'MoveArmDefault',
                                             'aborted':'place_failed',
                                             'preempted':'preempted'})
-
-        smach.StateMachine.add('DetachObject',
-                               misc_tools.AttachObjectToRobot(),
-                               remapping={'collision_object':'collision_object',
-                                          'attach':'false'},
-                               transitions={'done':'WaitForObjectDetached'})
-
-        smach.StateMachine.add('WaitForObjectDetached',
-                               misc_tools.Wait(),
-                               remapping={'duration':'wait_4sec'},
-                               transitions={'done':'MoveArmDefault'})
 
         smach.StateMachine.add('MoveArmDefault',
                                SimpleActionState('move_arm_planner',

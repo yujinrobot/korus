@@ -1,51 +1,51 @@
 joint_limits:
   torso_turn:
-    has_velocity_limits: true
+    has_velocity_limits: false
 #    max_velocity: 1.54810704652
     max_velocity: 0.5
-    has_acceleration_limits: true
+    has_acceleration_limits: false
 #    max_acceleration: 0.309621409304
     max_acceleration: 0.25
   head_pan:
-    has_velocity_limits: true
+    has_velocity_limits: false
 #    max_velocity: 8.30776723947
     max_velocity: 0.5
-    has_acceleration_limits: true
+    has_acceleration_limits: false
 #    max_acceleration: 1.661553447894
     max_acceleration: 0.25
   head_tilt:
-    has_velocity_limits: true
+    has_velocity_limits: false
 #    max_velocity: 8.30776723947
     max_velocity: 0.5
-    has_acceleration_limits: true
+    has_acceleration_limits: false
 #    max_acceleration: 1.661553447894
     max_acceleration: 0.25
   torso_lift:
-    has_velocity_limits: true
+    has_velocity_limits: false
 #    max_velocity: 0.038
     max_velocity: 0.02
-    has_acceleration_limits: true
+    has_acceleration_limits: false
 #    max_acceleration: 0.0076
     max_acceleration: 0.01
   shoulder:
-    has_velocity_limits: true
+    has_velocity_limits: false
 #    max_velocity: 1.27409035395
     max_velocity: 0.5
-    has_acceleration_limits: true
+    has_acceleration_limits: false
 #    max_acceleration: 0.25481807079
     max_acceleration: 0.25
   elbow:
-    has_velocity_limits: true
+    has_velocity_limits: false
 #    max_velocity: 1.58824961931
     max_velocity: 0.5
-    has_acceleration_limits: true
+    has_acceleration_limits: false
 #    max_acceleration: 0.317649923862
     max_acceleration: 0.25
   wrist:
-    has_velocity_limits: true
+    has_velocity_limits: false
 #    max_velocity: 1.26536370769
     max_velocity: 0.5
-    has_acceleration_limits: true
+    has_acceleration_limits: false
 #    max_acceleration: 0.253072741538
     max_acceleration: 0.25481807079
   finger_left_knuckle_1:
@@ -69,9 +69,9 @@ joint_limits:
     has_acceleration_limits: false
     max_acceleration: 0.282045207122
   gripper:
-    has_velocity_limits: true
+    has_velocity_limits: false
 #    max_velocity: 1.41022603561
     max_velocity: 0.5
-    has_acceleration_limits: true
+    has_acceleration_limits: false
 #    max_acceleration: 0.282045207122
     max_acceleration: 0.25

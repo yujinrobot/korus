@@ -1,0 +1,14 @@
+sensors:
+  - sensor_plugin: occupancy_map_monitor/DepthImageOctomapUpdater
+    sensor_type: asus_xtion_pro_live
+    image_topic: /korus/sensor_3d/depth/image
+    filtered_cloud_topic: filtered_depth_image
+    queue_size: 5
+    near_clipping_plane_distance: 0.6
+    far_clipping_plane_distance: 3.0
+    skip_vertical_pixels: 1
+    skip_horizontal_pixels: 1
+    shadow_threshold: 0.04
+    padding_scale: 1.0
+    padding_offset: 0.1
+    

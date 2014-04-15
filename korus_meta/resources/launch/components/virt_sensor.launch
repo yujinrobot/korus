@@ -14,9 +14,9 @@
 
   <!-- Current implementation cannot read obstacles from file, so we must publish them in auxiliary scripts -->
   <node name="wall_publisher" pkg="yocs_virtual_sensor" type="wall_publisher.py" output="screen">
-    <param name="filename" type="string" value="$(find yocs_virtual_sensor)/data/wall_list.yaml"/>
+    <param name="filename" type="string" value="$(find korus_meta)/resources/yaml/sensors/virtual_sensor_walls.yaml"/>
   </node>
   <node name="column_publisher" pkg="yocs_virtual_sensor" type="column_publisher.py" output="screen">
-    <param name="filename" type="string" value="$(find yocs_virtual_sensor)/data/column_list.yaml"/>
+    <param name="filename" type="string" value="$(find korus_meta)/resources/yaml/sensors/virtual_sensor_columns.yaml"/>
   </node>
 </launch>

@@ -1,0 +1,26 @@
+sensors:
+  - sensor_plugin: occupancy_map_monitor/PointCloudOctomapUpdater
+    point_cloud_topic: /korus/sensor_3d/depth_registered/points
+    filtered_cloud_topic: filtered_cloud
+    max_range: 1.0
+    point_subsample: 1
+    padding_scale: 8.0
+    padding_offset: 0.02
+#    self_mask:
+#      min_sensor_dist: .5
+#      self_see_default_padding: 0.03
+#      self_see_default_scale: 1.0
+#      self_see_links:
+#       - name: base_link
+#       - name: shoulder_link
+#       - name: upper_arm_link
+#       - name: lower_arm_link
+#       - name: wrist_link
+#       - name: palm_link
+#       - name: gripper_camera_link
+#       - name: finger_left_knuckle_1_link
+#       - name: finger_left_knuckle_2_link
+#       - name: finger_left_tip_link
+#       - name: finger_right_knuckle_1_link
+#       - name: finger_right_knuckle_2_link
+3       - name: finger_right_tip_link

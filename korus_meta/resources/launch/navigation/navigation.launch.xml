@@ -35,12 +35,12 @@
     </node>
 
     <!--  ********** Localization fusion node ***********  -->
-<!--     <include file="$(find korus_meta)/resources/launch/components/localize_ekf.launch"> -->
-<!--       <arg name="initial_pose_x"   value="$(arg initial_pose_x)"/> -->
-<!--       <arg name="initial_pose_y"   value="$(arg initial_pose_y)"/> -->
-<!--       <arg name="initial_pose_yaw" value="$(arg initial_pose_a)"/> -->
-<!--     </include> -->
-
+<!--    <include file="$(find korus_meta)/resources/launch/components/localize_ekf.launch"> 
+     <arg name="initial_pose_x"   value="$(arg initial_pose_x)"/> 
+     <arg name="initial_pose_y"   value="$(arg initial_pose_y)"/> 
+     <arg name="initial_pose_yaw" value="$(arg initial_pose_a)"/> 
+     </include> 
+-->
     <!--  ******************** Amcl ********************  -->
     <include file="$(find korus_meta)/resources/launch/components/amcl.launch">
 <!--       <arg name="tf_broadcast" value="false"/> -->
