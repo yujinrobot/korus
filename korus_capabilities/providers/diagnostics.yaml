@@ -1,0 +1,10 @@
+%YAML 1.1
+---
+name: diagnostics
+spec_version: 1
+spec_type: provider
+implements: std_capabilities/Diagnostics
+launch_file:
+depends_on:
+  'korus_capabilities/KorusBringup':
+    provider: 'korus_capabilities/korus_bringup'

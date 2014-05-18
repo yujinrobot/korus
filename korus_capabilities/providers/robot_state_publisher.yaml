@@ -1,0 +1,10 @@
+%YAML 1.1
+---
+name: robot_state_publisher
+spec_version: 1
+spec_type: provider
+implements: std_capabilities/RobotStatePublisher
+launch_file:
+depends_on:
+  'korus_capabilities/KorusBringup':
+    provider: 'korus_capabilities/korus_bringup'

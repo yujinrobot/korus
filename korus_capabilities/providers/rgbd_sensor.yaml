@@ -1,0 +1,13 @@
+%YAML 1.1
+---
+name: rgbd_sensor
+spec_version: 1
+spec_type: provider
+implements: std_capabilities/RGBDSensor
+launch_file: 'launch/rgbd_sensor.launch'
+depends_on:
+  'korus_capabilities/KorusBringup':
+    provider: 'korus_capabilities/korus_bringup'
+remappings:
+  topics:
+    '/rgbd_sensor/rgb/image_color': '/korus/rgbd_sensor/rgb/image_color'

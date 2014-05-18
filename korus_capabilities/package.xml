@@ -1,0 +1,29 @@
+<?xml version="1.0"?>
+<package>
+  <name>korus_capabilities</name>
+  <version>0.0.0</version>
+  <description>Korus' capabilities</description>
+  <author>Marcus Liebhardt</author>
+  <maintainer email="marcus.liebhardt@yujinrobot.com">Marcus Liebhardt</maintainer>
+  <license>Yujin</license>
+  <url type="bugtracker">https://github.com/yujinrobot/korus/issues</url>
+  <url type="repository">https://github.com/yujinrobot/korus</url>
+  <url type="website">https://github.com/yujinrobot/korus/wiki</url>
+
+  <buildtool_depend>catkin</buildtool_depend>
+
+  <run_depend>openni_launch</run_depend>
+  <run_depend>rgbd_launch</run_depend>
+  <run_depend>korus_meta</run_depend>
+  <run_depend>std_capabilities</run_depend>
+
+  <export>
+    <capability_interface>interfaces/KorusBringup.yaml</capability_interface>
+    <capability_provider>providers/diagnostics.yaml</capability_provider>
+    <capability_provider>providers/differential_mobile_base.yaml</capability_provider>
+    <capability_provider>providers/korus_bringup.yaml</capability_provider>
+    <capability_provider>providers/laser_sensor.yaml</capability_provider>
+    <capability_provider>providers/rgbd_sensor.yaml</capability_provider>
+    <capability_provider>providers/robot_state_publisher.yaml</capability_provider>
+  </export>
+</package>

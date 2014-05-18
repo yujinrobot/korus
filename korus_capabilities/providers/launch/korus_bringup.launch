@@ -1,0 +1,7 @@
+<launch>
+  <!-- Just include the minimal launcher from korus_meta -->
+  <arg name="simulation" default="$(optenv ROBOT_SIMULATION false)"/>
+
+  <include if="$(arg simulation)" file="$(find korus_meta)/resources/launch/minimal_sim.launch"/>
+  <include unless="$(arg simulation)" file="$(find korus_meta)/resources/launch/minimal.launch"/>
+</launch>

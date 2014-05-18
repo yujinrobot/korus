@@ -1,0 +1,7 @@
+%YAML 1.1
+---
+name: korus_bringup
+spec_version: 1
+spec_type: provider
+implements: korus_capabilities/KorusBringup
+launch_file: 'launch/korus_bringup.launch'
