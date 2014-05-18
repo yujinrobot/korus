@@ -1,0 +1,8 @@
+# default providers for Korus
+defaults:
+  'std_capabilities/Diagnostics':            'korus_capabilities/diagnostics'
+  'std_capabilities/DifferentialMobileBase': 'korus_capabilities/differential_mobile_base'
+  'std_capabilities/LaserSensor':            'korus_capabilities/laser_sensor'
+  'std_capabilities/RobotStatePublisher':    'korus_capabilities/robot_state_publisher'
+  'std_capabilities/RGBDSensor':             'korus_capabilities/rgbd_sensor'
+  'korus_capabilities/KorusBringup':         'korus_capabilities/korus_bringup'
