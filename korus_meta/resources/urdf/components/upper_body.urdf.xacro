@@ -59,6 +59,15 @@
       </collision>
 	  </link>
 	  
+    <!-- (Fixed) Reference torso for motion retargeting -->
+    <joint name="torso_mo_ret_joint" type="fixed">
+      <parent link="${body_mount_link}"/>
+      <child link="torso_mo_ret_link"/>
+      <origin rpy="0 0 0" xyz="0.0 0.0 0.2665"/>
+      <axis xyz="0 0 1"/>
+    </joint>
+    <link name="torso_mo_ret_link"/>
+    
 	  <joint name="turret" type="fixed">
 	    <parent link="torso_link"/>
 	    <child link="turret_link"/>

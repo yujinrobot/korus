@@ -7,7 +7,7 @@
   
 <launch>
   <arg name="pot"                       default="true"/>
-  <arg name="upper_body_control"        default="false"/>
+  <arg name="upper_body_control"        default="true"/>
   <arg name="omni_base"                 default="false"/>
   <arg name="launch_hokuyo"             default="false"/>
   <arg name="launch_sonars"             default="false"/>
