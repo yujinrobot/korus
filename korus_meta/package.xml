@@ -21,7 +21,7 @@
   <run_depend>sensor_board</run_depend>
   <run_depend>ycs_joint_trajectory_controller</run_depend>
   <run_depend>ycs_localization_ekf</run_depend>
-  <run_depend>ycs_stargazer_map</run_depend>
+<!--  <run_depend>ycs_stargazer_map</run_depend> -->
   <run_depend>yujin_maps</run_depend>
   <run_depend>irobi_rf_remocon</run_depend>
   <run_depend>keyop_core</run_depend>
